@@ -3,21 +3,51 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_trending"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="@string/navigation_drawer_trending" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_followed"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="@string/navigation_drawer_followed" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_more_topics"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="@string/navigation_drawer_more_topics" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_business"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="@string/navigation_drawer_business" />
+        <item
+            android:id="@+id/nav_entertainment"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_entertainment" />
+        <item
+            android:id="@+id/nav_health"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_health" />
+        <item
+            android:id="@+id/nav_politics"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_politics" />
+        <item
+            android:id="@+id/nav_scienceandtech"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_scienceandtech" />
+        <item
+            android:id="@+id/nav_sports"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_sports" />
+        <item
+            android:id="@+id/nav_US_and_UK"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_USandUK" />
+        <item
+            android:id="@+id/nav_world"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_world" />
+
+
     </group>
 
     <item android:title="Communicate">
