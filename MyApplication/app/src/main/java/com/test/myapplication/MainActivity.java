@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+<<<<<<< HEAD
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
+=======
+>>>>>>> 9d194c3781f16ff179219cf99afdfc62daf5c2f4
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -84,17 +87,29 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_trending) {
 
-        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_followed) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_more_topics) {
+
+        } else if (id == R.id.nav_business) {
+
+        } else if (id == R.id.nav_entertainment) {
+
+        } else if (id == R.id.nav_health) {
+
+        } else if (id == R.id.nav_politics) {
+
+        } else if (id == R.id.nav_scienceandtech) {
+
+        } else if (id == R.id.nav_sports) {
+
+        } else if (id == R.id.nav_US_and_UK) {
+
+        } else if (id == R.id.nav_world) {
 
         }
 
