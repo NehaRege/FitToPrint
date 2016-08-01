@@ -63,7 +63,7 @@
             android:layout_width="65dp"
             android:layout_height="20dp"
             android:background="@null"
-            android:textColor=""
+            android:textColor="@color/black"
             android:layout_below="@id/rv_description"
             style="?android:attr/borderlessButtonStyle"
             android:layout_toLeftOf="@id/rv_date"
