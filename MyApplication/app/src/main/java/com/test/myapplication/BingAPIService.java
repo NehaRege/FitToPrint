@@ -12,18 +12,22 @@ import retrofit2.http.Path;
 public interface BingAPIService {
 
 
-//    The following URL is the base URL for a specific category @GET call: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
+//    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
+//    Just make the whole thing the base URL
 
-    @GET("/?Category={categoryName}")
-    Call<Value> getUser(@Path("categoryName") String categoryName);
 
-//    The following URL is the base URL for a @QUERY call using the user's search term:
-//    "https://bingapis.azure-api.net/api/v5/news"
-//
-//    More info about count, offset, etc. : http://bit.ly/2aNcWoN
+//    Base URL is: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
 
-    @GET("/search[?q][&count][&offset][&mkt][&safeSearch]")
-    Call<Value> getUser(@Path("categoryName") String searchQuery, );
+    /*@GET("/?Category={categoryName}")
+    Call<Example> getSpecificTopicArticles(@Path("categoryName") String categoryName);
+*/
+//    Base URL is:"https://bingapis.azure-api.net/api/v5/news"
+//    More info: http://bit.ly/2aNcWoN  &  http://bit.ly/2at9Rvk
+
+    /*@GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
+    Call<Example> getArticlesBasedOnSearchTerm(@Path("?q") String searchQuery, @Path("count")
+    String numOfArticlesToReturn, @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
+    @Path("mkt") String safeSearchLevel);*/
 
 
 }

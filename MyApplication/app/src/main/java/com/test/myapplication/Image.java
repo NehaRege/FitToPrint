@@ -1,31 +1,54 @@
 
 package com.test.myapplication;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Image {
 
-    @SerializedName("thumbnail")
+    @SerializedName("url")
     @Expose
-    private Thumbnail thumbnail;
+    private String url;
+    @SerializedName("provider")
+    @Expose
+    private List<Provider> provider = new ArrayList<Provider>();
 
     /**
      * 
      * @return
-     *     The thumbnail
+     *     The url
      */
-    public Thumbnail getThumbnail() {
-        return thumbnail;
+    public String getUrl() {
+        return url;
     }
 
     /**
      * 
-     * @param thumbnail
-     *     The thumbnail
+     * @param url
+     *     The url
      */
-    public void setThumbnail(Thumbnail thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * 
+     * @return
+     *     The provider
+     */
+    public List<Provider> getProvider() {
+        return provider;
+    }
+
+    /**
+     * 
+     * @param provider
+     *     The provider
+     */
+    public void setProvider(List<Provider> provider) {
+        this.provider = provider;
     }
 
 }

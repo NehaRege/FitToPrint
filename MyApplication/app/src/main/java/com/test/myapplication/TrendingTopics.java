@@ -6,17 +6,14 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Example {
+public class TrendingTopics {
 
     @SerializedName("_type")
     @Expose
     private String type;
-    @SerializedName("readLink")
+    @SerializedName("instrumentation")
     @Expose
-    private String readLink;
-    @SerializedName("totalEstimatedMatches")
-    @Expose
-    private Integer totalEstimatedMatches;
+    private Instrumentation instrumentation;
     @SerializedName("value")
     @Expose
     private List<Value> value = new ArrayList<Value>();
@@ -42,37 +39,19 @@ public class Example {
     /**
      * 
      * @return
-     *     The readLink
+     *     The instrumentation
      */
-    public String getReadLink() {
-        return readLink;
+    public Instrumentation getInstrumentation() {
+        return instrumentation;
     }
 
     /**
      * 
-     * @param readLink
-     *     The readLink
+     * @param instrumentation
+     *     The instrumentation
      */
-    public void setReadLink(String readLink) {
-        this.readLink = readLink;
-    }
-
-    /**
-     * 
-     * @return
-     *     The totalEstimatedMatches
-     */
-    public Integer getTotalEstimatedMatches() {
-        return totalEstimatedMatches;
-    }
-
-    /**
-     * 
-     * @param totalEstimatedMatches
-     *     The totalEstimatedMatches
-     */
-    public void setTotalEstimatedMatches(Integer totalEstimatedMatches) {
-        this.totalEstimatedMatches = totalEstimatedMatches;
+    public void setInstrumentation(Instrumentation instrumentation) {
+        this.instrumentation = instrumentation;
     }
 
     /**

@@ -1,8 +1,6 @@
 
 package com.test.myapplication;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,33 +9,18 @@ public class Value {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("url")
-    @Expose
-    private String url;
     @SerializedName("image")
     @Expose
     private Image image;
-    @SerializedName("description")
+    @SerializedName("webSearchUrl")
     @Expose
-    private String description;
-    @SerializedName("mentions")
+    private String webSearchUrl;
+    @SerializedName("webSearchUrlPingSuffix")
     @Expose
-    private List<Mention> mentions = new ArrayList<Mention>();
-    @SerializedName("provider")
+    private String webSearchUrlPingSuffix;
+    @SerializedName("isBreakingNews")
     @Expose
-    private List<Provider> provider = new ArrayList<Provider>();
-    @SerializedName("datePublished")
-    @Expose
-    private String datePublished;
-    @SerializedName("category")
-    @Expose
-    private String category;
-    @SerializedName("about")
-    @Expose
-    private List<About> about = new ArrayList<About>();
-    @SerializedName("clusteredArticles")
-    @Expose
-    private List<ClusteredArticle> clusteredArticles = new ArrayList<ClusteredArticle>();
+    private Boolean isBreakingNews;
 
     /**
      * 
@@ -55,24 +38,6 @@ public class Value {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * 
-     * @return
-     *     The url
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * 
-     * @param url
-     *     The url
-     */
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     /**
@@ -96,127 +61,55 @@ public class Value {
     /**
      * 
      * @return
-     *     The description
+     *     The webSearchUrl
      */
-    public String getDescription() {
-        return description;
+    public String getWebSearchUrl() {
+        return webSearchUrl;
     }
 
     /**
      * 
-     * @param description
-     *     The description
+     * @param webSearchUrl
+     *     The webSearchUrl
      */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * 
-     * @return
-     *     The mentions
-     */
-    public List<Mention> getMentions() {
-        return mentions;
-    }
-
-    /**
-     * 
-     * @param mentions
-     *     The mentions
-     */
-    public void setMentions(List<Mention> mentions) {
-        this.mentions = mentions;
+    public void setWebSearchUrl(String webSearchUrl) {
+        this.webSearchUrl = webSearchUrl;
     }
 
     /**
      * 
      * @return
-     *     The provider
+     *     The webSearchUrlPingSuffix
      */
-    public List<Provider> getProvider() {
-        return provider;
+    public String getWebSearchUrlPingSuffix() {
+        return webSearchUrlPingSuffix;
     }
 
     /**
      * 
-     * @param provider
-     *     The provider
+     * @param webSearchUrlPingSuffix
+     *     The webSearchUrlPingSuffix
      */
-    public void setProvider(List<Provider> provider) {
-        this.provider = provider;
-    }
-
-    /**
-     * 
-     * @return
-     *     The datePublished
-     */
-    public String getDatePublished() {
-        return datePublished;
-    }
-
-    /**
-     * 
-     * @param datePublished
-     *     The datePublished
-     */
-    public void setDatePublished(String datePublished) {
-        this.datePublished = datePublished;
+    public void setWebSearchUrlPingSuffix(String webSearchUrlPingSuffix) {
+        this.webSearchUrlPingSuffix = webSearchUrlPingSuffix;
     }
 
     /**
      * 
      * @return
-     *     The category
+     *     The isBreakingNews
      */
-    public String getCategory() {
-        return category;
+    public Boolean getIsBreakingNews() {
+        return isBreakingNews;
     }
 
     /**
      * 
-     * @param category
-     *     The category
+     * @param isBreakingNews
+     *     The isBreakingNews
      */
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
-     * 
-     * @return
-     *     The about
-     */
-    public List<About> getAbout() {
-        return about;
-    }
-
-    /**
-     * 
-     * @param about
-     *     The about
-     */
-    public void setAbout(List<About> about) {
-        this.about = about;
-    }
-
-    /**
-     * 
-     * @return
-     *     The clusteredArticles
-     */
-    public List<ClusteredArticle> getClusteredArticles() {
-        return clusteredArticles;
-    }
-
-    /**
-     * 
-     * @param clusteredArticles
-     *     The clusteredArticles
-     */
-    public void setClusteredArticles(List<ClusteredArticle> clusteredArticles) {
-        this.clusteredArticles = clusteredArticles;
+    public void setIsBreakingNews(Boolean isBreakingNews) {
+        this.isBreakingNews = isBreakingNews;
     }
 
 }
