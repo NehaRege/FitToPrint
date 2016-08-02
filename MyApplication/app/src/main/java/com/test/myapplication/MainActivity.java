@@ -6,6 +6,8 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,7 +22,11 @@ import com.facebook.appevents.AppEventsLogger;
 //import com.github.clans.fab.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private String TAG = "MainActivity";
+
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    DetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        // This is the detail fragment code !!
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        detailFragment = new DetailFragment();
+        fragmentTransaction.add(R.id.fragment_container,detailFragment);
+        fragmentTransaction.commit();
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -57,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @TargetApi(21)
     private void setUpBreakingNewsCheckJob() {
 
+        String TAG = "MainActivity";
+
         JobInfo breakingNewsJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
                         CheckForBreakingNewsJob.class.getName()))
@@ -69,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //stuff went wrong
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
         }
+
+
 
 
     }
