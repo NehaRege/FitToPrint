@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * Created by Jon Kim on 8/1/16.
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
-
     private ArrayList<ArticleWithDescriptionObject> mData;
     private static ViewHolder.OnRecyclerViewItemClickListener onItemClickListener;
 

@@ -29,6 +29,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 
+import retrofit2.http.HEAD;
+
 
 //import com.github.clans.fab.FloatingActionButton;
 
@@ -45,11 +47,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initializeFacebookSDK();
+
+        setUpDrawersandView();
+
+        setRecycleFragment();
+
+        setUpBreakingNewsCheckJob();
+
+
+    }
+
+    private void initializeFacebookSDK() {
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication(),"1757738834448963");
 
 
-        // This is the detail fragment code !!
+    }
+
+    private void setRecycleFragment() {
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
