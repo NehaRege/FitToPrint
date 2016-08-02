@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpBreakingNewsCheckJob();
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+
 
 
     }
