@@ -47,7 +47,6 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 @Override
                 public void onClick(View view) {
 
-
                     onItemClickListener.onItemClick(getLayoutPosition());
                 }
             });

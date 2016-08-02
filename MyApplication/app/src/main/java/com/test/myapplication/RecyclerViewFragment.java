@@ -1,10 +1,12 @@
 package com.test.myapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +23,15 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     protected RecyclerView mRecyclerView;
     protected CustomRecyclerViewAdapter rvAdapter;
     protected RecyclerView.LayoutManager rvLayoutManager;
-    protected ArrayList<ArticleWithDescriptionObject> mDataSet = new ArrayList<>();
+    protected ArrayList<ArticleWithDescriptionObject> mDataSet;
+    protected ArticleWithDescriptionObject mArticle;
+    Toolbar toolbar;
+    OnArticleSelectedListener mListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //need to init db list
     }
 
     @Nullable
@@ -43,7 +49,19 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            mListener = (OnArticleSelectedListener)getActivity();
+        }catch(ClassCastException e){
+            throw new ClassCastException(getActivity().toString() + " must implement OnArticleSelectedListener");
+        }
+    }
 
+    @Override
+    public void onItemClick(int position) {
+        mArticle = mDataSet.get(position);
+        mListener.onArticleSeleceted(mArticle);
+        toolbar.setTitle(mArticle.getValue().get(0).getCategory());
     }
 }
