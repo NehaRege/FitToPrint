@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import com.github.clans.fab.FloatingActionMenu;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
     private String TAG = "MainActivity";
 
     @Override
@@ -30,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpDrawersandView();
 
-        setUpBreakNewsCheckJob();
+        setUpBreakingNewsCheckJob();
+
 
     }
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @TargetApi(21)
-    private void setUpBreakNewsCheckJob() {
+    private void setUpBreakingNewsCheckJob() {
 
         JobInfo breakingNewsJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
