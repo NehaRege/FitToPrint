@@ -9,26 +9,33 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  * Created by Jon Kim on 8/1/16.
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
 
-    private List<TrendingTopicsObject> mData;
-    private TextView cvTitleText, cvDesText, cvTopicText, cvDateText;
+    private ArrayList<ArticleWithDescriptionObject> mData;
+    private static ViewHolder.OnRecyclerViewItemClickListener onItemClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView rvTitleText, rvDesText, rvTopicText, rvDateText;
         public ImageView rvImageView;
         public Button rvFollowButton;
 
+        public interface OnRecyclerViewItemClickListener{
+            void onItemClick(int position);
+
+        }
+
         public ViewHolder(View itemView) {
             super(itemView);
-
             rvTitleText = (TextView) itemView.findViewById(R.id.rv_title);
             rvDesText = (TextView) itemView.findViewById(R.id.rv_description);
             rvTopicText = (TextView) itemView.findViewById(R.id.rv_topic);
@@ -36,15 +43,26 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             rvImageView = (ImageView) itemView.findViewById(R.id.rv_image);
             rvFollowButton = (Button) itemView.findViewById(R.id.rv_follow_button);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    onItemClickListener.onItemClick(getLayoutPosition());
+                }
+            });
+
         }
 
     }
 
-    public CustomRecyclerViewAdapter(List<TrendingTopicsObject> mData) {
+    public CustomRecyclerViewAdapter(ArrayList<ArticleWithDescriptionObject> mData,
+                                     ViewHolder.OnRecyclerViewItemClickListener listener) {
+        this.onItemClickListener = listener;
 //        if(mData!=null){
             this.mData = mData;
 //        }else{
-//            this.mData = new List<TrendingTopics>();
+//            this.mData = new List<ArticleWithDescriptionObject>();
 //        }
     }
 
@@ -60,19 +78,25 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TrendingTopicsObject topic = mData.get(position);
+        ArticleWithDescriptionObject topic = mData.get(position);
 
-        cvTitleText = holder.rvTitleText;
-        cvDesText = holder.rvDesText;
-        cvDateText = holder.rvDateText;
-        cvTopicText = holder.rvTopicText;
-
-
-
+        holder.rvTitleText.setText(topic.getValue().get(0).getName());
+        holder.rvDesText.setText(topic.getValue().get(0).getDescription());
+        holder.rvDateText.setText(topic.getValue().get(0).getDatePublished());
+        holder.rvTopicText.setText(topic.getValue().get(0).getCategory());
+//        if(topic.getValue().get(0).getImage()!=null){
+//            Picasso.with()
+//        }
+        holder.rvFollowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //follow button
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mData.size();
     }
 }
