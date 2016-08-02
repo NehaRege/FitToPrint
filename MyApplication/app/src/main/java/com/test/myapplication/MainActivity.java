@@ -29,6 +29,7 @@ import android.widget.Button;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
+import co.mobiwise.materialintro.MaterialIntroConfiguration;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.view.MaterialIntroView;
@@ -102,11 +103,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+/*
+
     private void setUpOnboardOverlay() {
 
         Button testButtonForOverlay = (Button) findViewById(R.id.testButtonForOverlay);
 
-        new MaterialIntroView.Builder(this)
+        new MaterialIntroView.Builder(this).setConfiguration()
                 .enableDotAnimation(false)
                 .enableIcon(false)
                 .setFocusGravity(FocusGravity.CENTER)
@@ -115,12 +118,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .enableFadeAnimation(true)
                 .performClick(true)
                 .setInfoText("Welcome to our news app!\nClick here to view other topics.")
-                .setTarget(findViewById(R.id.drawer_layout))//TODO: Eventually put hamburger menu in the parenthesis to the left
+                .setTarget(findViewById())//TODO: Eventually put hamburger menu in the parenthesis to the left
                 .setUsageId("navigation_hamburger_menu") //THIS SHOULD BE UNIQUE ID
 //                .setConfiguration(config)
                 .show();
 
     }
+*/
 
 
     @TargetApi(21)
