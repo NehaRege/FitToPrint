@@ -124,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.i(TAG, "setUpMorningNotificationJob: Error with breaking news job check");
         }
 
-
-
-
     }
 
     @Override
