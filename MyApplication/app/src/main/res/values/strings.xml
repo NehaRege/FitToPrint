@@ -22,9 +22,15 @@
     <string name="navigation_drawer_USandUK">US/UK</string>
     <string name="navigation_drawer_world">World</string>
 
+    <!--For Facebook sharing-->
+
+    <string name="facebook_app_id">Facebook</string>
+
     <!--Daily Morning Notification Text-->
 
     <string name="notification_morning_title">Rise and shine!</string>
     <string name="notification_morning_text">Start your day by reading this morning's news</string>
+
+
 
 </resources>
