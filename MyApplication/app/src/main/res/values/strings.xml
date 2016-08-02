@@ -15,5 +15,5 @@
     <string name="navigation_drawer_scienceandtech">Science/Tech</string>
     <string name="navigation_drawer_sports">Sports</string>
     <string name="navigation_drawer_USandUK">US </string>
-    <string name="navigation_drawer_world">Settings</string>
+    <string name="navigation_drawer_world">World</string>
 </resources>
