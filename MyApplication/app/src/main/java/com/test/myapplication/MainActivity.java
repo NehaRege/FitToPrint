@@ -77,18 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
-    private void dailyNotificationAlarm() {
-
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-
-
-
-
-
-    }
-
+    
     @TargetApi(21)
     private void setUpBreakingNewsCheckJob() {
 
