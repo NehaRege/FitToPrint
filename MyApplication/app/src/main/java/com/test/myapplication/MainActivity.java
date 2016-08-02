@@ -21,7 +21,7 @@ import android.view.MenuItem;
 import com.github.clans.fab.FloatingActionMenu;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private String TAG = "MainActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @TargetApi(21)
     private void setUpBreakingNewsCheckJob() {
 
+        String TAG = "MainActivity";
+        
         JobInfo breakingNewsJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
                         CheckForBreakingNewsJob.class.getName()))
