@@ -1,13 +1,21 @@
 package com.test.myapplication;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import android.util.Log;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,33 +27,24 @@ import android.view.MenuItem;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+
+
 //import com.github.clans.fab.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setUpDrawersandView();
-
-        setUpBreakingNewsCheckJob();
-
-
-
-
-    }
-
-    private void setUpDrawersandView() {
-
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(getApplication(),"1757738834448963");
 
 
         // This is the detail fragment code !!
@@ -55,6 +54,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         detailFragment = new DetailFragment();
         fragmentTransaction.add(R.id.fragment_container,detailFragment);
         fragmentTransaction.commit();
+
+        setUpDrawersandView();
+
+        setUpBreakingNewsCheckJob();
+
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> b32a587fa2dcf1461922e62353cdb5afe39736b8
+
+    }
+
+
+    private void setUpDrawersandView() {
+
+        setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -68,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
+    
     @TargetApi(21)
     private void setUpBreakingNewsCheckJob() {
 
@@ -89,6 +109,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+
+
+    }
+
+    @TargetApi(21)
+    private void setUpMorningNotificationJob() {
+
+        String TAG = "MainActivity";
+
+        JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
+                new ComponentName(getPackageName(),
+                        MorningReadTheNewsNotificationJob.class.getName()))
+                .setPeriodic(3600000) //<– Check for breaking news every hour
+                .setRequiresCharging(false)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int result = jobScheduler.schedule(dailyMorningNotificationJob);
+        if (result <= 0) {
+            //stuff went wrong
+            Log.i(TAG, "setUpMorningNotificationJob: Error with breaking news job check");
+        }
 
     }
 
@@ -132,26 +174,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_trending) {
 
+            toolbar.setTitle(R.string.toolbar_name_trending);
 
         } else if (id == R.id.nav_followed) {
 
-        } else if (id == R.id.nav_more_topics) {
+            toolbar.setTitle(R.string.toolbar_name_followed);
 
         } else if (id == R.id.nav_business) {
 
+            toolbar.setTitle(R.string.toolbar_name_business);
+
         } else if (id == R.id.nav_entertainment) {
+
+            toolbar.setTitle(R.string.toolbar_name_entertainment);
 
         } else if (id == R.id.nav_health) {
 
+            toolbar.setTitle(R.string.toolbar_name_health);
+
         } else if (id == R.id.nav_politics) {
+
+            toolbar.setTitle(R.string.toolbar_name_politics);
 
         } else if (id == R.id.nav_scienceandtech) {
 
+            toolbar.setTitle(R.string.toolbar_name_scienceandtech);
+
         } else if (id == R.id.nav_sports) {
+
+            toolbar.setTitle(R.string.toolbar_name_sports);
 
         } else if (id == R.id.nav_US_and_UK) {
 
+            toolbar.setTitle(R.string.toolbar_name_usanduk);
+
         } else if (id == R.id.nav_world) {
+
+            toolbar.setTitle(R.string.toolbar_name_world);
 
         }
 

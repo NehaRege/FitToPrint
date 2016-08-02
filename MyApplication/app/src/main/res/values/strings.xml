@@ -4,6 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+
+    <!--Navigation Drawer items-->
+
     <string name="navigation_drawer_header_your_news">Your News</string>
 
     <string name="action_notification_settings">Notification Settings</string>
@@ -16,7 +19,36 @@
     <string name="navigation_drawer_politics">Politics</string>
     <string name="navigation_drawer_scienceandtech">Science/Tech</string>
     <string name="navigation_drawer_sports">Sports</string>
+    <string name="card_view_follow">Follow</string>
     <string name="navigation_drawer_USandUK">US/UK</string>
     <string name="navigation_drawer_world">World</string>
 
+<<<<<<< HEAD
+=======
+    <!--Toolbar Name items-->
+
+    <string name="toolbar_name_trending">Trending</string>
+    <string name="toolbar_name_followed">Followed Topics</string>
+    <string name="toolbar_name_business">Business</string>
+    <string name="toolbar_name_entertainment">Entertainment</string>
+    <string name="toolbar_name_health">Health</string>
+    <string name="toolbar_name_politics">Politics</string>
+    <string name="toolbar_name_scienceandtech">Science/Tech</string>
+    <string name="toolbar_name_sports">Sports</string>
+    <string name="toolbar_name_usanduk">US/UK</string>
+    <string name="toolbar_name_world">World</string>
+
+    <!--For Facebook sharing-->
+
+    <string name="facebook_app_id">1757738834448963</string>
+
+
+    <!--Daily Morning Notification Text-->
+
+    <string name="notification_morning_title">Rise and shine!</string>
+    <string name="notification_morning_text">Start your day by reading this morning\'s news</string>
+
+
+
+>>>>>>> b32a587fa2dcf1461922e62353cdb5afe39736b8
 </resources>
