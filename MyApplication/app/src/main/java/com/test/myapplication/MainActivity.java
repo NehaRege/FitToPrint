@@ -27,15 +27,19 @@ import android.view.MenuItem;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
+
+import retrofit2.http.HEAD;
 
 
 //import com.github.clans.fab.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener{
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
+    RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
 
 
@@ -43,33 +47,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(getApplication(),"1757738834448963");
-
-
-        // This is the detail fragment code !!
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        detailFragment = new DetailFragment();
-        fragmentTransaction.add(R.id.fragment_container,detailFragment);
-        fragmentTransaction.commit();
+        initializeFacebookSDK();
 
         setUpDrawersandView();
+
+        setRecycleFragment();
 
         setUpBreakingNewsCheckJob();
 
 
     }
 
+    private void initializeFacebookSDK() {
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(getApplication(),"1757738834448963");
+
+
+    }
+
+    private void setRecycleFragment() {
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        recyclerViewFragment = new RecyclerViewFragment();
+        fragmentTransaction.add(R.id.fragment_container,recyclerViewFragment);
+        fragmentTransaction.commit();
+
+        setUpDrawersandView();
+
+        setUpBreakingNewsCheckJob();
+
+    }
+
+    @Override
+    public void onArticleSeleceted(ArticleWithDescriptionObject selectedArticle) {
+        detailFragment = new DetailFragment();
+        detailFragment.setDetailArticle(selectedArticle);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,detailFragment,null);
+        fragmentTransaction.commit();
+    }
 
     private void setUpDrawersandView() {
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

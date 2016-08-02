@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import com.facebook.share.widget.MessageDialog;
 import com.facebook.share.widget.ShareDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.squareup.picasso.Picasso;
+import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 
 
 import com.facebook.FacebookSdk;
@@ -32,11 +35,6 @@ import com.facebook.appevents.AppEventsLogger;
  * Created by NehaRege on 8/1/16.
  */
 public class DetailFragment extends Fragment {
-
-//    ImageView imageView;
-//    TextView textViewTopic;
-//    TextView textViewTitle;
-//    TextView textViewText;
 
     FloatingActionMenu fam;
     FloatingActionButton fab1Fb, fab2, fab3Messenger;
@@ -49,6 +47,13 @@ public class DetailFragment extends Fragment {
     MessageDialog messageDialog;
 
     private View view;
+
+    ArticleWithDescriptionObject article;
+    String articleName;
+    String articleUrl;
+    String articleDescription;
+
+
 
     @Nullable
     @Override
@@ -72,11 +77,9 @@ public class DetailFragment extends Fragment {
 
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle("THIS IS THE TILE")
-                            .setContentDescription(
-                                    " THIS IS THE DESCRIPTION THAT WE GET USING API CALLS FROM LISTACTIVITY FRAGMENT"
-                            )
-                            .setContentUrl(Uri.parse("URI STRING"))
+                            .setContentTitle(articleName)
+                            .setContentDescription(articleDescription)
+                            .setContentUrl(Uri.parse(articleUrl))
                             .build();
 
                     shareDialog.show(linkContent);
@@ -102,11 +105,9 @@ public class DetailFragment extends Fragment {
                 if (MessageDialog.canShow(ShareLinkContent.class)) {
 
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle("THIS IS THE TILE")
-                            .setContentDescription(
-                                    " THIS IS THE DESCRIPTION THAT WE GET USING API CALLS FROM LISTACTIVITY FRAGMENT"
-                            )
-                            .setContentUrl(Uri.parse("URI STRING"))
+                            .setContentTitle(articleName)
+                            .setContentDescription(articleDescription)
+                            .setContentUrl(Uri.parse(articleUrl))
                             .build();
 
                     messageDialog.show(linkContent);
@@ -118,23 +119,27 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
-    public void updateContent(String sign) {
-        webView.loadUrl("http://www.horoscopedates.com/zodiac-signs/" + sign + "/");
+
+    public void setDetailArticle(ArticleWithDescriptionObject article){
+        this.articleUrl = article.getValue().get(0).getUrl();
+        this.articleName = article.getValue().get(0).getName();
+        this.articleDescription = article.getValue().get(0).getDescription();
+
+
+        articleUrl = article.getValue().get(0).getUrl();
+
+        webView.loadUrl(articleUrl);
 
         webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(articleUrl);
+                return true;
+            }
+        });
 
-                                 }
 
-        );
-//        webView.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-//                return true;
-//            }
-//        });
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -146,11 +151,6 @@ public class DetailFragment extends Fragment {
 
     private void initializeViews() {
 
-//        imageView = (ImageView) view.findViewById(R.id.fragment_detail_image);
-//        textViewText = (TextView) view.findViewById(R.id.fragment_detail_text);
-//        textViewTitle = (TextView) view.findViewById(R.id.fragment_detail_title);
-//        textViewTopic = (TextView) view.findViewById(R.id.fragment_detail_topic);
-
         webView = (WebView) view.findViewById(R.id.web_view);
 
         fam = (FloatingActionMenu) view.findViewById(R.id.floating_action_menu);
@@ -158,11 +158,6 @@ public class DetailFragment extends Fragment {
         fab2 = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2);
         fab3Messenger = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item3_messenger);
 
-
     }
-
-
-
-
 
 }

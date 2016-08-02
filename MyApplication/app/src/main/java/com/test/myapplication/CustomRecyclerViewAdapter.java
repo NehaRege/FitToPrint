@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * Created by Jon Kim on 8/1/16.
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
-
     private ArrayList<ArticleWithDescriptionObject> mData;
     private static ViewHolder.OnRecyclerViewItemClickListener onItemClickListener;
 
@@ -47,7 +46,6 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 @Override
                 public void onClick(View view) {
 
-
                     onItemClickListener.onItemClick(getLayoutPosition());
                 }
             });
@@ -71,9 +69,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View cardLayout = inflater.inflate(R.layout.rv_card_layout,parent,false);
-        ViewHolder viewHolder = new ViewHolder(cardLayout);
+//        ViewHolder viewHolder = new ViewHolder(cardLayout);
 
-        return viewHolder;
+        return new ViewHolder(cardLayout);
     }
 
     @Override
