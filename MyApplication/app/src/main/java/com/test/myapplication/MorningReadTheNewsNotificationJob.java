@@ -22,6 +22,8 @@ public class MorningReadTheNewsNotificationJob extends JobService {
     public boolean onStartJob(JobParameters params) {
         Log.i(TAG, "onStartJob: Daily morning notification job has started");
 
+
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
         builder.setSmallIcon(android.R.mipmap.sym_def_app_icon);
@@ -30,6 +32,8 @@ public class MorningReadTheNewsNotificationJob extends JobService {
         builder.setAutoCancel(true);
         Notification notification = builder.build();
         notificationManager.notify(0, notification);
+
+        //        TODO: Set an alarm
 
         return false;
 
