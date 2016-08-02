@@ -23,8 +23,7 @@
     <string name="navigation_drawer_USandUK">US/UK</string>
     <string name="navigation_drawer_world">World</string>
 
-<<<<<<< HEAD
-=======
+
     <!--Toolbar Name items-->
 
     <string name="toolbar_name_trending">Trending</string>
@@ -50,5 +49,5 @@
 
 
 
->>>>>>> b32a587fa2dcf1461922e62353cdb5afe39736b8
+
 </resources>

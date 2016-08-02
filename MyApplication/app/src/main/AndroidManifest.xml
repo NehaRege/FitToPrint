@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.test.myapplication">
+          package="com.test.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,19 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-<<<<<<< HEAD
-
-        ...
-        <provider android:authorities="com.facebook.app.FacebookContentProvider{APP_ID}"
-                  android:name="com.facebook.FacebookContentProvider"
-                  android:exported="true"/>
-=======
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
         <receiver android:name=".AlarmReceiver"/>
 
 
->>>>>>> b32a587fa2dcf1461922e62353cdb5afe39736b8
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -53,5 +45,4 @@
 
 
     </application>
-
 </manifest>
