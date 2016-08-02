@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -34,9 +33,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        detailFragment = new DetailFragment();
+        fragmentTransaction.add(R.id.fragment_container,detailFragment);
+        fragmentTransaction.commit();
+
         setUpDrawersandView();
 
         setUpBreakingNewsCheckJob();
+
+
 
 
     }
@@ -50,11 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // This is the detail fragment code !!
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        detailFragment = new DetailFragment();
-        fragmentTransaction.add(R.id.fragment_container,detailFragment);
-        fragmentTransaction.commit();
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
