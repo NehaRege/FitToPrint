@@ -42,16 +42,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpBreakingNewsCheckJob();
 
-<<<<<<< HEAD
         initializeFacebookSharingSDK();
 
 
     }
 
     private  void initializeFacebookSharingSDK() {
-=======
         setUpMorningNotificationJob();
->>>>>>> origin/master
+
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
