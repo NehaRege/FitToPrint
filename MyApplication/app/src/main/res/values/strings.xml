@@ -4,6 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+
+    <!--Navigation Drawer items-->
+
     <string name="navigation_drawer_header_your_news">Your News</string>
 
     <string name="action_notification_settings">Notification Settings</string>
@@ -18,5 +21,16 @@
     <string name="navigation_drawer_sports">Sports</string>
     <string name="navigation_drawer_USandUK">US/UK</string>
     <string name="navigation_drawer_world">World</string>
+
+    <!--For Facebook sharing-->
+
     <string name="facebook_app_id">Facebook</string>
+
+    <!--Daily Morning Notification Text-->
+
+    <string name="notification_morning_title">Rise and shine!</string>
+    <string name="notification_morning_text">Start your day by reading this morning's news</string>
+
+
+
 </resources>

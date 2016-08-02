@@ -1,9 +1,12 @@
 package com.test.myapplication;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -23,10 +26,13 @@ import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
+
+    private PendingIntent pendingIntent;
+    private AlarmManager manager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
 
         setUpBreakingNewsCheckJob();
+
+        setUpMorningNotificationJob();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -70,6 +78,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void dailyNotificationAlarm() {
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+
+
+
+
+    }
+
     @TargetApi(21)
     private void setUpBreakingNewsCheckJob() {
 
@@ -86,6 +105,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (result <= 0) {
             //stuff went wrong
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
+        }
+
+
+
+
+
+    }
+
+    @TargetApi(21)
+    private void setUpMorningNotificationJob() {
+
+        String TAG = "MainActivity";
+
+        JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
+                new ComponentName(getPackageName(),
+                        MorningReadTheNewsNotificationJob.class.getName()))
+                .setPeriodic(3600000) //<– Check for breaking news every hour
+                .setRequiresCharging(false)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int result = jobScheduler.schedule(dailyMorningNotificationJob);
+        if (result <= 0) {
+            //stuff went wrong
+            Log.i(TAG, "setUpMorningNotificationJob: Error with breaking news job check");
         }
 
 
