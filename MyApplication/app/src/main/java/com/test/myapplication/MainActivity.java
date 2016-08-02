@@ -36,9 +36,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpBreakingNewsCheckJob();
 
+        initializeFacebookSharingSDK();
+
+
+    }
+
+    private  void initializeFacebookSharingSDK() {
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-
 
     }
 
