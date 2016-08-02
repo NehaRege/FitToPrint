@@ -3,6 +3,8 @@ package com.test.myapplication;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,12 +20,25 @@ import com.github.clans.fab.FloatingActionMenu;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    DetailFragment detailFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        // This is the detail fragment code !!
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        detailFragment = new DetailFragment();
+        fragmentTransaction.add(R.id.fragment_container,detailFragment);
+        fragmentTransaction.commit();
 
         
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
