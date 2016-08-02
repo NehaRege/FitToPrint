@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.squareup.picasso.Picasso;
+import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 
 /**
  * Created by NehaRege on 8/1/16.
@@ -77,10 +79,12 @@ public class DetailFragment extends Fragment {
         fab2 = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2);
         fab3 = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item3);
 
-
     }
-
-
-
-
+    public void setDetailArticle(ArticleWithDescriptionObject article){
+//        Picasso.with(getActivity()).load(article.getValue().get(0).getImage()).into(imageView);
+        textViewTitle.setText(article.getValue().get(0).getName());
+        textViewTopic.setText(article.getValue().get(0).getCategory());
+//        textViewText.setText(article.getValue().get(0).get);   <--- what goes here??
+    }
+    
 }
