@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
+    Toolbar toolbar;
 
 
     @Override
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpDrawersandView() {
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -168,26 +169,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_trending) {
 
+            toolbar.setTitle(R.string.toolbar_name_trending);
 
         } else if (id == R.id.nav_followed) {
 
-        } else if (id == R.id.nav_more_topics) {
+            toolbar.setTitle(R.string.toolbar_name_followed);
 
         } else if (id == R.id.nav_business) {
 
+            toolbar.setTitle(R.string.toolbar_name_business);
+
         } else if (id == R.id.nav_entertainment) {
+
+            toolbar.setTitle(R.string.toolbar_name_entertainment);
 
         } else if (id == R.id.nav_health) {
 
+            toolbar.setTitle(R.string.toolbar_name_health);
+
         } else if (id == R.id.nav_politics) {
+
+            toolbar.setTitle(R.string.toolbar_name_politics);
 
         } else if (id == R.id.nav_scienceandtech) {
 
+            toolbar.setTitle(R.string.toolbar_name_scienceandtech);
+
         } else if (id == R.id.nav_sports) {
+
+            toolbar.setTitle(R.string.toolbar_name_sports);
 
         } else if (id == R.id.nav_US_and_UK) {
 
+            toolbar.setTitle(R.string.toolbar_name_usanduk);
+
         } else if (id == R.id.nav_world) {
+
+            toolbar.setTitle(R.string.toolbar_name_world);
 
         }
 
