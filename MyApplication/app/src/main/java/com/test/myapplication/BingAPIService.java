@@ -5,7 +5,7 @@ package com.test.myapplication;
  */
 
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
-import com.test.myapplication.TrendingTopicObject.TrendingTopicObject;
+import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -15,23 +15,28 @@ import retrofit2.http.Path;
 public interface BingAPIService {
 
 
-//    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
-//    Just make the whole thing the base URL
-
-
 //    Base URL for category search is: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
 
     @GET("/?Category={categoryName}")
-    Call<CategoryNewsObject> getSpecificTopicArticles(@Path("categoryName") String categoryName);
+    Call<CategoryNewsObject> getSpecificTopicArticles(
+            @Path("categoryName") String categoryName);
 
 
 //    Base URL is:"https://bingapis.azure-api.net/api/v5/news"
-//    More info: http://bit.ly/2aNcWoN  &  http://bit.ly/2at9Rvk
+//    More info about the query parameters: http://bit.ly/2aNcWoN  &  http://bit.ly/2at9Rvk
 
     @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
-    Call<TrendingTopicObject> getArticlesBasedOnSearchTerm(@Path("?q") String searchQuery, @Path("count")
-    String numOfArticlesToReturn, @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
-    @Path("mkt") String safeSearchLevel);
+    Call<TrendingTopicsObject> getArticlesBasedOnSearchQuery(
+            @Path("?q") String searchQuery,
+            @Path("count") String numOfArticlesToReturn,
+            @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
+            @Path("mkt") String safeSearchLevel);
+
+
+//    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
+//    Just make the whole thing the base URL wherever the call is being made! No need for a
+//    @GET method to be made here in this interface.
+
 
 
 }

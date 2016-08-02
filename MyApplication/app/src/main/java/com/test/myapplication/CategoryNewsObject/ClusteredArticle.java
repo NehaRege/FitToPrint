@@ -20,6 +20,9 @@ public class ClusteredArticle {
     @SerializedName("about")
     @Expose
     private List<About_> about = new ArrayList<About_>();
+    @SerializedName("mentions")
+    @Expose
+    private List<Mention_> mentions = new ArrayList<Mention_>();
     @SerializedName("provider")
     @Expose
     private List<Provider_> provider = new ArrayList<Provider_>();
@@ -100,6 +103,24 @@ public class ClusteredArticle {
      */
     public void setAbout(List<About_> about) {
         this.about = about;
+    }
+
+    /**
+     * 
+     * @return
+     *     The mentions
+     */
+    public List<Mention_> getMentions() {
+        return mentions;
+    }
+
+    /**
+     * 
+     * @param mentions
+     *     The mentions
+     */
+    public void setMentions(List<Mention_> mentions) {
+        this.mentions = mentions;
     }
 
     /**

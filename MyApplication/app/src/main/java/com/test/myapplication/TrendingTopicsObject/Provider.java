@@ -1,5 +1,5 @@
 
-package com.test.myapplication.TrendingTopicObject;
+package com.test.myapplication.TrendingTopicsObject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

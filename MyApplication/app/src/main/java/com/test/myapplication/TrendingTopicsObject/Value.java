@@ -1,5 +1,5 @@
 
-package com.test.myapplication.TrendingTopicObject;
+package com.test.myapplication.TrendingTopicsObject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -15,12 +15,12 @@ public class Value {
     @SerializedName("webSearchUrl")
     @Expose
     private String webSearchUrl;
-    @SerializedName("webSearchUrlPingSuffix")
-    @Expose
-    private String webSearchUrlPingSuffix;
     @SerializedName("isBreakingNews")
     @Expose
     private Boolean isBreakingNews;
+    @SerializedName("query")
+    @Expose
+    private Query query;
 
     /**
      * 
@@ -79,24 +79,6 @@ public class Value {
     /**
      * 
      * @return
-     *     The webSearchUrlPingSuffix
-     */
-    public String getWebSearchUrlPingSuffix() {
-        return webSearchUrlPingSuffix;
-    }
-
-    /**
-     * 
-     * @param webSearchUrlPingSuffix
-     *     The webSearchUrlPingSuffix
-     */
-    public void setWebSearchUrlPingSuffix(String webSearchUrlPingSuffix) {
-        this.webSearchUrlPingSuffix = webSearchUrlPingSuffix;
-    }
-
-    /**
-     * 
-     * @return
      *     The isBreakingNews
      */
     public Boolean getIsBreakingNews() {
@@ -110,6 +92,24 @@ public class Value {
      */
     public void setIsBreakingNews(Boolean isBreakingNews) {
         this.isBreakingNews = isBreakingNews;
+    }
+
+    /**
+     * 
+     * @return
+     *     The query
+     */
+    public Query getQuery() {
+        return query;
+    }
+
+    /**
+     * 
+     * @param query
+     *     The query
+     */
+    public void setQuery(Query query) {
+        this.query = query;
     }
 
 }

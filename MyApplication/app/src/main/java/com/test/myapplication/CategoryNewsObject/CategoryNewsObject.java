@@ -11,12 +11,6 @@ public class CategoryNewsObject {
     @SerializedName("_type")
     @Expose
     private String type;
-    @SerializedName("readLink")
-    @Expose
-    private String readLink;
-    @SerializedName("totalEstimatedMatches")
-    @Expose
-    private Integer totalEstimatedMatches;
     @SerializedName("value")
     @Expose
     private List<Value> value = new ArrayList<Value>();
@@ -37,42 +31,6 @@ public class CategoryNewsObject {
      */
     public void setType(String type) {
         this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The readLink
-     */
-    public String getReadLink() {
-        return readLink;
-    }
-
-    /**
-     * 
-     * @param readLink
-     *     The readLink
-     */
-    public void setReadLink(String readLink) {
-        this.readLink = readLink;
-    }
-
-    /**
-     * 
-     * @return
-     *     The totalEstimatedMatches
-     */
-    public Integer getTotalEstimatedMatches() {
-        return totalEstimatedMatches;
-    }
-
-    /**
-     * 
-     * @param totalEstimatedMatches
-     *     The totalEstimatedMatches
-     */
-    public void setTotalEstimatedMatches(Integer totalEstimatedMatches) {
-        this.totalEstimatedMatches = totalEstimatedMatches;
     }
 
     /**
