@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new ComponentName(getPackageName(),
                         MorningReadTheNewsNotificationJob.class.getName()))
                 .setPeriodic(3600000) //<– Check for breaking news every hour
+                .setRequiresCharging(false)
                 .build();
 
         JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
