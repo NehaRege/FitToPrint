@@ -1,5 +1,5 @@
 
-package com.test.myapplication;
+package com.test.myapplication.CategoryNewsObject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

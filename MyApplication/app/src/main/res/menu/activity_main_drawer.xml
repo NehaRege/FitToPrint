@@ -4,47 +4,47 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_trending"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_trending_up_black_48dp"
             android:title="@string/navigation_drawer_trending" />
         <item
             android:id="@+id/nav_followed"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_favorite_black_48dp"
             android:title="@string/navigation_drawer_followed" />
         <item
             android:id="@+id/nav_more_topics"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_list_black_48dp"
             android:title="@string/navigation_drawer_more_topics" />
         <item
             android:id="@+id/nav_business"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_work_black_48dp"
             android:title="@string/navigation_drawer_business" />
         <item
             android:id="@+id/nav_entertainment"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_local_movies_black_48dp"
             android:title="@string/navigation_drawer_entertainment" />
         <item
             android:id="@+id/nav_health"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_local_hospital_black_48dp"
             android:title="@string/navigation_drawer_health" />
         <item
             android:id="@+id/nav_politics"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_account_balance_black_48dp"
             android:title="@string/navigation_drawer_politics" />
         <item
             android:id="@+id/nav_scienceandtech"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_devices_other_black_48dp"
             android:title="@string/navigation_drawer_scienceandtech" />
         <item
             android:id="@+id/nav_sports"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_golf_course_black_48dp"
             android:title="@string/navigation_drawer_sports" />
         <item
             android:id="@+id/nav_US_and_UK"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_flight_takeoff_black_24dp"
             android:title="@string/navigation_drawer_USandUK" />
         <item
             android:id="@+id/nav_world"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_black_globe_48dp"
             android:title="@string/navigation_drawer_world" />
 
 
