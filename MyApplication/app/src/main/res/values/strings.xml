@@ -4,6 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="navigation_drawer_header_your_news">Your News</string>
+
     <string name="action_notification_settings">Notification Settings</string>
     <string name="navigation_drawer_trending">Trending</string>
     <string name="navigation_drawer_followed">Followed Topics</string>
@@ -14,6 +16,6 @@
     <string name="navigation_drawer_politics">Politics</string>
     <string name="navigation_drawer_scienceandtech">Science/Tech</string>
     <string name="navigation_drawer_sports">Sports</string>
-    <string name="navigation_drawer_USandUK">US </string>
-    <string name="navigation_drawer_world">Settings</string>
+    <string name="navigation_drawer_USandUK">US/UK</string>
+    <string name="navigation_drawer_world">World</string>
 </resources>

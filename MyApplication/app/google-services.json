@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "634937044569",
+    "firebase_url": "https://newsapp-a580a.firebaseio.com",
+    "project_id": "newsapp-a580a",
+    "storage_bucket": "newsapp-a580a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634937044569:android:2d32829fed196305",
+        "android_client_info": {
+          "package_name": "com.test.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634937044569-hjsd6r7soh7qujd68kd7qc0hr3g5hm55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7STSNWYn2Tjyu40GOnm7At92z8n6Xrcg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
