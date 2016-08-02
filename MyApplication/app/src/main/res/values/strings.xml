@@ -14,6 +14,6 @@
     <string name="navigation_drawer_politics">Politics</string>
     <string name="navigation_drawer_scienceandtech">Science/Tech</string>
     <string name="navigation_drawer_sports">Sports</string>
-    <string name="navigation_drawer_USandUK">US </string>
+    <string name="navigation_drawer_USandUK">US/UK</string>
     <string name="navigation_drawer_world">World</string>
 </resources>
