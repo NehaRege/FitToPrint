@@ -30,7 +30,7 @@
     <!--Daily Morning Notification Text-->
 
     <string name="notification_morning_title">Rise and shine!</string>
-    <string name="notification_morning_text">Start your day by reading this morning's news</string>
+    <string name="notification_morning_text">Start your day by reading this morning\'s news</string>
 
 
 
