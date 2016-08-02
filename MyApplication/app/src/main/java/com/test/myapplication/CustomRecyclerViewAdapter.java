@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
 
-    private List<TrendingTopics> mData;
+    private List<TrendingTopicsObject> mData;
     private TextView cvTitleText, cvDesText, cvTopicText, cvDateText;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -38,7 +40,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     }
 
-    public CustomRecyclerViewAdapter(List<TrendingTopics> mData) {
+    public CustomRecyclerViewAdapter(List<TrendingTopicsObject> mData) {
 //        if(mData!=null){
             this.mData = mData;
 //        }else{
@@ -58,7 +60,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TrendingTopics topic = mData.get(position);
+        TrendingTopicsObject topic = mData.get(position);
 
         cvTitleText = holder.rvTitleText;
         cvDesText = holder.rvDesText;

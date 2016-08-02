@@ -1,5 +1,5 @@
 
-package com.test.myapplication;
+package com.test.myapplication.TrendingTopicsObject;
 
 import java.util.ArrayList;
 import java.util.List;

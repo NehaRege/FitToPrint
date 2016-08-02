@@ -1,19 +1,16 @@
 
-package com.test.myapplication;
+package com.test.myapplication.CategoryNewsObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TrendingTopics {
+public class CategoryNewsObject {
 
     @SerializedName("_type")
     @Expose
     private String type;
-    @SerializedName("instrumentation")
-    @Expose
-    private Instrumentation instrumentation;
     @SerializedName("value")
     @Expose
     private List<Value> value = new ArrayList<Value>();
@@ -34,24 +31,6 @@ public class TrendingTopics {
      */
     public void setType(String type) {
         this.type = type;
-    }
-
-    /**
-     * 
-     * @return
-     *     The instrumentation
-     */
-    public Instrumentation getInstrumentation() {
-        return instrumentation;
-    }
-
-    /**
-     * 
-     * @param instrumentation
-     *     The instrumentation
-     */
-    public void setInstrumentation(Instrumentation instrumentation) {
-        this.instrumentation = instrumentation;
     }
 
     /**
