@@ -3,8 +3,11 @@ package com.test.myapplication;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -22,18 +25,27 @@ public class MorningReadTheNewsNotificationJob extends JobService {
     public boolean onStartJob(JobParameters params) {
         Log.i(TAG, "onStartJob: Daily morning notification job has started");
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        int NOTIFICATION_ID = 3;
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        builder.setSmallIcon(android.R.mipmap.sym_def_app_icon);
+
+        builder.setSmallIcon(R.drawable.ic_wb_sunny_black_48dp);
         builder.setContentTitle(getString(R.string.notification_morning_title));
         builder.setContentText(getString(R.string.notification_morning_text));
         builder.setAutoCancel(true);
-        Notification notification = builder.build();
-        notificationManager.notify(0, notification);
+        builder.setContentIntent(pIntent);
+        builder.setPriority(Notification.PRIORITY_DEFAULT);
 
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(NOTIFICATION_ID, builder.build());
 
         return false;
-
 
     }
 
