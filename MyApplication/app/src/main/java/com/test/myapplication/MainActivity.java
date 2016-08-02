@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpBreakingNewsCheckJob() {
 
         String TAG = "MainActivity";
-        
+
         JobInfo breakingNewsJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
                         CheckForBreakingNewsJob.class.getName()))
