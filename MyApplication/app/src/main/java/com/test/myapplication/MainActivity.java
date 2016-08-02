@@ -30,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
 
-    private PendingIntent pendingIntent;
-    private AlarmManager manager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
