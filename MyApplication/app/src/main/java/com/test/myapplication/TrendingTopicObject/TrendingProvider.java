@@ -1,10 +1,10 @@
 
-package com.test.myapplication;
+package com.test.myapplication.TrendingTopicObject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Provider {
+public class TrendingProvider {
 
     @SerializedName("_type")
     @Expose

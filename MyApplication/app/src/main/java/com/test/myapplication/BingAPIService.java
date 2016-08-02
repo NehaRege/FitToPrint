@@ -15,12 +15,15 @@ public interface BingAPIService {
 //    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
 //    Just make the whole thing the base URL
 
-
+//  TODO: Get call to get all
 //    Base URL is: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
+/*
 
-    /*@GET("/?Category={categoryName}")
-    Call<Example> getSpecificTopicArticles(@Path("categoryName") String categoryName);
+    @GET("/?Category={categoryName}")
+    Call<Trending> getSpecificTopicArticles(@Path("categoryName") String categoryName);
+
 */
+
 //    Base URL is:"https://bingapis.azure-api.net/api/v5/news"
 //    More info: http://bit.ly/2aNcWoN  &  http://bit.ly/2at9Rvk
 

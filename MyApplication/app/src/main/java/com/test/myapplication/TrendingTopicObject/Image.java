@@ -1,5 +1,5 @@
 
-package com.test.myapplication;
+package com.test.myapplication.TrendingTopicObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Image {
     private String url;
     @SerializedName("provider")
     @Expose
-    private List<Provider> provider = new ArrayList<Provider>();
+    private List<TrendingProvider> provider = new ArrayList<TrendingProvider>();
 
     /**
      * 
@@ -38,7 +38,7 @@ public class Image {
      * @return
      *     The provider
      */
-    public List<Provider> getProvider() {
+    public List<TrendingProvider> getProvider() {
         return provider;
     }
 
@@ -47,7 +47,7 @@ public class Image {
      * @param provider
      *     The provider
      */
-    public void setProvider(List<Provider> provider) {
+    public void setProvider(List<TrendingProvider> provider) {
         this.provider = provider;
     }
 
