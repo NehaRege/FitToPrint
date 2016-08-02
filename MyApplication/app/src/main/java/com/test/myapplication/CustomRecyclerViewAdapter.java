@@ -80,6 +80,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArticleWithDescriptionObject topic = mData.get(position);
 
+
         holder.rvTitleText.setText(topic.getValue().get(0).getName());
         holder.rvDesText.setText(topic.getValue().get(0).getDescription());
         holder.rvDateText.setText(topic.getValue().get(0).getDatePublished());

@@ -24,9 +24,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.view.MaterialIntroView;
 
 
 //import com.github.clans.fab.FloatingActionButton;
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
     Toolbar toolbar;
+    Menu menu;
+
 
 
     @Override
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpDetailFragment();
 
+        setUpOnboardOverlay();
+
         setUpBreakingNewsCheckJob();
 
 
@@ -57,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initializeFacebookSDK() {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(getApplication(),"1757738834448963");
+        AppEventsLogger.activateApp(getApplication(), "1757738834448963");
 
 
     }
@@ -67,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         detailFragment = new DetailFragment();
-        fragmentTransaction.add(R.id.fragment_container,detailFragment);
+        fragmentTransaction.add(R.id.fragment_container, detailFragment);
         fragmentTransaction.commit();
 
     }
@@ -78,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
 
@@ -93,7 +101,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-    
+
+    private void setUpOnboardOverlay() {
+
+        Button testButtonForOverlay = (Button) findViewById(R.id.testButtonForOverlay);
+
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(false)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.ALL)
+                .setDelayMillis(500)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("Welcome to our news app!\nClick here to view other topics.")
+                .setTarget(findViewById(R.id.drawer_layout))//TODO: Eventually put hamburger menu in the parenthesis to the left
+                .setUsageId("navigation_hamburger_menu") //THIS SHOULD BE UNIQUE ID
+//                .setConfiguration(config)
+                .show();
+
+    }
+
+
     @TargetApi(21)
     private void setUpBreakingNewsCheckJob() {
 
@@ -111,9 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //stuff went wrong
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
         }
-
-
-
 
 
     }
@@ -153,6 +179,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        this.menu = menu;
+
         return true;
     }
 
