@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpBreakingNewsCheckJob();
 
+        setUpMorningNotificationJob();
+
 
     }
 
@@ -85,6 +87,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (result <= 0) {
             //stuff went wrong
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
+        }
+
+
+
+
+    }
+
+    @TargetApi(21)
+    private void setUpMorningNotificationJob() {
+
+        String TAG = "MainActivity";
+
+        JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
+                new ComponentName(getPackageName(),
+                        MorningReadTheNewsNotificationJob.class.getName()))
+                .setPeriodic(3600000) //<– Check for breaking news every hour
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int result = jobScheduler.schedule(dailyMorningNotificationJob);
+        if (result <= 0) {
+            //stuff went wrong
+            Log.i(TAG, "setUpMorningNotificationJob: Error with breaking news job check");
         }
 
 
