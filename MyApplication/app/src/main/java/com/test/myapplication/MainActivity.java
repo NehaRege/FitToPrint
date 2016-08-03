@@ -9,9 +9,11 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,13 +30,28 @@ import android.view.MenuItem;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
+import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
+import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
+import com.test.myapplication.TrendingTopicsObject.Value;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.HEAD;
 
 
 //import com.github.clans.fab.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener {
+
+    private String TAG = "MainActivity";
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -42,10 +59,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
 
+    private RecyclerView recyclerView;
+    private List<Value> data;
+    private CustomRecyclerViewAdapter adapter;
+    public String BASE_URL = "https://bingapis.azure-api.net/api/v5/news/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loadArticles();
 
         initializeFacebookSDK();
 
@@ -55,13 +79,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpBreakingNewsCheckJob();
 
+        setUpMorningNotificationJob();
+
+
+    }
+
+    @Override
+    public void onArticleSelected(TrendingTopicsObject selectedArticle) {
+
+
+    }
+
+    private void loadArticles() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        BingAPIService request = retrofit.create(BingAPIService.class);
+
+        Call<TrendingTopicsObject> call = request.getTrendingTopics();
+
+        call.enqueue(new Callback<TrendingTopicsObject>() {
+            @Override
+            public void onResponse(Call<TrendingTopicsObject> call, Response<TrendingTopicsObject> response) {
+
+                try {
+
+                    TrendingTopicsObject trendingTopicsObject = response.body();
+
+                    data = trendingTopicsObject.getValue();
+
+                    Bundle bundle = new Bundle();
+
+                    bundle.putSerializable("ArrayList of articles", (Serializable) data);
+
+                    RecyclerViewFragment mFrag = new RecyclerViewFragment();
+
+                    mFrag.setArguments(bundle);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<TrendingTopicsObject> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+            }
+        });
 
     }
 
     private void initializeFacebookSDK() {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(getApplication(),"1757738834448963");
+        AppEventsLogger.activateApp(getApplication(), "1757738834448963");
 
 
     }
@@ -71,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         recyclerViewFragment = new RecyclerViewFragment();
-        fragmentTransaction.add(R.id.fragment_container,recyclerViewFragment);
+        fragmentTransaction.add(R.id.fragment_container, recyclerViewFragment);
         fragmentTransaction.commit();
 
         setUpDrawersandView();
@@ -79,17 +155,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpBreakingNewsCheckJob();
 
     }
-
-    @Override
-    public void onArticleSeleceted(ArticleWithDescriptionObject selectedArticle) {
-        detailFragment = new DetailFragment();
-        detailFragment.setDetailArticle(selectedArticle);
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,detailFragment,null);
-        fragmentTransaction.commit();
-    }
+//
+//    @Override
+//    public void onArticleSelected(ArticleWithDescriptionObject selectedArticle) {
+//        detailFragment = new DetailFragment();
+//        detailFragment.setDetailArticle(selectedArticle);
+//
+//        fragmentManager = getSupportFragmentManager();
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
+//        fragmentTransaction.commit();
+//    }
 
     private void setUpDrawersandView() {
 
@@ -109,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-    
+
     @TargetApi(21)
     private void setUpBreakingNewsCheckJob() {
 
@@ -127,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //stuff went wrong
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
         }
+
+
 
     }
 

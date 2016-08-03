@@ -14,13 +14,16 @@ import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptio
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by Jon Kim on 8/1/16.
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
-    private ArrayList<ArticleWithDescriptionObject> mData;
+
+    private ArrayList<TrendingTopicsObject> mData;
+
     private static ViewHolder.OnRecyclerViewItemClickListener onItemClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -47,21 +50,22 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 public void onClick(View view) {
 
                     onItemClickListener.onItemClick(getLayoutPosition());
+
+
                 }
             });
-
         }
-
     }
 
-    public CustomRecyclerViewAdapter(ArrayList<ArticleWithDescriptionObject> mData,
+    public CustomRecyclerViewAdapter(ArrayList<TrendingTopicsObject> listOfTrendingTopicsObjects,
                                      ViewHolder.OnRecyclerViewItemClickListener listener) {
         this.onItemClickListener = listener;
-//        if(mData!=null){
+
+        if(mData!=null){
             this.mData = mData;
-//        }else{
-//            this.mData = new List<ArticleWithDescriptionObject>();
-//        }
+        }else{
+            this.mData = new ArrayList<>();
+        }
     }
 
     @Override
@@ -69,19 +73,21 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View cardLayout = inflater.inflate(R.layout.rv_card_layout,parent,false);
-//        ViewHolder viewHolder = new ViewHolder(cardLayout);
 
         return new ViewHolder(cardLayout);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ArticleWithDescriptionObject topic = mData.get(position);
+        TrendingTopicsObject topic = mData.get(position);
 
-        holder.rvTitleText.setText(topic.getValue().get(0).getName());
-        holder.rvDesText.setText(topic.getValue().get(0).getDescription());
-        holder.rvDateText.setText(topic.getValue().get(0).getDatePublished());
-        holder.rvTopicText.setText(topic.getValue().get(0).getCategory());
+        holder.rvTitleText.setText(topic.getValue().get(position).getName());
+
+        /*holder.rvImageView.setImageResource(topic.getValue().get(position).getImage());
+        holder.rvDateText.setText(topic.getValue().get(position).get());
+        holder.rvTopicText.setText(topic.getValue().get(position).getCategory());
+
+
 //        if(topic.getValue().get(0).getImage()!=null){
 //            Picasso.with()
 //        }
@@ -90,7 +96,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             public void onClick(View view) {
                 //follow button
             }
-        });
+        });*/
+
+
     }
 
     @Override
