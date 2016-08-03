@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
 
-    private ArrayList<TrendingTopicsObject> mData;
+    private ArrayList<Value> mData;
 
     private static ViewHolder.OnRecyclerViewItemClickListener onItemClickListener;
 
@@ -58,7 +58,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         }
     }
 
-    public CustomRecyclerViewAdapter(ArrayList<Value> listOfTrendingTopicsObjects,
+    public CustomRecyclerViewAdapter(ArrayList<Value> mData,
                                      ViewHolder.OnRecyclerViewItemClickListener listener) {
         this.onItemClickListener = listener;
 
@@ -80,9 +80,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TrendingTopicsObject topic = mData.get(position);
+        Value value = mData.get(position);
 
-        holder.rvTitleText.setText(topic.getValue().get(position).getName());
+        holder.rvTitleText.setText(value.getName());
 
         /*holder.rvImageView.setImageResource(topic.getValue().get(position).getImage());
         holder.rvDateText.setText(topic.getValue().get(position).get());
