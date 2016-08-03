@@ -65,7 +65,7 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
 
         mRecyclerView.setLayoutManager(rvLayoutManager);
 
-        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,null,getActivity());
+        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this,getActivity());
 
         mRecyclerView.setAdapter(rvAdapter);
 

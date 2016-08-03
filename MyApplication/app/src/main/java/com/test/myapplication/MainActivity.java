@@ -202,12 +202,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onArticleSelected(Value selectedArticle) {
         detailFragment = new DetailFragment();
-        detailFragment.setDetailArticle(selectedArticle);
 
+        detailFragment.setDetailArticle(selectedArticle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
         fragmentTransaction.commit();
+
     }
 
     private void setUpDrawersandView() {

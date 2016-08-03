@@ -58,12 +58,13 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             });
         }
     }
-
+//add other types of articlelist data into parameters, null check other types to find out which on is sent.
     public CustomRecyclerViewAdapter(ArrayList<Value> mData,
                                      OnRecyclerViewItemClickListener listener, Context context) {
         this.mContext = context;
-        this.onItemClickListener = listener;
-
+        if(listener!=null){
+            this.onItemClickListener = listener;
+        }
         if(mData!=null){
             this.mData = mData;
         }else{
@@ -84,19 +85,16 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     public void onBindViewHolder(ViewHolder holder, int position) {
         Value value = mData.get(position);
 
-
         holder.rvTitleText.setText(value.getName());
         Picasso.with(mContext).load(value.getImage().getUrl()).into(holder.rvImageView);
 
-        
+
 //        holder.rvFollowButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //                //follow button
 //            }
 //        });
-
-
     }
 
     @Override
