@@ -63,24 +63,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView recyclerView;
     private List<Value> data;
     private CustomRecyclerViewAdapter adapter;
-    public String BASE_URL = "https://bingapis.azure-api.net/api/v5/news/";
+    public String BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
+    private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadArticles();
+        setUpDrawersandView();
+        Log.i(TAG, "onCreate: Drawers and views set up");
 
         initializeFacebookSDK();
+        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
 
-        setUpDrawersandView();
 
         setRecycleFragment();
+        Log.i(TAG, "onCreate: RecycleFragment set up");
 
-        setUpBreakingNewsCheckJob();
+        loadArticles();
 
-        setUpMorningNotificationJob();
+        Log.i(TAG, "onCreate: loadArticles() run");
+
+
+//        setUpBreakingNewsCheckJob();
+
+//        setUpMorningNotificationJob();
 
 
     }
@@ -94,9 +102,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        Log.i(TAG, "loadArticles: Retrofit object made");
+
         BingAPIService request = retrofit.create(BingAPIService.class);
 
-        Call<TrendingTopicsObject> call = request.getTrendingTopics();
+        Log.i(TAG, "loadArticles: BingAPIService request created");
+
+        Call<TrendingTopicsObject> call = request.getTrendingTopics(API_KEY);
 
         call.enqueue(new Callback<TrendingTopicsObject>() {
             @Override
@@ -104,22 +116,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 try {
 
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
                     TrendingTopicsObject trendingTopicsObject = response.body();
+
+
+                    Log.i(TAG, "onResponse:  body gotten");
 
                     ArrayList<Value> data = new ArrayList<Value>();
 
+                    Log.i(TAG, "onResponse: data ArrayList of Values created");
+
                     data.addAll(trendingTopicsObject.getValue());
+
+                    Log.i(TAG, "onResponse: all articles gotten");
 
                     Bundle bundle = new Bundle();
 
+                    Log.i(TAG, "onResponse: bundle created");
+
                     bundle.putParcelableArrayList("ArrayList of articles", data);
+
+                    Log.i(TAG, "onResponse: data arraylist of articles put in bundle");
 
                     RecyclerViewFragment mFrag = new RecyclerViewFragment();
 
+                    Log.i(TAG, "onResponse: mFrag created");
+
                     mFrag.setArguments(bundle);
+
+                    Log.i(TAG, "onResponse: bundle successfully passed through in mFrag.setArguments()");
+
+                    Log.i(TAG, "onCreate: articles loaded");
+
+                    fragmentTransaction.commit();
+
+                    Log.i(TAG, "onCreate: fragmentTransaction committed");
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.i(TAG, "onCreate: articles not loaded");
+
                 }
 
 
