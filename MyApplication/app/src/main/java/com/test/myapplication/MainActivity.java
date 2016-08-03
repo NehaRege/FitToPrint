@@ -128,10 +128,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
         }
 
-
-
-
-
     }
 
     @TargetApi(21)

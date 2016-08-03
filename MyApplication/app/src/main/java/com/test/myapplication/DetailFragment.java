@@ -55,6 +55,7 @@ public class DetailFragment extends Fragment {
 
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +68,8 @@ public class DetailFragment extends Fragment {
         shareDialog = new ShareDialog(this);
 
         messageDialog = new MessageDialog(this);
+
+
 
 
         // fb
@@ -84,10 +87,8 @@ public class DetailFragment extends Fragment {
 
                     shareDialog.show(linkContent);
                 }
-
             }
         });
-
 
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,11 +121,11 @@ public class DetailFragment extends Fragment {
     }
 
 
-    public void setDetailArticle(ArticleWithDescriptionObject article){
+    public void setDetailArticle(ArticleWithDescriptionObject article) {
+
         this.articleUrl = article.getValue().get(0).getUrl();
         this.articleName = article.getValue().get(0).getName();
         this.articleDescription = article.getValue().get(0).getDescription();
-
 
         articleUrl = article.getValue().get(0).getUrl();
 
@@ -137,8 +138,6 @@ public class DetailFragment extends Fragment {
                 return true;
             }
         });
-
-
     }
 
     @Override
