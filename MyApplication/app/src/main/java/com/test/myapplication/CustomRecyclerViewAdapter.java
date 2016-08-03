@@ -20,6 +20,7 @@ import java.util.ArrayList;
  * Created by Jon Kim on 8/1/16.
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
+
     private ArrayList<TrendingTopicsObject> mData;
 
     private static ViewHolder.OnRecyclerViewItemClickListener onItemClickListener;
@@ -57,11 +58,11 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     }
 
-    public CustomRecyclerViewAdapter(ArrayList<TrendingTopicsObject> mData,
+    public CustomRecyclerViewAdapter(ArrayList<TrendingTopicsObject> listOfTrendingTopicsObjects,
                                      ViewHolder.OnRecyclerViewItemClickListener listener) {
         this.onItemClickListener = listener;
 //        if(mData!=null){
-            this.mData = mData;
+            this.mData = listOfTrendingTopicsObjects;
 //        }else{
 //            this.mData = new List<ArticleWithDescriptionObject>();
 //        }

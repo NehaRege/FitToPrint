@@ -9,6 +9,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -99,10 +100,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     data = trendingTopicsObject.getValue();
 
-//                    TODO: Figure out what's wrong with data thing below
+                    Bundle bundle = new Bundle();
 
-                    adapter = new CustomRecyclerViewAdapter(data);
-                    recyclerView.setAdapter(adapter);
+                    bundle.putString("name", "From Activity");
+
+
+                    RecyclerViewFragment fragmentObject = new RecyclerViewFragment();
+                    fragmentObject.setArguments(bundle);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
