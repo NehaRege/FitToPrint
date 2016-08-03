@@ -74,16 +74,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
         Log.i(TAG, "onCreate: Drawers and views set up");
 
-        initializeFacebookSDK();
-        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
-
-
         setRecycleFragment();
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
         loadArticles();
-
         Log.i(TAG, "onCreate: loadArticles() run");
+
+
+
+        initializeFacebookSDK();
+        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
+
 
 
 //        setUpBreakingNewsCheckJob();
