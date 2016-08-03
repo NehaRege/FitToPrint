@@ -305,11 +305,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-
         searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchableInfo = searchManager.getSearchableInfo(getComponentName());
 
         return true;
+
     }
 
     @Override
@@ -332,8 +332,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-
 
         if (id == R.id.nav_trending) {
 
