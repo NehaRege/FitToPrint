@@ -14,6 +14,7 @@ import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface BingAPIService {
@@ -26,9 +27,9 @@ public interface BingAPIService {
 
 //    Base URL for category search is: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
 
-    @GET("/?Category={categoryName}")
+    @GET("news?category")
     Call<CategoryNewsObject> getSpecificTopicArticles(
-            @Path("categoryName") String categoryName);
+            @Query("categoryName") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
 
 //    Base URL is:"https://bingapis.azure-api.net/api/v5/news"

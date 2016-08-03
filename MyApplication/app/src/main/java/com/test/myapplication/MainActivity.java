@@ -61,11 +61,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
 
     private RecyclerView recyclerView;
-    private List<Value> data;
     private CustomRecyclerViewAdapter adapter;
-    public String BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
-    private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
 
+    private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +99,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadArticles() {
 
+        String TRENDING_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(TRENDING_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -176,7 +176,94 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
     }
+
+    private void loadCategoryArticles(final String categoryName) {
+
+        String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(CATEGORY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Log.i(TAG, "loadCategoryArticles: Retrofit object made");
+
+        BingAPIService request = retrofit.create(BingAPIService.class);
+
+        Log.i(TAG, "loadCategoryArticles: BingAPIService request created");
+
+        Call<CategoryNewsObject> call = request.getSpecificTopicArticles(categoryName, API_KEY);
+
+        call.enqueue(new Callback<CategoryNewsObject>() {
+            @Override
+            public void onResponse(Call<CategoryNewsObject> call, Response<CategoryNewsObject> response) {
+
+                try {
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
+                    CategoryNewsObject categoryNewsObject = response.body();
+
+
+                    Log.i(TAG, "onResponse:  body gotten");
+
+                    ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
+                            new ArrayList<com.test.myapplication.CategoryNewsObject.Value>();
+
+
+                    Log.i(TAG, "onResponse: data ArrayList of category' articles values created");
+
+                    data.addAll(categoryNewsObject.getValue());
+
+                    Log.i(TAG, "onResponse: all of category's articles gotten");
+
+                    Bundle bundle = new Bundle();
+
+                    Log.i(TAG, "onResponse: bundle created");
+
+                    bundle.putSerializable(categoryName, data);
+
+                    Log.i(TAG, "onResponse: data arraylist of category articles put in bundle");
+
+                    RecyclerViewFragment mFrag = new RecyclerViewFragment();
+
+                    Log.i(TAG, "onResponse: mFrag created");
+
+                    mFrag.setArguments(bundle);
+
+                    Log.i(TAG, "onResponse: bundle successfully passed through in mFrag.setArguments()");
+
+                    Log.i(TAG, "onCreate: articles loaded");
+
+
+                    fragmentTransaction.replace(R.id.fragment_container, mFrag);
+
+                    fragmentTransaction.commit();
+
+                    Log.i(TAG, "onCreate: fragmentTransaction committed");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "onCreate: articles not loaded");
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<CategoryNewsObject> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+            }
+        });
+
+
+    }
+
 
     private void initializeFacebookSDK() {
 
@@ -250,7 +337,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-
     }
 
     @TargetApi(21)
@@ -316,42 +402,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_trending);
 
+            loadArticles();
+
         } else if (id == R.id.nav_followed) {
 
             toolbar.setTitle(R.string.toolbar_name_followed);
 
+
         } else if (id == R.id.nav_business) {
+            String categoryName = "Business";
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
+            loadCategoryArticles(categoryName);
+
         } else if (id == R.id.nav_entertainment) {
+            String categoryName = "Entertainment";
 
             toolbar.setTitle(R.string.toolbar_name_entertainment);
 
+            loadCategoryArticles(categoryName);
+
         } else if (id == R.id.nav_health) {
+            String categoryName = "Health";
 
             toolbar.setTitle(R.string.toolbar_name_health);
 
+            loadCategoryArticles(categoryName);
+
         } else if (id == R.id.nav_politics) {
+            String categoryName = "Politics";
 
             toolbar.setTitle(R.string.toolbar_name_politics);
 
+            loadCategoryArticles(categoryName);
+
         } else if (id == R.id.nav_scienceandtech) {
+            String categoryName = "ScienceAndTechnology";
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
+            loadCategoryArticles(categoryName);
+
+
         } else if (id == R.id.nav_sports) {
+            String categoryName = "Sports";
 
             toolbar.setTitle(R.string.toolbar_name_sports);
 
+            loadCategoryArticles(categoryName);
+
         } else if (id == R.id.nav_US_and_UK) {
+            String categoryName = "US/UK";
 
             toolbar.setTitle(R.string.toolbar_name_usanduk);
 
+            loadCategoryArticles(categoryName);
+
         } else if (id == R.id.nav_world) {
+            String categoryName = "World";
 
             toolbar.setTitle(R.string.toolbar_name_world);
 
+            loadCategoryArticles(categoryName);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
