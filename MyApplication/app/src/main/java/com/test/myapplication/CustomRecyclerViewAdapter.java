@@ -24,18 +24,19 @@ import java.util.List;
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
 
     private ArrayList<Value> mData;
+    private Context mContext;
 
-    private static ViewHolder.OnRecyclerViewItemClickListener onItemClickListener;
+    private static OnRecyclerViewItemClickListener onItemClickListener;
 
+    public interface OnRecyclerViewItemClickListener{
+        void onItemClick(int position);
+
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView rvTitleText, rvDesText, rvTopicText, rvDateText;
         public ImageView rvImageView;
         public Button rvFollowButton;
 
-        public interface OnRecyclerViewItemClickListener{
-            void onItemClick(int position);
-
-        }
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -59,7 +60,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     }
 
     public CustomRecyclerViewAdapter(ArrayList<Value> mData,
-                                     ViewHolder.OnRecyclerViewItemClickListener listener) {
+                                     OnRecyclerViewItemClickListener listener, Context context) {
+        this.mContext = context;
         this.onItemClickListener = listener;
 
         if(mData!=null){
@@ -82,22 +84,17 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     public void onBindViewHolder(ViewHolder holder, int position) {
         Value value = mData.get(position);
 
+
         holder.rvTitleText.setText(value.getName());
+        Picasso.with(mContext).load(value.getImage().getUrl()).into(holder.rvImageView);
 
-        /*holder.rvImageView.setImageResource(topic.getValue().get(position).getImage());
-        holder.rvDateText.setText(topic.getValue().get(position).get());
-        holder.rvTopicText.setText(topic.getValue().get(position).getCategory());
-
-
-//        if(topic.getValue().get(0).getImage()!=null){
-//            Picasso.with()
-//        }
-        holder.rvFollowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //follow button
-            }
-        });*/
+        
+//        holder.rvFollowButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //follow button
+//            }
+//        });
 
 
     }

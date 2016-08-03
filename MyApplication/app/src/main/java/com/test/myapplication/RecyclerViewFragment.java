@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by Jon Kim on 8/2/16.
  */
-public class RecyclerViewFragment extends Fragment implements CustomRecyclerViewAdapter.ViewHolder.OnRecyclerViewItemClickListener {
+public class RecyclerViewFragment extends Fragment implements CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
     private static final String TAG = "RecyclerViewFragment";
     protected RecyclerView mRecyclerView;
     protected CustomRecyclerViewAdapter rvAdapter;
@@ -65,7 +65,7 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
 
         mRecyclerView.setLayoutManager(rvLayoutManager);
 
-        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,null);
+        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,null,getActivity());
 
         mRecyclerView.setAdapter(rvAdapter);
 

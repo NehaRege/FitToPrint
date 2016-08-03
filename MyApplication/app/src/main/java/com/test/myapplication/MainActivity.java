@@ -50,7 +50,7 @@ import retrofit2.http.HEAD;
 
 //import com.github.clans.fab.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
     private String TAG = "MainActivity";
 
@@ -93,7 +93,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onItemClick(int position) {
 
+    }
 
     private void loadArticles() {
 
