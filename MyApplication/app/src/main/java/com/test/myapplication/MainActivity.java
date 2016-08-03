@@ -85,11 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public void onArticleSelected(TrendingTopicsObject selectedArticle) {
 
-
-    }
 
     private void loadArticles() {
 
@@ -110,12 +106,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     TrendingTopicsObject trendingTopicsObject = response.body();
 
-                    data = trendingTopicsObject.getValue();
+                    ArrayList<Value> data = new ArrayList<Value>();
+
+                    data.addAll(trendingTopicsObject.getValue());
 
                     Bundle bundle = new Bundle();
 
-                    bundle.putParcelable("ArrayList of articles", data);
-
+                    bundle.putParcelableArrayList("ArrayList of articles", data);
 
                     RecyclerViewFragment mFrag = new RecyclerViewFragment();
 
@@ -157,17 +154,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpBreakingNewsCheckJob();
 
     }
-//
-//    @Override
-//    public void onArticleSelected(ArticleWithDescriptionObject selectedArticle) {
-//        detailFragment = new DetailFragment();
-//        detailFragment.setDetailArticle(selectedArticle);
-//
-//        fragmentManager = getSupportFragmentManager();
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
-//        fragmentTransaction.commit();
-//    }
+
+    @Override
+    public void onArticleSelected(Value selectedArticle) {
+        detailFragment = new DetailFragment();
+        detailFragment.setDetailArticle(selectedArticle);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
+        fragmentTransaction.commit();
+    }
 
     private void setUpDrawersandView() {
 
