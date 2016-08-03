@@ -4,6 +4,7 @@ package com.test.myapplication;
  * Created by LangstonSmith on 8/1/16.
  */
 
+import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 
@@ -13,6 +14,10 @@ import retrofit2.http.Path;
 
 
 public interface BingAPIService {
+
+    //For trending news
+    @GET("trendingtopics")
+    Call<TrendingTopicsObject> getTrendingTopics();
 
 
 //    Base URL for category search is: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
