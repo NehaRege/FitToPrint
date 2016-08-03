@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
         loadArticles();
-
         Log.i(TAG, "onCreate: loadArticles() run");
 
     }
@@ -107,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
     }
+
+
+
+
+//        setUpBreakingNewsCheckJob();
 
     private void handleIntent(Intent intent) {
 
