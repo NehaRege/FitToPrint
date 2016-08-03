@@ -3,9 +3,12 @@ package com.test.myapplication;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,7 +17,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 
@@ -26,6 +31,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -46,9 +52,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.HEAD;
 
-
-//import com.github.clans.fab.FloatingActionButton;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener {
 
     private String TAG = "MainActivity";
@@ -58,6 +61,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DetailFragment detailFragment;
     RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
+
+    SearchManager searchManager;
+    SearchableInfo searchableInfo;
+    SearchView searchView;
+
 
     private RecyclerView recyclerView;
     private List<Value> data;
@@ -75,18 +83,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpDrawersandView();
 
+        handleIntent(getIntent());
+
         setRecycleFragment();
 
         setUpBreakingNewsCheckJob();
 
         setUpMorningNotificationJob();
 
+    }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(MainActivity.this,"searched "+query,Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onArticleSelected(TrendingTopicsObject selectedArticle) {
-
 
     }
 
@@ -182,6 +204,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        // Find searchManager and searchableInfo
+//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
+
     }
 
     @TargetApi(21)
@@ -238,6 +265,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+
+        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
         return true;
     }
 
@@ -262,6 +294,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
+
         if (id == R.id.nav_trending) {
 
             toolbar.setTitle(R.string.toolbar_name_trending);
@@ -270,7 +304,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_followed);
 
-        } else if (id == R.id.nav_business) {
+        } else if (id == R.id.search) {
+
+////             Find searchManager and searchableInfo
+//            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//            SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
+            // Associate searchable info with the SearchView
+            searchView = (SearchView) item.getActionView();
+            searchView.setSearchableInfo(searchableInfo);
+
+//            toolbar.setTitle("Search");
+        }
+
+        else if (id == R.id.nav_business) {
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
