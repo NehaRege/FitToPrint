@@ -150,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Log.i(TAG, "onCreate: articles loaded");
 
+
+                    fragmentTransaction.replace(R.id.fragment_container, mFrag);
+
                     fragmentTransaction.commit();
 
                     Log.i(TAG, "onCreate: fragmentTransaction committed");
