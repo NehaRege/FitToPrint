@@ -60,20 +60,12 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     public CustomRecyclerViewAdapter(ArrayList<TrendingTopicsObject> listOfTrendingTopicsObjects,
                                      ViewHolder.OnRecyclerViewItemClickListener listener) {
         this.onItemClickListener = listener;
-<<<<<<< HEAD
-//        if(mData!=null){
-        this.mData = listOfTrendingTopicsObjects;
-//        }else{
-//            this.mData = new List<ArticleWithDescriptionObject>();
-//        }
 
-=======
         if(mData!=null){
             this.mData = mData;
         }else{
             this.mData = new ArrayList<>();
         }
->>>>>>> 5eaf842e6c67a4e07c2dc757521d578b431bbd70
     }
 
     @Override
