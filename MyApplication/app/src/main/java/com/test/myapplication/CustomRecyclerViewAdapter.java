@@ -62,10 +62,11 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                                      ViewHolder.OnRecyclerViewItemClickListener listener) {
         this.onItemClickListener = listener;
 //        if(mData!=null){
-            this.mData = listOfTrendingTopicsObjects;
+        this.mData = listOfTrendingTopicsObjects;
 //        }else{
 //            this.mData = new List<ArticleWithDescriptionObject>();
 //        }
+
     }
 
     @Override

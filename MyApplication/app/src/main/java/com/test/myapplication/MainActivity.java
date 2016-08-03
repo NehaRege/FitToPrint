@@ -34,6 +34,7 @@ import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +50,8 @@ import retrofit2.http.HEAD;
 //import com.github.clans.fab.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener {
+
+    private String TAG = "MainActivity";
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -76,6 +79,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setUpBreakingNewsCheckJob();
 
+        setUpMorningNotificationJob();
+
+
+    }
+
+    @Override
+    public void onArticleSelected(TrendingTopicsObject selectedArticle) {
+
 
     }
 
@@ -102,12 +113,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Bundle bundle = new Bundle();
 
-                    bundle.putString("name", "From Activity");
+                    bundle.putSerializable("ArrayList of articles", (Serializable) data);
 
+                    RecyclerViewFragment mFrag = new RecyclerViewFragment();
 
-                    RecyclerViewFragment fragmentObject = new RecyclerViewFragment();
-                    fragmentObject.setArguments(bundle);
-
+                    mFrag.setArguments(bundle);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -145,17 +155,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpBreakingNewsCheckJob();
 
     }
-
-    @Override
-    public void onArticleSelected(ArticleWithDescriptionObject selectedArticle) {
-        detailFragment = new DetailFragment();
-        detailFragment.setDetailArticle(selectedArticle);
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
-        fragmentTransaction.commit();
-    }
+//
+//    @Override
+//    public void onArticleSelected(ArticleWithDescriptionObject selectedArticle) {
+//        detailFragment = new DetailFragment();
+//        detailFragment.setDetailArticle(selectedArticle);
+//
+//        fragmentManager = getSupportFragmentManager();
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
+//        fragmentTransaction.commit();
+//    }
 
     private void setUpDrawersandView() {
 

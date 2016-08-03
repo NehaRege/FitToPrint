@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
+import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -23,15 +25,18 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     protected RecyclerView mRecyclerView;
     protected CustomRecyclerViewAdapter rvAdapter;
     protected RecyclerView.LayoutManager rvLayoutManager;
-    protected ArrayList<ArticleWithDescriptionObject> mDataSet;
-    protected ArticleWithDescriptionObject mArticle;
+    protected ArrayList<TrendingTopicsObject> mDataSet;
+    protected TrendingTopicsObject mArticle;
     Toolbar toolbar;
     OnArticleSelectedListener mListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //need to init db list
+
+        Bundle bundle = this.getArguments();
+        mDataSet = bundle.getSerializable("ArrayList of articles", (Serializable) data);
+
     }
 
     @Nullable
@@ -42,9 +47,6 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         rvLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(rvLayoutManager);
-
-//        TODO: Put Retofit call.eneque stuff here
-
 
 
         rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this);
@@ -68,6 +70,6 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     public void onItemClick(int position) {
         mArticle = mDataSet.get(position);
         mListener.onArticleSelected(mArticle);
-        toolbar.setTitle(mArticle.getValue().get(0).getCategory());
+//        toolbar.setTitle(mArticle.getValue().get(0).getCategory());
     }
 }
