@@ -36,6 +36,7 @@ public interface BingAPIService {
 
     @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
     Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
+            @Header("Ocp-Apim-Subscription-Key") String apiKey,
             @Path("?q") String searchQuery,
             @Path("count") String numOfArticlesToReturn,
             @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,

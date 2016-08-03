@@ -41,6 +41,8 @@ import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,9 +118,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        setUpMorningNotificationJob();
 
-
-
-
     private void loadArticles() {
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.i(TAG, "loadArticles: Retrofit object made");
 
-        BingAPIService request = retrofit.create(BingAPIService.class);
+        final BingAPIService request = retrofit.create(BingAPIService.class);
 
         Log.i(TAG, "loadArticles: BingAPIService request created");
 
@@ -142,9 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
                     TrendingTopicsObject trendingTopicsObject = response.body();
-
 
                     Log.i(TAG, "onResponse:  body gotten");
 
@@ -186,6 +183,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.i(TAG, "onCreate: articles not loaded");
 
                 }
+
+
+//                @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
+//                Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
+//                        @Header("Ocp-Apim-Subscription-Key") String apiKey,
+//                        @Path("?q") String searchQuery,
+//                        @Path("count") String numOfArticlesToReturn,
+//                        @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
+//                        @Path("mkt") String safeSearchLevel);
+
+                String query ="";
+                String count= "";
+                String offset="";
+                String mkt="";
+
+
+
+                Call<ArticleWithDescriptionObject> callForSearch = request.getArticlesBasedOnSearchQuery(
+                        API_KEY,query,count,offset,mkt
+                );
+
+                callForSearch.enqueue(new Callback<ArticleWithDescriptionObject>() {
+                    @Override
+                    public void onResponse(Call<ArticleWithDescriptionObject> call, Response<ArticleWithDescriptionObject> response) {
+                        try {
+
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                            ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
+
+                            ArrayList<com.test.myapplication.ArticleWithDescriptionObject.Value> data = new ArrayList<>();
+
+                            data.addAll(articleWithDescriptionObject.getValue());
+
+                            Bundle bundle = new Bundle();
+
+                            bundle.putSerializable("Arraylist of searched items",data);
+
+                            RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+
+                            recyclerViewFragment.setArguments(bundle);
+
+                            fragmentTransaction.replace(R.id.fragment_container,recyclerViewFragment);
+
+                            fragmentTransaction.commit();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.i(TAG, "onCreate: articles not loaded");
+
+                        }
+
+
+
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArticleWithDescriptionObject> call, Throwable t) {
+
+                    }
+                });
 
 
             }
