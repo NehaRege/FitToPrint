@@ -27,7 +27,7 @@ public interface BingAPIService {
 
 //    Base URL for category search is: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
 
-    @GET("/?Category={categoryName}")
+    @GET("news?category")
     Call<CategoryNewsObject> getSpecificTopicArticles(
             @Query("categoryName") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 

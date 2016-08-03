@@ -178,9 +178,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void loadCategoryArticles(String categoryName) {
+    private void loadCategoryArticles(final String categoryName) {
 
-        String CATEGORY_BASE_URL = "https://bingapis.azure-api.net/api/v5/news/";
+        String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -210,11 +210,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Log.i(TAG, "onResponse:  body gotten");
 
-                    ArrayList<Value> data = new ArrayList<Value>();
+                    ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
+                            new ArrayList<com.test.myapplication.CategoryNewsObject.Value>();
+
 
                     Log.i(TAG, "onResponse: data ArrayList of category' articles values created");
 
-//                    data.addAll(categoryNewsObject.getValue());
+                    data.addAll(categoryNewsObject.getValue());
 
                     Log.i(TAG, "onResponse: all of category's articles gotten");
 
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Log.i(TAG, "onResponse: bundle created");
 
-                    bundle.putParcelableArrayList("ArrayList of articles", data);
+                    bundle.putSerializable(categoryName, data);
 
                     Log.i(TAG, "onResponse: data arraylist of category articles put in bundle");
 
