@@ -51,19 +51,21 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
 
         if (bundle == null) {
             mDataSet = new ArrayList<Value>();
-            Log.i(TAG, "onCreate: new mDataSet ArrayList created because bundle's null");
+            Log.i(TAG, "onCreate: bundle's null");
 
         } else {
 
             mDataSet = getArguments().getParcelableArrayList("ArrayList of articles");
-            Log.i(TAG, "onCreate: getParcelableArrayList successfully run ");
+            Log.i(TAG, "onCreate: getParcelableArrayList successfully run");
         }
 
-        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,null);
-
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+
         rvLayoutManager = new LinearLayoutManager(getActivity());
+
         mRecyclerView.setLayoutManager(rvLayoutManager);
+
+        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,null);
 
         mRecyclerView.setAdapter(rvAdapter);
 
