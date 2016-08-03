@@ -55,7 +55,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.HEAD;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener {
+
+//import com.github.clans.fab.FloatingActionButton;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
+
 
     private String TAG = "MainActivity";
 
@@ -117,6 +121,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 //        setUpMorningNotificationJob();
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
 
     private void loadArticles() {
 
@@ -281,12 +290,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onArticleSelected(Value selectedArticle) {
         detailFragment = new DetailFragment();
-        detailFragment.setDetailArticle(selectedArticle);
 
+        detailFragment.setDetailArticle(selectedArticle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
         fragmentTransaction.commit();
+
     }
 
     private void setUpDrawersandView() {

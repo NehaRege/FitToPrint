@@ -71,7 +71,15 @@ public class DetailFragment extends Fragment {
         messageDialog = new MessageDialog(this);
 
 
+        webView.loadUrl(articleUrl);
 
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(articleUrl);
+                return true;
+            }
+        });
 
         // fb
 
@@ -127,15 +135,6 @@ public class DetailFragment extends Fragment {
         this.articleName = article.getName();
 
 
-        webView.loadUrl(articleUrl);
-
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(articleUrl);
-                return true;
-            }
-        });
     }
 
     @Override
