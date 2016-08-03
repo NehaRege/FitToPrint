@@ -35,7 +35,7 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         super.onCreate(savedInstanceState);
 
         Bundle bundle = this.getArguments();
-        mDataSet = bundle.getSerializable("ArrayList of articles", (Serializable) data);
+    //        mDataSet = bundle.getSerializable("ArrayList of articles", (Serializable) data);
 
     }
 
