@@ -14,6 +14,7 @@ import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptio
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -49,19 +50,17 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                     onItemClickListener.onItemClick(getLayoutPosition());
                 }
             });
-
         }
-
     }
 
     public CustomRecyclerViewAdapter(ArrayList<ArticleWithDescriptionObject> mData,
                                      ViewHolder.OnRecyclerViewItemClickListener listener) {
         this.onItemClickListener = listener;
-//        if(mData!=null){
+        if(mData!=null){
             this.mData = mData;
-//        }else{
-//            this.mData = new List<ArticleWithDescriptionObject>();
-//        }
+        }else{
+            this.mData = new ArrayList<>();
+        }
     }
 
     @Override
