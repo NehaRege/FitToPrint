@@ -56,6 +56,7 @@ public class DetailFragment extends Fragment {
 
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,6 +69,8 @@ public class DetailFragment extends Fragment {
         shareDialog = new ShareDialog(this);
 
         messageDialog = new MessageDialog(this);
+
+
 
 
         // fb
@@ -85,10 +88,8 @@ public class DetailFragment extends Fragment {
 
                     shareDialog.show(linkContent);
                 }
-
             }
         });
-
 
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +127,6 @@ public class DetailFragment extends Fragment {
         this.articleName = article.getName();
 
 
-
         webView.loadUrl(articleUrl);
 
         webView.setWebViewClient(new WebViewClient() {
@@ -136,8 +136,6 @@ public class DetailFragment extends Fragment {
                 return true;
             }
         });
-
-
     }
 
     @Override
