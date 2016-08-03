@@ -8,6 +8,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -113,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Bundle bundle = new Bundle();
 
-                    bundle.putSerializable("ArrayList of articles", (Serializable) data);
+                    bundle.putParcelable("ArrayList of articles", data);
+
 
                     RecyclerViewFragment mFrag = new RecyclerViewFragment();
 

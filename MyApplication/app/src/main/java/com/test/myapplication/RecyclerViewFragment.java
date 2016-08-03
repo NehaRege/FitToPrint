@@ -2,6 +2,7 @@ package com.test.myapplication;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,7 +36,8 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         super.onCreate(savedInstanceState);
 
         Bundle bundle = this.getArguments();
-    //        mDataSet = bundle.getSerializable("ArrayList of articles", (Serializable) data);
+
+        mDataSet = bundle.getParcelableArrayList("ArrayList of articles",, (Parcelable) data);
 
     }
 
