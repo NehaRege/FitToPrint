@@ -29,6 +29,7 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     protected CustomRecyclerViewAdapter rvAdapter;
     protected RecyclerView.LayoutManager rvLayoutManager;
     private ArrayList<Value> mDataSet;
+    private ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData;
     protected Value mArticle;
     Toolbar toolbar;
     OnArticleSelectedListener mListener;
@@ -45,29 +46,36 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
         rootView.setTag(TAG);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        rvLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(rvLayoutManager);
 
         Bundle bundle = getArguments();
         Log.i(TAG, "onCreate: getArguments() run");
 
-        if (bundle == null) {
-            mDataSet = new ArrayList<Value>();
-            Log.i(TAG, "onCreate: bundle's null");
+        if (bundle != null) {
+            if(bundle.containsKey("ArrayList of articles")) {
+                mDataSet = getArguments().getParcelableArrayList("ArrayList of articles");
+                rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this,getActivity());
+                mRecyclerView.setAdapter(rvAdapter);
+
+                Log.i(TAG, "onCreate: getParcelableArrayList successfully run");
+            }else if(bundle.containsKey("Business")){
+                catData = (ArrayList< com.test.myapplication.CategoryNewsObject.Value>)getArguments().getSerializable("Business");
+            }
+
+
+
 
         } else {
-
-            mDataSet = getArguments().getParcelableArrayList("ArrayList of articles");
-            Log.i(TAG, "onCreate: getParcelableArrayList successfully run");
+            mDataSet = new ArrayList<Value>();
+            Log.i(TAG, "onCreate: bundle's null");
         }
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
-        rvLayoutManager = new LinearLayoutManager(getActivity());
 
-        mRecyclerView.setLayoutManager(rvLayoutManager);
 
-        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this,getActivity());
 
-        mRecyclerView.setAdapter(rvAdapter);
 
 
         return rootView;

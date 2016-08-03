@@ -60,7 +60,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     }
 //add other types of articlelist data into parameters, null check other types to find out which on is sent.
     public CustomRecyclerViewAdapter(ArrayList<Value> mData,
-                                     OnRecyclerViewItemClickListener listener, Context context) {
+                                     OnRecyclerViewItemClickListener listener, Context context, ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData) {
         this.mContext = context;
         if(listener!=null){
             this.onItemClickListener = listener;
