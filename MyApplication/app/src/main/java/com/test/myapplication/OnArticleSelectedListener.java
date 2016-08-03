@@ -6,5 +6,5 @@ import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptio
  * Created by Jon Kim on 8/2/16.
  */
 public interface OnArticleSelectedListener {
-    public void onArticleSeleceted(ArticleWithDescriptionObject selectedArticle);
+    public void onArticleSelected(ArticleWithDescriptionObject selectedArticle);
 }

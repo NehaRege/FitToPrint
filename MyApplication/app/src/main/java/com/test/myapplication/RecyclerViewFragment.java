@@ -42,8 +42,14 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         rvLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(rvLayoutManager);
+
+//        TODO: Put Retofit call.eneque stuff here
+
+
+
         rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this);
         mRecyclerView.setAdapter(rvAdapter);
+
 
         return rootView;
     }
@@ -61,7 +67,7 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     @Override
     public void onItemClick(int position) {
         mArticle = mDataSet.get(position);
-        mListener.onArticleSeleceted(mArticle);
+        mListener.onArticleSelected(mArticle);
         toolbar.setTitle(mArticle.getValue().get(0).getCategory());
     }
 }
