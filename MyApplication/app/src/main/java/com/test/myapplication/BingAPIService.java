@@ -35,7 +35,7 @@ public interface BingAPIService {
 //    More info about the query parameters: http://bit.ly/2aNcWoN  &  http://bit.ly/2at9Rvk
 
     @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
-    Call<TrendingTopicsObject> getArticlesBasedOnSearchQuery(
+    Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
             @Path("?q") String searchQuery,
             @Path("count") String numOfArticlesToReturn,
             @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
@@ -45,7 +45,6 @@ public interface BingAPIService {
 //    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
 //    Just make the whole thing the base URL wherever the call is being made! No need for a
 //    @GET method to be made here in this interface.
-
 
 
 }

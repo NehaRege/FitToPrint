@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,21 +46,27 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         View rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
         rootView.setTag(TAG);
 
-        Bundle bundle = this.getArguments();
+        Bundle bundle = getArguments();
+        Log.i(TAG, "onCreate: getArguments() run");
 
         if (bundle == null) {
             mDataSet = new ArrayList<Value>();
+            Log.i(TAG, "onCreate: bundle's null");
 
         } else {
 
-            mDataSet = bundle.getParcelableArrayList("ArrayList of articles");
+            mDataSet = getArguments().getParcelableArrayList("ArrayList of articles");
+            Log.i(TAG, "onCreate: getParcelableArrayList successfully run");
         }
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+
         rvLayoutManager = new LinearLayoutManager(getActivity());
+
         mRecyclerView.setLayoutManager(rvLayoutManager);
 
+        rvAdapter = new CustomRecyclerViewAdapter(mDataSet,null);
 
-        rvAdapter = new CustomRecyclerViewAdapter(mDataSet, this);
         mRecyclerView.setAdapter(rvAdapter);
 
 
