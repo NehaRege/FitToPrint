@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication(), "1757738834448963");
 
-
     }
 
     private void setRecycleFragment() {
@@ -149,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerViewFragment = new RecyclerViewFragment();
         fragmentTransaction.add(R.id.fragment_container, recyclerViewFragment);
         fragmentTransaction.commit();
-
         setUpDrawersandView();
 
         setUpBreakingNewsCheckJob();
@@ -203,9 +201,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //stuff went wrong
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
         }
-
-
-
     }
 
     @TargetApi(21)
