@@ -2,6 +2,7 @@ package com.test.myapplication;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
+import com.test.myapplication.TrendingTopicsObject.Value;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,8 +27,8 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     protected RecyclerView mRecyclerView;
     protected CustomRecyclerViewAdapter rvAdapter;
     protected RecyclerView.LayoutManager rvLayoutManager;
-    protected ArrayList<TrendingTopicsObject> mDataSet;
-    protected TrendingTopicsObject mArticle;
+    protected ArrayList<Value> mDataSet;
+    protected Value mArticle;
     Toolbar toolbar;
     OnArticleSelectedListener mListener;
 
@@ -35,7 +37,8 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         super.onCreate(savedInstanceState);
 
         Bundle bundle = this.getArguments();
-    //        mDataSet = bundle.getSerializable("ArrayList of articles", (Serializable) data);
+
+        mDataSet = bundle.getParcelableArrayList("ArrayList of articles");
 
     }
 

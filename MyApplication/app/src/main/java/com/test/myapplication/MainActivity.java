@@ -8,6 +8,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -84,11 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public void onArticleSelected(TrendingTopicsObject selectedArticle) {
 
-
-    }
 
     private void loadArticles() {
 
@@ -109,11 +106,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     TrendingTopicsObject trendingTopicsObject = response.body();
 
-                    data = trendingTopicsObject.getValue();
+                    ArrayList<Value> data = new ArrayList<Value>();
+
+                    data.addAll(trendingTopicsObject.getValue());
 
                     Bundle bundle = new Bundle();
 
-                    bundle.putSerializable("ArrayList of articles", (Serializable) data);
+                    bundle.putParcelableArrayList("ArrayList of articles", data);
 
                     RecyclerViewFragment mFrag = new RecyclerViewFragment();
 
@@ -155,17 +154,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpBreakingNewsCheckJob();
 
     }
-//
-//    @Override
-//    public void onArticleSelected(ArticleWithDescriptionObject selectedArticle) {
-//        detailFragment = new DetailFragment();
-//        detailFragment.setDetailArticle(selectedArticle);
-//
-//        fragmentManager = getSupportFragmentManager();
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
-//        fragmentTransaction.commit();
-//    }
+
+    @Override
+    public void onArticleSelected(Value selectedArticle) {
+        detailFragment = new DetailFragment();
+        detailFragment.setDetailArticle(selectedArticle);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
+        fragmentTransaction.commit();
+    }
 
     private void setUpDrawersandView() {
 

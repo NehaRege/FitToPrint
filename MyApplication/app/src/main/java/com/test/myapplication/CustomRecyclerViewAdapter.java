@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
+import com.test.myapplication.TrendingTopicsObject.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         }
     }
 
-    public CustomRecyclerViewAdapter(ArrayList<TrendingTopicsObject> listOfTrendingTopicsObjects,
+    public CustomRecyclerViewAdapter(ArrayList<Value> listOfTrendingTopicsObjects,
                                      ViewHolder.OnRecyclerViewItemClickListener listener) {
         this.onItemClickListener = listener;
 

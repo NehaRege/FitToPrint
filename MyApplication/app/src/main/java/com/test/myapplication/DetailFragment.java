@@ -30,6 +30,7 @@ import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptio
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.test.myapplication.TrendingTopicsObject.Value;
 
 /**
  * Created by NehaRege on 8/1/16.
@@ -121,13 +122,10 @@ public class DetailFragment extends Fragment {
     }
 
 
-    public void setDetailArticle(ArticleWithDescriptionObject article) {
+    public void setDetailArticle(Value article){
+        this.articleUrl = article.getWebSearchUrl();
+        this.articleName = article.getName();
 
-        this.articleUrl = article.getValue().get(0).getUrl();
-        this.articleName = article.getValue().get(0).getName();
-        this.articleDescription = article.getValue().get(0).getDescription();
-
-        articleUrl = article.getValue().get(0).getUrl();
 
         webView.loadUrl(articleUrl);
 
