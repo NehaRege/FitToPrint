@@ -19,6 +19,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -194,8 +196,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     CategoryNewsObject categoryNewsObject = response.body();
 
-                    Log.i(TAG, "onResponse: CATEGORYNAME IS? "+categoryName);
-                    Log.i(TAG, "onResponse: cat news object is"+ categoryNewsObject.getValue().get(0).getName());
+                    Log.i(TAG, "onResponse: CATEGORYNAME IS? " + categoryName);
+                    Log.i(TAG, "onResponse: cat news object is" + categoryNewsObject.getValue().get(0).getName());
                     Log.i(TAG, "onResponse:  body gotten");
 
                     ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
@@ -379,11 +381,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+
 
         switch (item.getItemId()) {
             case R.id.button_heart_follow_topic:
@@ -392,6 +397,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 isChecked = !item.isChecked();
                 item.setChecked(isChecked);
+
+                item.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
                 return true;
 
