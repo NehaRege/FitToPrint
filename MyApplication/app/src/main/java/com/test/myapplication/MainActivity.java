@@ -530,7 +530,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (!toolbarName.equals("Trending News")) {
 
                     categoryIsFollowed = !item.isChecked();
+                    Log.i(TAG, "onOptionsItemSelected: item.isChecked()");
+
                     item.setChecked(categoryIsFollowed);
+                    Log.i(TAG, "onOptionsItemSelected: item.setChecked(categoryIsFollowed);\n");
 
                     item.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
                 }
@@ -647,7 +650,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        onPrepareOptionsMenu
+        Log.i(TAG, "onPrepareOptionsMenu has been run");
 
         return true;
     }
