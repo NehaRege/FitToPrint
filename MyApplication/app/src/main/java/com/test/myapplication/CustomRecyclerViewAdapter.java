@@ -22,7 +22,7 @@ import java.util.List;
  * Created by Jon Kim on 8/1/16.
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
-
+    private ArrayList<com.test.myapplication.CategoryNewsObject.Value> mCatData;
     private ArrayList<Value> mData;
     private Context mContext;
 
@@ -61,17 +61,23 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             });
         }
     }
-//add other types of articlelist data into parameters, null check other types to find out which on is sent.
     public CustomRecyclerViewAdapter(ArrayList<Value> mData,
-                                     OnRecyclerViewItemClickListener listener, Context context) {
+                                     OnRecyclerViewItemClickListener listener, Context context, ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData) {
         this.mContext = context;
         if(listener!=null){
             this.onItemClickListener = listener;
         }
+
         if(mData!=null){
             this.mData = mData;
         }else{
             this.mData = new ArrayList<>();
+        }
+
+        if(catData!=null){
+            this.mCatData = catData;
+        }else{
+            this.mCatData = new ArrayList<>();
         }
     }
 
@@ -79,6 +85,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+//        if(mData.size()>0){
+//
+//        }
         View cardLayout = inflater.inflate(R.layout.rv_card_layout,parent,false);
 
         return new ViewHolder(cardLayout);
@@ -86,12 +95,24 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Value value = mData.get(position);
+        if(mData.size()>0) {
+            Value value = mData.get(position);
 
-        holder.rvTitleText.setText(value.getName());
-        Picasso.with(mContext).load(value.getImage().getUrl()).into(holder.rvImageView);
+            holder.rvTitleText.setText(value.getName());
+            if(value.getImage().getUrl()!=null){
+                Picasso.with(mContext).load(value.getImage().getUrl()).into(holder.rvImageView);
+            }
+        }else if(mCatData.size()>0){
+            com.test.myapplication.CategoryNewsObject.Value value = mCatData.get(position);
 
-
+            holder.rvTitleText.setText(value.getName());
+            if(value.getImage().getThumbnail().getContentUrl()!=null){
+                Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
+            }
+//            holder.rvTopicText.setText(value.getCategory());
+//            holder.rvDesText.setText(value.getDescription());
+//            holder.rvDateText.setText(value.getDatePublished());
+        }
 //        holder.rvFollowButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -102,6 +123,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if(mData.size()>0){
+            return mData.size();
+        }else return mCatData.size();
+
     }
 }
