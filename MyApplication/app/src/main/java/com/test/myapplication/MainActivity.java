@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        checkConnectivity();
         setUpDrawersandView();
         Log.i(TAG, "onCreate: Drawers and views set up");
 
@@ -597,5 +600,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void checkConnectivity(){
+        ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // the connection is available
+            Log.i(TAG, "checkConnectivity: connected");
+        } else {
+            Toast.makeText(this, "Get internet and restart the app!",Toast.LENGTH_LONG).show();
+            Log.i(TAG, "checkConnectivity: jonkk");
+        }
     }
 }
