@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.internal.LoginAuthorizationType;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
@@ -97,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        setUpBreakingNewsCheckJob();
 
     private void handleIntent(Intent intent) {
+        Log.i(TAG, "handleIntent: intent action = "+Intent.ACTION_SEARCH);
+        Log.i(TAG, "handleIntent: intent getaction = "+intent.getAction());
+        Log.i(TAG, "handleIntent: intent getaction = "+intent.getDataString());
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
