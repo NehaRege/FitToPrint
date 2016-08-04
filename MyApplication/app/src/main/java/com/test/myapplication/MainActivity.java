@@ -1,8 +1,6 @@
 package com.test.myapplication;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.app.job.JobInfo;
@@ -10,26 +8,18 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.MenuInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -41,7 +31,6 @@ import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -49,6 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+
 
 
 //import com.github.clans.fab.FloatingActionButton;
@@ -375,6 +366,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
 
         setUpBreakingNewsCheckJob();
+
+
+
+
 
     }
 
