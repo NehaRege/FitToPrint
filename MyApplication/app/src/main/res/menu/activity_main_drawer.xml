@@ -19,7 +19,7 @@
             android:title="@string/navigation_drawer_trending" />
         <item
             android:id="@+id/nav_followed"
-            android:icon="@drawable/ic_favorite_black_48dp"
+            android:icon="@drawable/ic_favorite_solid_red_heart_48dp"
             android:title="@string/navigation_drawer_followed" />
 
     </group>
@@ -58,7 +58,7 @@
             <item
                 android:id="@+id/nav_US_and_UK"
                 android:icon="@drawable/ic_flight_takeoff_black_24dp"
-                android:title="@string/navigation_drawer_USandUK" />
+                android:title="@string/navigation_drawer_US" />
             <item
                 android:id="@+id/nav_world"
                 android:icon="@drawable/ic_black_globe_48dp"
