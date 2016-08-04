@@ -24,6 +24,7 @@
     <string name="navigation_drawer_USandUK">US/UK</string>
     <string name="navigation_drawer_world">World</string>
 
+
     <!--Toolbar Name items-->
 
     <string name="toolbar_name_trending">Trending</string>
@@ -50,6 +51,7 @@
 
     <string name="notification_morning_title">Rise and shine!</string>
     <string name="notification_morning_text">Start your day by reading this morning\'s news</string>
+
 
 
 
