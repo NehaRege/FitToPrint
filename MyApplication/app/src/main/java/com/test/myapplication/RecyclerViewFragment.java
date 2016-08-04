@@ -30,7 +30,8 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     protected RecyclerView.LayoutManager rvLayoutManager;
     private ArrayList<Value> mDataSet;
     private ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData;
-    protected Value mArticle;
+    private Value mArticle;
+    private com.test.myapplication.CategoryNewsObject.Value catArticle;
     Toolbar toolbar;
     OnArticleSelectedListener mListener;
 
@@ -56,12 +57,33 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         if (bundle != null) {
             if(bundle.containsKey("ArrayList of articles")) {
                 mDataSet = getArguments().getParcelableArrayList("ArrayList of articles");
-                rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this,getActivity());
+                rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this,getActivity(), null);
                 mRecyclerView.setAdapter(rvAdapter);
-
                 Log.i(TAG, "onCreate: getParcelableArrayList successfully run");
-            }else if(bundle.containsKey("Business")){
-                catData = (ArrayList< com.test.myapplication.CategoryNewsObject.Value>)getArguments().getSerializable("Business");
+            }else if(bundle.containsKey("Business")) {
+                setAdapter("Business");
+
+            }else if(bundle.containsKey("Entertainment")) {
+                setAdapter("Entertainment");
+
+            }else if(bundle.containsKey("Health")) {
+                setAdapter("Health");
+
+            }else if(bundle.containsKey("Politics")) {
+                setAdapter("Politics");
+
+            }else if(bundle.containsKey("ScienceAndTechnology")) {
+                setAdapter("ScienceAndTechnology");
+
+            }else if(bundle.containsKey("Sports")) {
+                setAdapter("Sports");
+
+            }else if(bundle.containsKey("US/UK")) {
+                setAdapter("US/UK");
+
+            }else if(bundle.containsKey("World")) {
+                setAdapter("World");
+
             }
 
 
@@ -93,8 +115,19 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
 
     @Override
     public void onItemClick(int position) {
-        mArticle = mDataSet.get(position);
-        mListener.onArticleSelected(mArticle);
+        if(mDataSet!=null){
+            mArticle = mDataSet.get(position);
+            mListener.onArticleSelected(mArticle);
+        }else if(catData!=null){
+            catArticle = catData.get(position);
+            mListener.onCatArticleSelected(catArticle);
+        }
 //        toolbar.setTitle(mArticle.getValue().get(0).getCategory());
+    }
+
+    private void setAdapter(String key){
+        catData = (ArrayList< com.test.myapplication.CategoryNewsObject.Value>)getArguments().getSerializable(key);
+        rvAdapter = new CustomRecyclerViewAdapter(null, this, getActivity(),catData);
+        mRecyclerView.swapAdapter(rvAdapter,false);
     }
 }
