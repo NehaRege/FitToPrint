@@ -9,6 +9,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.internal.LoginAuthorizationType;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
@@ -74,14 +77,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
         Log.i(TAG, "onCreate: Drawers and views set up");
 
-        initializeFacebookSDK();
-        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
+        setRecycleFragment();
+        Log.i(TAG, "onCreate: RecycleFragment set up");
+
 
 
         handleIntent(getIntent());
 
-        setRecycleFragment();
-        Log.i(TAG, "onCreate: RecycleFragment set up");
+        initializeFacebookSDK();
+        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
 
         loadTrendingArticles();
         Log.i(TAG, "onCreate: loadTrendingArticles() run");
@@ -100,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void handleIntent(Intent intent) {
+        Log.i(TAG, "handleIntent: intent action = "+Intent.ACTION_SEARCH);
+        Log.i(TAG, "handleIntent: intent getaction = "+intent.getAction());
+        Log.i(TAG, "handleIntent: intent getaction = "+intent.getDataString());
 
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -123,77 +130,107 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadTrendingArticles() {
 
-        String TRENDING_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
+//        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+//        if (networkInfo != null && networkInfo.isConnected()) {
+//            // the connection is available
+//        } else {
+//            // the connection is not available
+//        }
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TRENDING_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = conMgr.getActiveNetworkInfo();
 
-        Log.i(TAG, "loadTrendingArticles: Retrofit object made");
+        if(networkInfo != null && networkInfo.isConnected()) {
 
-        final BingAPIService request = retrofit.create(BingAPIService.class);
+            // connection available !
 
-        Log.i(TAG, "loadTrendingArticles: BingAPIService request created");
+            String TRENDING_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
 
-        Call<TrendingTopicsObject> call = request.getTrendingTopics(API_KEY);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(TRENDING_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        call.enqueue(new Callback<TrendingTopicsObject>() {
-            @Override
-            public void onResponse(Call<TrendingTopicsObject> call, Response<TrendingTopicsObject> response) {
+            Log.i(TAG, "loadTrendingArticles: Retrofit object made");
 
-                try {
+            final BingAPIService request = retrofit.create(BingAPIService.class);
 
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Log.i(TAG, "loadTrendingArticles: BingAPIService request created");
 
-                    TrendingTopicsObject trendingTopicsObject = response.body();
+            Call<TrendingTopicsObject> call = request.getTrendingTopics(API_KEY);
 
-                    Log.i(TAG, "onResponse:  body gotten");
+            call.enqueue(new Callback<TrendingTopicsObject>() {
+                @Override
+                public void onResponse(Call<TrendingTopicsObject> call, Response<TrendingTopicsObject> response) {
 
-                    ArrayList<Value> data = new ArrayList<Value>();
+                    try {
 
-                    Log.i(TAG, "onResponse: data ArrayList of Values created");
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    data.addAll(trendingTopicsObject.getValue());
+                        TrendingTopicsObject trendingTopicsObject = response.body();
 
-                    Log.i(TAG, "onResponse: all articles gotten");
+                        Log.i(TAG, "onResponse:  body gotten");
 
-                    Bundle bundle = new Bundle();
+                        ArrayList<Value> data = new ArrayList<Value>();
 
-                    Log.i(TAG, "onResponse: bundle created");
+                        Log.i(TAG, "onResponse: data ArrayList of Values created");
 
-                    bundle.putParcelableArrayList("ArrayList of articles", data);
+                        data.addAll(trendingTopicsObject.getValue());
 
-                    Log.i(TAG, "onResponse: data arraylist of articles put in bundle");
+                        Log.i(TAG, "onResponse: all articles gotten");
 
-                    RecyclerViewFragment mFrag = new RecyclerViewFragment();
+                        Bundle bundle = new Bundle();
 
-                    Log.i(TAG, "onResponse: mFrag created");
+                        Log.i(TAG, "onResponse: bundle created");
 
-                    mFrag.setArguments(bundle);
+                        bundle.putParcelableArrayList("ArrayList of articles", data);
 
-                    Log.i(TAG, "onResponse: bundle successfully passed through in mFrag.setArguments()");
+                        Log.i(TAG, "onResponse: data arraylist of articles put in bundle");
 
-                    Log.i(TAG, "onCreate: articles loaded");
+                        RecyclerViewFragment mFrag = new RecyclerViewFragment();
+
+                        Log.i(TAG, "onResponse: mFrag created");
+
+                        mFrag.setArguments(bundle);
+
+                        Log.i(TAG, "onResponse: bundle successfully passed through in mFrag.setArguments()");
+
+                        Log.i(TAG, "onCreate: articles loaded");
 
 
-                    fragmentTransaction.replace(R.id.fragment_container, mFrag);
+                        fragmentTransaction.replace(R.id.fragment_container, mFrag);
 
-                    fragmentTransaction.commit();
+                        fragmentTransaction.commit();
 
-                    Log.i(TAG, "onCreate: fragmentTransaction committed");
+                        Log.i(TAG, "onCreate: fragmentTransaction committed");
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.i(TAG, "onCreate: articles not loaded");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.i(TAG, "onCreate: articles not loaded");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<TrendingTopicsObject> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<TrendingTopicsObject> call, Throwable t) {
+                    Log.d("Error", t.getMessage());
+                }
+            });
+
+        }  else  {
+
+            Toast.makeText(this,"No network connectivity !",Toast.LENGTH_LONG).show();
+
+            // connection not available !
+
+
+
+
+        }
+
+
+
+
     }
 
     private void loadSearchedItems(String query) {
@@ -262,92 +299,107 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadCategoryArticles(final String categoryName) {
 
-        String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // the connection is available
+
+            String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
 
 //        https://api.cognitive.microsoft.com/bing/v5.0/news/[?Category]
 
-//
 //        @GET("news?category")
 //        Call<CategoryNewsObject> getSpecificTopicArticles(
 //                @Query("categoryName") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(CATEGORY_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(CATEGORY_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        Log.i(TAG, "loadCategoryArticles: Retrofit object made");
+            Log.i(TAG, "loadCategoryArticles: Retrofit object made");
 
-        BingAPIService request = retrofit.create(BingAPIService.class);
+            BingAPIService request = retrofit.create(BingAPIService.class);
 
-        Log.i(TAG, "loadCategoryArticles: BingAPIService request created");
+            Log.i(TAG, "loadCategoryArticles: BingAPIService request created");
 
-        Call<CategoryNewsObject> call = request.getSpecificTopicArticles(categoryName, API_KEY);
+            Call<CategoryNewsObject> call = request.getSpecificTopicArticles(categoryName, API_KEY);
 
-        call.enqueue(new Callback<CategoryNewsObject>() {
-            @Override
-            public void onResponse(Call<CategoryNewsObject> call, Response<CategoryNewsObject> response) {
+            call.enqueue(new Callback<CategoryNewsObject>() {
+                @Override
+                public void onResponse(Call<CategoryNewsObject> call, Response<CategoryNewsObject> response) {
 
-                try {
+                    try {
 
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    CategoryNewsObject categoryNewsObject = response.body();
+                        CategoryNewsObject categoryNewsObject = response.body();
 
                     Log.i(TAG, "onResponse: CATEGORYNAME IS? " + categoryName);
                     Log.i(TAG, "onResponse: cat news object is" + categoryNewsObject.getValue().get(0).getName());
                     Log.i(TAG, "onResponse:  body gotten");
+                        Log.i(TAG, "onResponse: CATEGORYNAME IS? "+categoryName);
+                        Log.i(TAG, "onResponse: cat news object is"+ categoryNewsObject.getValue().get(0).getName());
+                        Log.i(TAG, "onResponse:  body gotten");
 
-                    ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
-                            new ArrayList<com.test.myapplication.CategoryNewsObject.Value>();
-
-
-                    Log.i(TAG, "onResponse: data ArrayList of category' articles values created");
-
-                    data.addAll(categoryNewsObject.getValue());
-
-                    Log.i(TAG, "onResponse: all of category's articles gotten");
-
-                    Bundle bundle = new Bundle();
-
-                    Log.i(TAG, "onResponse: bundle created");
-
-                    bundle.putSerializable(categoryName, data);
-
-                    Log.i(TAG, "onResponse: data arraylist of category articles put in bundle");
-
-                    RecyclerViewFragment mFrag = new RecyclerViewFragment();
-
-                    Log.i(TAG, "onResponse: mFrag created");
-
-                    mFrag.setArguments(bundle);
-
-                    Log.i(TAG, "onResponse: bundle successfully passed through in mFrag.setArguments()");
-
-                    Log.i(TAG, "onCreate: articles loaded");
+                        ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
+                                new ArrayList<com.test.myapplication.CategoryNewsObject.Value>();
 
 
-                    fragmentTransaction.replace(R.id.fragment_container, mFrag);
+                        Log.i(TAG, "onResponse: data ArrayList of category' articles values created");
 
-                    fragmentTransaction.commit();
+                        data.addAll(categoryNewsObject.getValue());
 
-                    Log.i(TAG, "onCreate: fragmentTransaction committed");
+                        Log.i(TAG, "onResponse: all of category's articles gotten");
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.i(TAG, "onCreate: articles not loaded");
+                        Bundle bundle = new Bundle();
+
+                        Log.i(TAG, "onResponse: bundle created");
+
+                        bundle.putSerializable(categoryName, data);
+
+                        Log.i(TAG, "onResponse: data arraylist of category articles put in bundle");
+
+                        RecyclerViewFragment mFrag = new RecyclerViewFragment();
+
+                        Log.i(TAG, "onResponse: mFrag created");
+
+                        mFrag.setArguments(bundle);
+
+                        Log.i(TAG, "onResponse: bundle successfully passed through in mFrag.setArguments()");
+
+                        Log.i(TAG, "onCreate: articles loaded");
+
+
+                        fragmentTransaction.replace(R.id.fragment_container, mFrag);
+
+                        fragmentTransaction.commit();
+
+                        Log.i(TAG, "onCreate: fragmentTransaction committed");
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.i(TAG, "onCreate: articles not loaded");
+
+                    }
+
 
                 }
 
+                @Override
+                public void onFailure(Call<CategoryNewsObject> call, Throwable t) {
+                    Log.d("Error", t.getMessage());
+                }
+            });
 
-            }
+        } else {
 
-            @Override
-            public void onFailure(Call<CategoryNewsObject> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-            }
-        });
+            // the connection is not available
 
+            Toast.makeText(this,"No network connectivity !",Toast.LENGTH_LONG).show();
+
+        }
 
     }
 
