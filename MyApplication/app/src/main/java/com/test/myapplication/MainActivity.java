@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CustomRecyclerViewAdapter adapter;
     private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
 
-    MenuItem followHeart = (MenuItem)
+    MenuItem followHeart;
 
 
     @Override
@@ -91,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 //        setUpMorningNotificationJob();
-
 
     }
 
@@ -372,7 +372,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //        setUpBreakingNewsCheckJob();
 
     @Override
     public void onArticleSelected(Value selectedArticle) {
@@ -480,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
-        MenuItem followHeart = (MenuItem) menu.findItem(R.id.button_heart_follow_topic);
+        followHeart = (MenuItem) menu.findItem(R.id.button_heart_follow_topic);
 
         followHeart.setVisible(false);
 
@@ -506,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 Log.i(TAG, "onOptionsItemSelected: toolbar name is: " + toolbarName);
 
-                if (!toolbarName.equals("Trending News")) {
+                /*if (!toolbarName.equals("Trending News")) {
 
                     categoryIsFollowed = !item.isChecked();
                     Log.i(TAG, "onOptionsItemSelected: item.isChecked()");
@@ -516,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     item.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
                 }
-                return true;
+                return true;*/
 
             case R.id.action_settings:
                 Log.i(TAG, "onOptionsItemSelected: 3-dot menu in right hand corner clicked on");
@@ -534,6 +533,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
 
         if (id == R.id.nav_trending) {
 
@@ -560,6 +560,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            toolbar.setTitle("Search");
 
         } else if (id == R.id.nav_business) {
+
             categoryName = "Business";
 
             toolbar.setTitle(R.string.toolbar_name_business);
@@ -569,6 +570,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_entertainment) {
+
             categoryName = "Entertainment";
 
             toolbar.setTitle(R.string.toolbar_name_entertainment);
@@ -578,6 +580,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_health) {
+
             categoryName = "Health";
 
             toolbar.setTitle(R.string.toolbar_name_health);
@@ -587,6 +590,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_politics) {
+
             categoryName = "Politics";
 
             toolbar.setTitle(R.string.toolbar_name_politics);
@@ -596,6 +600,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_scienceandtech) {
+
             categoryName = "ScienceAndTechnology";
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
@@ -606,6 +611,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         } else if (id == R.id.nav_sports) {
+
             categoryName = "Sports";
 
             toolbar.setTitle(R.string.toolbar_name_sports);
@@ -615,6 +621,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_US_and_UK) {
+
             categoryName = "US/UK";
 
             toolbar.setTitle(R.string.toolbar_name_usanduk);
@@ -624,6 +631,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_world) {
+
             categoryName = "World";
 
             toolbar.setTitle(R.string.toolbar_name_world);
@@ -670,12 +678,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly has finished");
 
     }*/
-
-
-
-
-//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
 
 
 }
