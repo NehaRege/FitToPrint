@@ -519,10 +519,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             searchView = (SearchView) item.getActionView();
             searchView.setSearchableInfo(searchableInfo);
 
-
-
-
-
 //            toolbar.setTitle("Search");
 
         } else if (id == R.id.nav_business) {
