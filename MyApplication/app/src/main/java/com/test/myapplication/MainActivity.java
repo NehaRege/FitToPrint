@@ -44,8 +44,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-
-
 //import com.github.clans.fab.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CustomRecyclerViewAdapter adapter;
     private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
 
-    MenuItem followHeartMenuItem;
+    MenuItem followHeart;
 
 
     @Override
@@ -372,10 +370,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
 
 
-
-
-
-
     }
 
     @Override
@@ -481,13 +475,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-
-        getMenuInflater().inflate(R.menu.main, menu);
-        Log.i(TAG, "onCreateOptionsMenu: menu inflated");
-
-        showFollowHeartDependingOnToolbarTitle(menu);
-        Log.i(TAG, "onCreateOptionsMenu: method named 'showFollowHeartDependingOnToolbarTitle' run");
-
+        followHeart.setVisible(false);
 
 
         return true;
@@ -497,29 +485,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
-    private void showFollowHeartDependingOnToolbarTitle(Menu menu) {
-
-        String toolbarName = toolbar.getTitle().toString();
-        Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: Toolbar name gotten");
-
-        MenuItem followHeart = menu.findItem(R.id.button_heart_follow_topic);
-        Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: followHeart made");
-
-        if (!toolbarName.equals("Trending News")) {
-
-            followHeart.setVisible(true);
-            Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: followHeart set to true");
-
-        } else {
-
-            followHeart.setVisible(false);
-            Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: followHeart set to false");
-        }
-
-
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -569,6 +534,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_trending);
 
+            followHeart.setVisible(false);
+
             loadTrendingArticles();
 
         } else if (id == R.id.nav_followed) {
@@ -593,6 +560,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
+            followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
 
@@ -601,6 +569,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_entertainment);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_health) {
@@ -608,6 +578,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_health);
 
+            followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
 
@@ -616,6 +587,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_politics);
 
+            followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
 
@@ -624,6 +596,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
+            followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
 
@@ -633,6 +606,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_sports);
 
+            followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
 
@@ -641,12 +615,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_usanduk);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_world) {
             categoryName = "World";
 
             toolbar.setTitle(R.string.toolbar_name_world);
+
+            followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
         }
@@ -656,13 +634,74 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        Log.i(TAG, "onPrepareOptionsMenu has been run");
+        Log.i(TAG, "onPrepareOptionsMenu: this ran");
+        checkToolbarTitleAndSetFollowHeartAccordingly(menu);
 
         return true;
     }
 
+    private void checkToolbarTitleAndSetFollowHeartAccordingly(Menu menu) {
+
+        //        TODO: Do toolbar title check and boolean logic here!!!
+
+
+        String toolbarName = toolbar.getTitle().toString();
+
+        Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: Toolbar name is –>" + toolbarName);
+
+
+        followHeart = menu.findItem(R.id.button_heart_follow_topic);
+        Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: followHeart has been binded");
+
+
+        if (!toolbarName.equals("Trending News")) {
+
+            followHeart.setVisible(true);
+            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: toolbarName isn't Trending News");
+
+        } else {
+
+            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: toolbarName is Trending News");
+
+            followHeart.setVisible(false);
+            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: followHeart set to false");
+        }
+
+        Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly has finished");
+
+    }
+
+    @Override
+    protected void onResume() {
+
+        String toolbarName = toolbar.getTitle().toString();
+
+        Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: Toolbar name onResume is –>" + toolbarName);
+
+
+        /*followHeart = menu.findItem(R.id.button_heart_follow_topic);
+        Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: followHeart has been binded");
+
+
+        if (!toolbarName.equals("Trending News")) {
+
+            followHeart.setVisible(true);
+            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: toolbarName isn't Trending News");
+
+        } else {
+
+            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: toolbarName is Trending News");
+
+            followHeart.setVisible(false);
+            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: followHeart set to false");
+        }*/
+
+
+        super.onResume();
+    }
 
 }
