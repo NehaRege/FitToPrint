@@ -298,10 +298,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
                     CategoryNewsObject categoryNewsObject = response.body();
 
-
+                    Log.i(TAG, "onResponse: CATEGORYNAME IS? "+categoryName);
+                    Log.i(TAG, "onResponse: cat news object is"+ categoryNewsObject.getValue().get(0).getName());
                     Log.i(TAG, "onResponse:  body gotten");
 
                     ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
@@ -388,6 +388,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
         fragmentTransaction.commit();
 
+    }
+
+    @Override
+    public void onCatArticleSelected(com.test.myapplication.CategoryNewsObject.Value catArticle) {
+        detailFragment = new DetailFragment();
+
+        detailFragment.setCatArticle(catArticle);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
+        fragmentTransaction.commit();
     }
 
     private void setUpDrawersandView() {

@@ -54,7 +54,8 @@ public class DetailFragment extends Fragment {
     String articleUrl;
     String articleDescription;
 
-
+    String catArticalName;
+    String catArticalUrl;
 
 
     @Nullable
@@ -70,16 +71,32 @@ public class DetailFragment extends Fragment {
 
         messageDialog = new MessageDialog(this);
 
+        if(articleUrl!=null){
+            webView.loadUrl(articleUrl);
 
-        webView.loadUrl(articleUrl);
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    view.loadUrl(articleUrl);
+                    return true;
 
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(articleUrl);
-                return true;
-            }
-        });
+                }
+            });
+            articleUrl=null;
+        }else if(catArticalUrl!=null){
+            webView.loadUrl(catArticalUrl);
+
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    view.loadUrl(catArticalUrl);
+                    return true;
+
+                }
+            });
+            catArticalUrl=null;
+        }
+
 
         // fb
 
@@ -133,8 +150,11 @@ public class DetailFragment extends Fragment {
     public void setDetailArticle(Value article){
         this.articleUrl = article.getWebSearchUrl();
         this.articleName = article.getName();
+    }
 
-
+    public void setCatArticle(com.test.myapplication.CategoryNewsObject.Value catArticle){
+        this.catArticalUrl = catArticle.getUrl();
+        this.catArticalName = catArticle.getName();
     }
 
     @Override
