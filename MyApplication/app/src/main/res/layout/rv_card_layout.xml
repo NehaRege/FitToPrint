@@ -4,8 +4,9 @@
     android:id="@+id/rv_card_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    card_view:cardCornerRadius="4dp">
+    android:layout_margin="4dp"
+
+    card_view:cardCornerRadius="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,52 +23,14 @@
             android:id="@+id/rv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="7dp"
+            android:layout_marginLeft="20dp"
             android:textColor="#000000"
             android:textStyle="bold"
             android:textSize="20dp"
+            android:text="Name"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/rv_image"
-            android:text="Name"/>
-
-        <TextView
-            android:id="@+id/rv_description"
-            android:layout_toRightOf="@+id/rv_image"
-            android:layout_below="@+id/rv_title"
-            android:layout_width="wrap_content"
-            android:paddingLeft="7dp"
-            android:paddingRight="5dp"
-            android:textColor="#000000"
-            android:paddingBottom="5dp"
-            android:layout_height="57dp"
-            android:text="This is description of the articles that will be shown on the recycler view. The description might be shorter or longer. "/>
-
-        <TextView
-            android:id="@+id/rv_topic"
-            android:layout_below="@+id/rv_description"
-            android:layout_alignParentRight="true"
-            android:paddingRight="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" TOPIC"/>
-
-        <TextView
-            android:id="@+id/rv_date"
-            android:layout_toLeftOf="@+id/rv_topic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/rv_description"
-            android:text="21hr |"/>
-
-        <Button
-            android:id="@+id/rv_follow_button"
-            android:layout_width="65dp"
-            android:layout_height="20dp"
-            android:background="@null"
-            android:textColor="@color/black"
-            android:layout_below="@id/rv_description"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_toLeftOf="@id/rv_date"
-            android:text="@string/card_view_follow"/>
+            android:layout_toEndOf="@+id/rv_image" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
