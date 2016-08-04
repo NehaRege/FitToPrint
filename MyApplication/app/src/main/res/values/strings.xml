@@ -10,6 +10,7 @@
     <string name="navigation_drawer_header_your_news">Your News</string>
 
     <string name="action_notification_settings">Notification Settings</string>
+    <string name="navigation_drawer_search">Search for topics</string>
     <string name="navigation_drawer_trending">Trending</string>
     <string name="navigation_drawer_followed">Followed Topics</string>
     <string name="navigation_drawer_more_topics">More Topics</string>

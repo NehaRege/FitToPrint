@@ -9,45 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!--<TextView-->
-        <!--android:id="@+id/fragment_detail_topic"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TOPIC"-->
-        <!--android:textSize="30dp"-->
-        <!--android:gravity="center"-->
-        <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
-        <!--/>-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/fragment_detail_image"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@mipmap/ic_launcher"-->
-        <!--android:layout_below="@+id/fragment_detail_topic"-->
-        <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
-        <!--/>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/fragment_detail_title"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TITLE"-->
-        <!--android:layout_below="@+id/fragment_detail_image"-->
-        <!--android:textSize="25dp"-->
-        <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
-        <!--/>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/fragment_detail_text"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TEXT"-->
-        <!--android:layout_below="@+id/fragment_detail_title"-->
-        <!--android:textSize="25dp"-->
-        <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
-        <!--/>-->
-
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/floating_action_menu"
         android:layout_width="wrap_content"
