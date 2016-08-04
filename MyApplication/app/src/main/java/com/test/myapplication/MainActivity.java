@@ -1,6 +1,15 @@
 package com.test.myapplication;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -10,7 +19,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.View;
+import android.support.design.widget.NavigationView;
 
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,13 +32,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -39,6 +55,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
+
     private String TAG = "MainActivity";
 
     FragmentManager fragmentManager;
@@ -46,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DetailFragment detailFragment;
     RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
+
+    SearchManager searchManager;
+    SearchableInfo searchableInfo;
+    SearchView searchView;
+
 
     private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
@@ -59,25 +81,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
         Log.i(TAG, "onCreate: Drawers and views set up");
 
+        initializeFacebookSDK();
+        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
+
+
+        handleIntent(getIntent());
+
         setRecycleFragment();
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
         loadTrendingArticles();
         Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
+    }
 
-
-        initializeFacebookSDK();
-        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
-
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
 
 //        setUpBreakingNewsCheckJob();
 
-//        setUpMorningNotificationJob();
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
+            String query = intent.getStringExtra(SearchManager.QUERY);
 
 
+
+            loadSearchedItems(query);
+
+
+            Toast.makeText(MainActivity.this,"searched "+query,Toast.LENGTH_SHORT).show();
+        }
     }
+
+//        setUpBreakingNewsCheckJob();
+
+
+//        setUpMorningNotificationJob();
 
     @Override
     public void onItemClick(int position) {
@@ -95,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.i(TAG, "loadTrendingArticles: Retrofit object made");
 
-        BingAPIService request = retrofit.create(BingAPIService.class);
+        final BingAPIService request = retrofit.create(BingAPIService.class);
 
         Log.i(TAG, "loadTrendingArticles: BingAPIService request created");
 
@@ -109,9 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
                     TrendingTopicsObject trendingTopicsObject = response.body();
-
 
                     Log.i(TAG, "onResponse:  body gotten");
 
@@ -151,10 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.i(TAG, "onCreate: articles not loaded");
-
                 }
-
-
             }
 
             @Override
@@ -162,7 +200,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("Error", t.getMessage());
             }
         });
+    }
 
+    private void loadSearchedItems(String query) {
+
+//        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
+
+//        @GET("/search?q")
+//        Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
+//                @Header("Ocp-Apim-Subscription-Key") String apiKey,
+//                @Path("?q") String searchQuery);
+
+        String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news";
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEARCH_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        BingAPIService request = retrofit.create(BingAPIService.class);
+
+        String count= "";
+        String offset="";
+        String mkt="";
+
+        Call<ArticleWithDescriptionObject> callForSearch = request.getArticlesBasedOnSearchQuery(
+                API_KEY,query
+        );
+
+        callForSearch.enqueue(new Callback<ArticleWithDescriptionObject>() {
+            @Override
+            public void onResponse(Call<ArticleWithDescriptionObject> call, Response<ArticleWithDescriptionObject> response) {
+                try {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
+
+                    ArrayList<com.test.myapplication.ArticleWithDescriptionObject.Value> data = new ArrayList<>();
+
+                    data.addAll(articleWithDescriptionObject.getValue());
+
+                    Bundle bundle = new Bundle();
+
+                    bundle.putSerializable("ArrayList of searched items",data);
+
+                    RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+
+                    recyclerViewFragment.setArguments(bundle);
+
+                    fragmentTransaction.replace(R.id.fragment_container,recyclerViewFragment);
+
+                    fragmentTransaction.commit();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "onCreate: articles not loaded");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArticleWithDescriptionObject> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+            }
+        });
 
     }
 
@@ -170,6 +270,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
 
+//        https://api.cognitive.microsoft.com/bing/v5.0/news/[?Category]
+
+//
+//        @GET("news?category")
+//        Call<CategoryNewsObject> getSpecificTopicArticles(
+//                @Query("categoryName") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(CATEGORY_BASE_URL)
@@ -257,7 +363,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication(), "1757738834448963");
 
-
     }
 
     private void setRecycleFragment() {
@@ -267,7 +372,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerViewFragment = new RecyclerViewFragment();
         fragmentTransaction.add(R.id.fragment_container, recyclerViewFragment);
         fragmentTransaction.commit();
-
         setUpDrawersandView();
 
         setUpBreakingNewsCheckJob();
@@ -316,6 +420,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        // Find searchManager and searchableInfo
+//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
+
     }
 
     @TargetApi(21)
@@ -335,8 +444,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //stuff went wrong
             Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
         }
-
-
     }
 
     @TargetApi(21)
@@ -374,7 +481,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
         return true;
+
     }
 
     @Override
@@ -408,6 +520,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_followed);
 
+        } else if (id == R.id.search) {
+
+////             Find searchManager and searchableInfo
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
+            // Associate searchable info with the SearchView
+            searchView = (SearchView) item.getActionView();
+            searchView.setSearchableInfo(searchableInfo);
+
+
+
+
+
+//            toolbar.setTitle("Search");
 
         } else if (id == R.id.nav_business) {
             String categoryName = "Business";
