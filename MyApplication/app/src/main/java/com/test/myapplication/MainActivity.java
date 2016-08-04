@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private boolean isChecked = false;
 
-
+    private String categoryName;
     private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
 
@@ -389,17 +389,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
 
 
-
         switch (item.getItemId()) {
             case R.id.button_heart_follow_topic:
                 Log.i(TAG, "onOptionsItemSelected: heart clicked on");
 
+                String toolbarName = toolbar.getTitle().toString();
 
-                isChecked = !item.isChecked();
-                item.setChecked(isChecked);
+                Log.i(TAG, "onOptionsItemSelected: toolbar name is: " + toolbarName);
 
-                item.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                if (!toolbarName.equals("Trending News")) {
 
+
+                } else {
+
+                    isChecked = !item.isChecked();
+                    item.setChecked(isChecked);
+
+                    item.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+                }
                 return true;
 
             case R.id.action_settings:
@@ -431,35 +439,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         } else if (id == R.id.nav_business) {
-            String categoryName = "Business";
+            categoryName = "Business";
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_entertainment) {
-            String categoryName = "Entertainment";
+            categoryName = "Entertainment";
 
             toolbar.setTitle(R.string.toolbar_name_entertainment);
 
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_health) {
-            String categoryName = "Health";
+            categoryName = "Health";
 
             toolbar.setTitle(R.string.toolbar_name_health);
 
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_politics) {
-            String categoryName = "Politics";
+            categoryName = "Politics";
 
             toolbar.setTitle(R.string.toolbar_name_politics);
 
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_scienceandtech) {
-            String categoryName = "ScienceAndTechnology";
+            categoryName = "ScienceAndTechnology";
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
@@ -467,21 +475,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         } else if (id == R.id.nav_sports) {
-            String categoryName = "Sports";
+            categoryName = "Sports";
 
             toolbar.setTitle(R.string.toolbar_name_sports);
 
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_US_and_UK) {
-            String categoryName = "US/UK";
+            categoryName = "US/UK";
 
             toolbar.setTitle(R.string.toolbar_name_usanduk);
 
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_world) {
-            String categoryName = "World";
+            categoryName = "World";
 
             toolbar.setTitle(R.string.toolbar_name_world);
 
@@ -493,12 +501,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem checkable = menu.findItem(R.id.button_heart_follow_topic);
-        checkable.setChecked(isChecked);
-        return true;
-    }
+     /*   @Override
+        public boolean onPrepareOptionsMenu(Menu menu) {
+            MenuItem checkable = menu.findItem(R.id.button_heart_follow_topic);
+            checkable.setChecked(isChecked);
+            return true;
+        }*/
 
 
 }
