@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ import com.test.myapplication.TrendingTopicsObject.Value;
  */
 public class DetailFragment extends Fragment {
 
+    String TAG = "DetailFragment";
+
     FloatingActionMenu fam;
     FloatingActionButton fab1Fb, fab2, fab3Messenger;
 
@@ -49,13 +52,18 @@ public class DetailFragment extends Fragment {
 
     private View view;
 
-    ArticleWithDescriptionObject article;
+//    ArticleWithDescriptionObject article;
+
+
+    Value article;
     String articleName;
     String articleUrl;
     String articleDescription;
 
+    com.test.myapplication.CategoryNewsObject.Value catArticle;
     String catArticalName;
     String catArticalUrl;
+    String catArticleDescription;
 
 
     @Nullable
@@ -69,9 +77,13 @@ public class DetailFragment extends Fragment {
 
         shareDialog = new ShareDialog(this);
 
+        Log.i(TAG, "onCreateView: shareDialog instance created");
+
         messageDialog = new MessageDialog(this);
 
+
         if(articleUrl!=null){
+
             webView.loadUrl(articleUrl);
 
             webView.setWebViewClient(new WebViewClient() {
@@ -82,8 +94,15 @@ public class DetailFragment extends Fragment {
 
                 }
             });
-            articleUrl=null;
-        }else if(catArticalUrl!=null){
+
+//            articleUrl=null;
+
+        } else if(catArticalUrl!=null){
+
+            Log.i(TAG, "onCreateView: Cat Url is NOT null");
+
+            Log.i(TAG, "onCreateView: cat URL is: "+catArticalUrl);
+
             webView.loadUrl(catArticalUrl);
 
             webView.setWebViewClient(new WebViewClient() {
@@ -94,9 +113,10 @@ public class DetailFragment extends Fragment {
 
                 }
             });
-            catArticalUrl=null;
-        }
 
+//            catArticalUrl=null;
+
+        }
 
         // fb
 
@@ -104,14 +124,56 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(articleName)
-                            .setContentDescription(articleDescription)
-                            .setContentUrl(Uri.parse(articleUrl))
-                            .build();
+                Log.i(TAG, "*******onClick:FB ********");
 
-                    shareDialog.show(linkContent);
+
+                Log.i(TAG, "onClick: cat url: "+catArticalUrl);
+
+                if (catArticalUrl != null) {
+
+                    Log.i(TAG, "onClick: inside if(catUrl not null) method");
+
+                    Log.i(TAG, "onClick: cat Url: "+catArticalUrl);
+
+                    Log.i(TAG, "onClick: cat Title: "+catArticalName);
+                    
+
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+                    Log.i(TAG, "onClick: inside shareDialog.canShow() method");
+
+
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                .setContentTitle(catArticalName)
+//                            .setContentDescription()
+                                .setContentUrl(Uri.parse(catArticalUrl))
+                                .build();
+
+                        shareDialog.show(linkContent);
+
+                    Log.i(TAG, "onClick: ShareDialog should show");
+                    }
+                    articleUrl = null;
+
+                    Log.i(TAG, "onClick: article url set to null");
+
+                    Log.i(TAG, "onClick: END");
+                    
+                    
+                } else if ( articleUrl != null) {
+
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                .setContentTitle(articleName)
+                                .setContentDescription(articleDescription)
+                                .setContentUrl(Uri.parse(articleUrl))
+                                .build();
+
+                        shareDialog.show(linkContent);
+                    }
+                    catArticalUrl = null;
                 }
             }
         });
@@ -129,31 +191,59 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (MessageDialog.canShow(ShareLinkContent.class)) {
+                if (catArticalUrl != null) {
 
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(articleName)
-                            .setContentDescription(articleDescription)
-                            .setContentUrl(Uri.parse(articleUrl))
-                            .build();
+                    if (MessageDialog.canShow(ShareLinkContent.class)) {
 
-                    messageDialog.show(linkContent);
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                .setContentTitle(catArticalName)
+                                .setContentDescription(catArticleDescription)
+                                .setContentUrl(Uri.parse(catArticalUrl))
+                                .build();
 
+                        messageDialog.show(linkContent);
+
+                    }
+
+                    articleUrl = null;
+
+                } else if (articleUrl != null) {
+
+                    if (MessageDialog.canShow(ShareLinkContent.class)) {
+
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                .setContentTitle(articleName)
+                                .setContentUrl(Uri.parse(articleUrl))
+                                .build();
+
+                        messageDialog.show(linkContent);
+
+                    }
+                    catArticalUrl = null;
                 }
             }
         });
+
+
+
+
 
         return view;
     }
 
 
     public void setDetailArticle(Value article){
+        this.article = article;
         this.articleUrl = article.getWebSearchUrl();
         this.articleName = article.getName();
+
+
     }
 
     public void setCatArticle(com.test.myapplication.CategoryNewsObject.Value catArticle){
+        this.catArticle = catArticle;
         this.catArticalUrl = catArticle.getUrl();
+        this.catArticleDescription = catArticle.getDescription();
         this.catArticalName = catArticle.getName();
     }
 

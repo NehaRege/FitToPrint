@@ -370,8 +370,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
         setUpDrawersandView();
 
-
     }
+
+    //        setUpBreakingNewsCheckJob();
 
     @Override
     public void onArticleSelected(Value selectedArticle) {
@@ -555,7 +556,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Associate searchable info with the SearchView
             searchView = (SearchView) item.getActionView();
             searchView.setSearchableInfo(searchableInfo);
-
 
 //            toolbar.setTitle("Search");
 
