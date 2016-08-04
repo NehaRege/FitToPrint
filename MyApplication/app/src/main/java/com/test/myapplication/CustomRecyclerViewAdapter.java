@@ -99,16 +99,19 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             Value value = mData.get(position);
 
             holder.rvTitleText.setText(value.getName());
-            Picasso.with(mContext).load(value.getImage().getUrl()).into(holder.rvImageView);
+            if(value.getImage().getUrl()!=null){
+                Picasso.with(mContext).load(value.getImage().getUrl()).into(holder.rvImageView);
+            }
         }else if(mCatData.size()>0){
             com.test.myapplication.CategoryNewsObject.Value value = mCatData.get(position);
+
             holder.rvTitleText.setText(value.getName());
-            holder.rvTopicText.setText(value.getCategory());
-            holder.rvDesText.setText(value.getDescription());
-            holder.rvDateText.setText(value.getDatePublished());
             if(value.getImage().getThumbnail().getContentUrl()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
             }
+//            holder.rvTopicText.setText(value.getCategory());
+//            holder.rvDesText.setText(value.getDescription());
+//            holder.rvDateText.setText(value.getDatePublished());
         }
 //        holder.rvFollowButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
