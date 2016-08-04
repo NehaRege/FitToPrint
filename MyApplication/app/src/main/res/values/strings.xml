@@ -10,6 +10,7 @@
     <string name="navigation_drawer_header_your_news">Your News</string>
 
     <string name="action_notification_settings">Notification Settings</string>
+    <string name="navigation_drawer_search">Search for topics</string>
     <string name="navigation_drawer_trending">Trending</string>
     <string name="navigation_drawer_followed">Followed Topics</string>
     <string name="navigation_drawer_more_topics">More Topics</string>
@@ -36,6 +37,10 @@
     <string name="toolbar_name_sports">Sports</string>
     <string name="toolbar_name_usanduk">US/UK</string>
     <string name="toolbar_name_world">World</string>
+
+    <!--Toolbar Name onCreate()-->
+
+    <string name="toolbar_name_trending_news">Trending News</string>
 
     <!--For Facebook sharing-->
 
