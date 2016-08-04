@@ -92,7 +92,7 @@
             android:id="@+id/floating_action_menu_item1_fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fb"
+            android:src="@drawable/fb_f_logo__blue_144"
             app:fab_label="Facebook"
             app:fab_size="mini" />
 
@@ -108,7 +108,7 @@
             android:id="@+id/floating_action_menu_item3_messenger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fb_messenger_icon"
+            android:src="@drawable/facebook_messenger_logo"
             app:fab_label="Facebook Messenger"
             app:fab_size="mini" />
 

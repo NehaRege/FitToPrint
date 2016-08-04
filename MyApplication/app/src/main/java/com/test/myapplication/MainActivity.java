@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DetailFragment detailFragment;
     RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
+    private boolean isHeartCheckedAndTopicFollowed = false;
+
 
     private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
@@ -363,6 +366,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+
         return true;
     }
 
@@ -460,4 +465,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem checkable = menu.findItem(R.id.button_heart_follow_topic);
+        checkable.setChecked();
+        return true;
+    }
+
+
 }

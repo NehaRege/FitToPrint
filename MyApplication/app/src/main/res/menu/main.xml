@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="@string/action_notification_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/button_heart_follow_topic"
+        android:checkable="true"
+        android:checked="false"
+        android:orderInCategory="1"
+        android:title=""
+        android:icon="@drawable/ic_favorite_border_black_48dp"
+        app:showAsAction="ifRoom" />
+
 </menu>
