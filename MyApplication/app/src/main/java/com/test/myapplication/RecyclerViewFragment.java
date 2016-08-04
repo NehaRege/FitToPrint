@@ -86,8 +86,6 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
 
             }
 
-
-
         } else {
             mDataSet = new ArrayList<Value>();
             Log.i(TAG, "onCreate: bundle's null");
