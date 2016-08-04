@@ -105,9 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         handleIntent(intent);
     }
 
-
-
-
 //        setUpBreakingNewsCheckJob();
 
     private void handleIntent(Intent intent) {
@@ -115,6 +112,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
             String query = intent.getStringExtra(SearchManager.QUERY);
+
+
+
+            loadSearchedItems(query);
+
+
             Toast.makeText(MainActivity.this,"searched "+query,Toast.LENGTH_SHORT).show();
         }
     }
@@ -194,73 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.i(TAG, "onCreate: articles not loaded");
-
                 }
-
-
-//                @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
-//                Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
-//                        @Header("Ocp-Apim-Subscription-Key") String apiKey,
-//                        @Path("?q") String searchQuery,
-//                        @Path("count") String numOfArticlesToReturn,
-//                        @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
-//                        @Path("mkt") String safeSearchLevel);
-
-                String query ="";
-                String count= "";
-                String offset="";
-                String mkt="";
-
-
-
-                Call<ArticleWithDescriptionObject> callForSearch = request.getArticlesBasedOnSearchQuery(
-                        API_KEY,query,count,offset,mkt
-                );
-
-                callForSearch.enqueue(new Callback<ArticleWithDescriptionObject>() {
-                    @Override
-                    public void onResponse(Call<ArticleWithDescriptionObject> call, Response<ArticleWithDescriptionObject> response) {
-                        try {
-
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                            ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
-
-                            ArrayList<com.test.myapplication.ArticleWithDescriptionObject.Value> data = new ArrayList<>();
-
-                            data.addAll(articleWithDescriptionObject.getValue());
-
-                            Bundle bundle = new Bundle();
-
-                            bundle.putSerializable("Arraylist of searched items",data);
-
-                            RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
-
-                            recyclerViewFragment.setArguments(bundle);
-
-                            fragmentTransaction.replace(R.id.fragment_container,recyclerViewFragment);
-
-                            fragmentTransaction.commit();
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Log.i(TAG, "onCreate: articles not loaded");
-
-                        }
-
-
-
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ArticleWithDescriptionObject> call, Throwable t) {
-
-                    }
-                });
-
-
             }
 
             @Override
@@ -268,7 +205,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("Error", t.getMessage());
             }
         });
+    }
 
+    private void loadSearchedItems(String query) {
+
+//        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
+
+//        @GET("/search?q")
+//        Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
+//                @Header("Ocp-Apim-Subscription-Key") String apiKey,
+//                @Path("?q") String searchQuery);
+
+        String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news";
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEARCH_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        BingAPIService request = retrofit.create(BingAPIService.class);
+
+        String count= "";
+        String offset="";
+        String mkt="";
+
+        Call<ArticleWithDescriptionObject> callForSearch = request.getArticlesBasedOnSearchQuery(
+                API_KEY,query
+        );
+
+        callForSearch.enqueue(new Callback<ArticleWithDescriptionObject>() {
+            @Override
+            public void onResponse(Call<ArticleWithDescriptionObject> call, Response<ArticleWithDescriptionObject> response) {
+                try {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
+
+                    ArrayList<com.test.myapplication.ArticleWithDescriptionObject.Value> data = new ArrayList<>();
+
+                    data.addAll(articleWithDescriptionObject.getValue());
+
+                    Bundle bundle = new Bundle();
+
+                    bundle.putSerializable("ArrayList of searched items",data);
+
+                    RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+
+                    recyclerViewFragment.setArguments(bundle);
+
+                    fragmentTransaction.replace(R.id.fragment_container,recyclerViewFragment);
+
+                    fragmentTransaction.commit();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "onCreate: articles not loaded");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArticleWithDescriptionObject> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+            }
+        });
 
     }
 
@@ -276,6 +275,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
 
+//        https://api.cognitive.microsoft.com/bing/v5.0/news/[?Category]
+
+//
+//        @GET("news?category")
+//        Call<CategoryNewsObject> getSpecificTopicArticles(
+//                @Query("categoryName") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(CATEGORY_BASE_URL)
@@ -469,8 +474,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchableInfo = searchManager.getSearchableInfo(getComponentName());
+//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
 
         return true;
 
@@ -510,18 +515,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.search) {
 
 ////             Find searchManager and searchableInfo
-//            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//            SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
 
             // Associate searchable info with the SearchView
             searchView = (SearchView) item.getActionView();
             searchView.setSearchableInfo(searchableInfo);
 
+
+
+
+
 //            toolbar.setTitle("Search");
-        }
-
-        else if (id == R.id.nav_business) {
-
 
         } else if (id == R.id.nav_business) {
             String categoryName = "Business";

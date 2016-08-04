@@ -35,13 +35,19 @@ public interface BingAPIService {
 //    Base URL is:"https://bingapis.azure-api.net/api/v5/news"
 //    More info about the query parameters: http://bit.ly/2aNcWoN  &  http://bit.ly/2at9Rvk
 
-    @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
+//    @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
+//    Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
+//            @Header("Ocp-Apim-Subscription-Key") String apiKey,
+//            @Path("?q") String searchQuery,
+//            @Path("count") String numOfArticlesToReturn,
+//            @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
+//            @Path("mkt") String safeSearchLevel);
+
+
+    @GET("/search?q")
     Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
             @Header("Ocp-Apim-Subscription-Key") String apiKey,
-            @Path("?q") String searchQuery,
-            @Path("count") String numOfArticlesToReturn,
-            @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
-            @Path("mkt") String safeSearchLevel);
+            @Path("?q") String searchQuery);
 
 
 //    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
