@@ -11,25 +11,14 @@ import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.MessageDialog;
 import com.facebook.share.widget.ShareDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.squareup.picasso.Picasso;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
-
-
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
 /**
@@ -38,7 +27,7 @@ import com.test.myapplication.TrendingTopicsObject.Value;
 public class DetailFragment extends Fragment {
 
     FloatingActionMenu fam;
-    FloatingActionButton fab1Fb, fab2, fab3Messenger;
+    FloatingActionButton fab1Fb, fab2Twt, fab3Messenger, fab4;
 
     WebView webView;
 
@@ -116,9 +105,20 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        fab2.setOnClickListener(new View.OnClickListener() {
+        fab2Twt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (MessageDialog.canShow(ShareLinkContent.class)) {
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setContentTitle(articleName)
+                            .setContentDescription(articleDescription)
+                            .setContentUrl(Uri.parse(articleUrl))
+                            .build();
+
+                    messageDialog.show(linkContent);
+
+                }
 
             }
         });
@@ -142,6 +142,24 @@ public class DetailFragment extends Fragment {
                 }
             }
         });
+
+        fab4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (MessageDialog.canShow(ShareLinkContent.class)) {
+
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setContentTitle(articleName)
+                            .setContentDescription(articleDescription)
+                            .setContentUrl(Uri.parse(articleUrl))
+                            .build();
+
+                    messageDialog.show(linkContent);
+                }
+            }
+        });
+
 
         return view;
     }
@@ -171,8 +189,9 @@ public class DetailFragment extends Fragment {
 
         fam = (FloatingActionMenu) view.findViewById(R.id.floating_action_menu);
         fab1Fb = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item1_fb);
-        fab2 = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2);
+        fab2Twt = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2);
         fab3Messenger = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item3_messenger);
+        fab4 =(FloatingActionButton) view.findViewById(R.id.floating_action_menu_item4);
 
     }
 

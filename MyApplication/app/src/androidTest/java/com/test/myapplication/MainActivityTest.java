@@ -46,12 +46,15 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
     Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.drawerItemNameTextView),
      ViewMatchers.hasSibling(ViewMatchers.withText(((NavDrawerItem)item).getItemName())))).perform(ViewActions.click());
 }
-        *
+        * onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
+
+    onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_scroller));
         *
         * */
 
 
-        actionOpenDrawer().perform(click());
+        onView(withId(R.id.drawer_layout)).perform(actionOpenDrawer());
         onView(withId(R.id.nav_trending)).perform(click());
 
         onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
@@ -112,7 +115,7 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
         onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
     }
 
-    private DataInteraction  actionOpenDrawer() {
+    private static DataInteraction  actionOpenDrawer() {
         return null;
     }
 }

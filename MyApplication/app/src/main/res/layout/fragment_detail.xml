@@ -73,6 +73,15 @@
             app:fab_label="Facebook Messenger"
             app:fab_size="mini" />
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/floating_action_menu_item4"
+            android:src="@drawable/ic_menu_share"
+            app:fab_label="Menu Item 4"
+            app:fab_size="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
     </com.github.clans.fab.FloatingActionMenu>
 
 </RelativeLayout>
