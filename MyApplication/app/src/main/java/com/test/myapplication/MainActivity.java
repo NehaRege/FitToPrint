@@ -1,8 +1,6 @@
 package com.test.myapplication;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.app.job.JobInfo;
@@ -10,9 +8,6 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -20,9 +15,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.MenuInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,16 +23,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
+
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
-import java.io.Serializable;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,24 +47,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private String TAG = "MainActivity";
-
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
     RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
-    private boolean isChecked = false;
-
+    private boolean categoryIsFollowed = false;
     private String categoryName;
     SearchManager searchManager;
     SearchableInfo searchableInfo;
     SearchView searchView;
-
-
     private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
-
     private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
+
+    MenuItem followHeartMenuItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onItemClick(int position) {
 
     }
+
 
     private void loadTrendingArticles() {
 
@@ -374,7 +366,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
         setUpDrawersandView();
 
-        setUpBreakingNewsCheckJob();
 
     }
 
@@ -480,13 +471,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
 
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        Log.i(TAG, "onCreateOptionsMenu: menu inflated");
+
+        showFollowHeartDependingOnToolbarTitle(menu);
+        Log.i(TAG, "onCreateOptionsMenu: method named 'showFollowHeartDependingOnToolbarTitle' run");
+
+
+
+        return true;
 
 //        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 //        searchableInfo = searchManager.getSearchableInfo(getComponentName());
 
-        return true;
+
+    }
+
+    private void showFollowHeartDependingOnToolbarTitle(Menu menu) {
+
+        String toolbarName = toolbar.getTitle().toString();
+        Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: Toolbar name gotten");
+
+        MenuItem followHeart = menu.findItem(R.id.button_heart_follow_topic);
+        Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: followHeart made");
+
+        if (!toolbarName.equals("Trending News")) {
+
+            followHeart.setVisible(true);
+            Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: followHeart set to true");
+
+        } else {
+
+            followHeart.setVisible(false);
+            Log.i(TAG, "showFollowHeartDependingOnToolbarTitle: followHeart set to false");
+        }
+
 
     }
 
@@ -508,14 +529,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if (!toolbarName.equals("Trending News")) {
 
-
-                } else {
-
-                    isChecked = !item.isChecked();
-                    item.setChecked(isChecked);
+                    categoryIsFollowed = !item.isChecked();
+                    item.setChecked(categoryIsFollowed);
 
                     item.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
-
                 }
                 return true;
 
@@ -564,6 +581,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
+
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_entertainment) {
@@ -578,12 +596,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_health);
 
+
             loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_politics) {
             categoryName = "Politics";
 
             toolbar.setTitle(R.string.toolbar_name_politics);
+
 
             loadCategoryArticles(categoryName);
 
@@ -592,6 +612,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
+
             loadCategoryArticles(categoryName);
 
 
@@ -599,6 +620,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             categoryName = "Sports";
 
             toolbar.setTitle(R.string.toolbar_name_sports);
+
 
             loadCategoryArticles(categoryName);
 
@@ -622,12 +644,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-     /*   @Override
-        public boolean onPrepareOptionsMenu(Menu menu) {
-            MenuItem checkable = menu.findItem(R.id.button_heart_follow_topic);
-            checkable.setChecked(isChecked);
-            return true;
-        }*/
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        onPrepareOptionsMenu
+
+        return true;
+    }
 
 
 }
