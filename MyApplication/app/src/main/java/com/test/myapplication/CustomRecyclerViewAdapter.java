@@ -40,12 +40,15 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
         public ViewHolder(View itemView) {
             super(itemView);
-            rvTitleText = (TextView) itemView.findViewById(R.id.rv_title);
-            rvDesText = (TextView) itemView.findViewById(R.id.rv_description);
-            rvTopicText = (TextView) itemView.findViewById(R.id.rv_topic);
-            rvDateText = (TextView) itemView.findViewById(R.id.rv_date);
+
             rvImageView = (ImageView) itemView.findViewById(R.id.rv_image);
-            rvFollowButton = (Button) itemView.findViewById(R.id.rv_follow_button);
+            rvTitleText = (TextView) itemView.findViewById(R.id.rv_title);
+
+//            rvDesText = (TextView) itemView.findViewById(R.id.rv_description);
+//            rvTopicText = (TextView) itemView.findViewById(R.id.rv_topic);
+//            rvDateText = (TextView) itemView.findViewById(R.id.rv_date);
+
+//            rvFollowButton = (Button) itemView.findViewById(R.id.rv_follow_button);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

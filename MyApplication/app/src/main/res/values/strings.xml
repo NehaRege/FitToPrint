@@ -36,6 +36,10 @@
     <string name="toolbar_name_usanduk">US/UK</string>
     <string name="toolbar_name_world">World</string>
 
+    <!--Toolbar Name onCreate()-->
+
+    <string name="toolbar_name_trending_news">Trending News</string>
+
     <!--For Facebook sharing-->
 
     <string name="facebook_app_id">1757738834448963</string>
