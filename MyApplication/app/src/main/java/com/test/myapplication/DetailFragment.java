@@ -224,6 +224,10 @@ public class DetailFragment extends Fragment {
             }
         });
 
+
+
+
+
         return view;
     }
 
