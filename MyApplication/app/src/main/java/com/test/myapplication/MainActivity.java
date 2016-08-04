@@ -24,6 +24,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -475,16 +476,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+
+
+        MenuItem followHeart = (MenuItem) menu.findItem(R.id.button_heart_follow_topic);
+
         followHeart.setVisible(false);
 
 
         return true;
 
-//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
-
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -703,5 +708,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onResume();
     }
+
+
+//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
 
 }
