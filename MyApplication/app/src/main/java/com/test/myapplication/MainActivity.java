@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CustomRecyclerViewAdapter adapter;
     private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
 
-    MenuItem followHeart;
+    MenuItem followHeart = (MenuItem)
 
 
     @Override
@@ -479,7 +479,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
-
         MenuItem followHeart = (MenuItem) menu.findItem(R.id.button_heart_follow_topic);
 
         followHeart.setVisible(false);
@@ -640,18 +639,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
 
-        Log.i(TAG, "onPrepareOptionsMenu: this ran");
-        checkToolbarTitleAndSetFollowHeartAccordingly(menu);
 
-        return true;
-    }
+    /*private void checkToolbarTitleAndSetFollowHeartAccordingly(Menu menu) {
 
-    private void checkToolbarTitleAndSetFollowHeartAccordingly(Menu menu) {
-
-        //        TODO: Do toolbar title check and boolean logic here!!!
 
 
         String toolbarName = toolbar.getTitle().toString();
@@ -678,36 +669,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly has finished");
 
-    }
-
-    @Override
-    protected void onResume() {
-
-        String toolbarName = toolbar.getTitle().toString();
-
-        Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: Toolbar name onResume is –>" + toolbarName);
+    }*/
 
 
-        /*followHeart = menu.findItem(R.id.button_heart_follow_topic);
-        Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: followHeart has been binded");
-
-
-        if (!toolbarName.equals("Trending News")) {
-
-            followHeart.setVisible(true);
-            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: toolbarName isn't Trending News");
-
-        } else {
-
-            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: toolbarName is Trending News");
-
-            followHeart.setVisible(false);
-            Log.i(TAG, "checkToolbarTitleAndSetFollowHeartAccordingly: followHeart set to false");
-        }*/
-
-
-        super.onResume();
-    }
 
 
 //        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
