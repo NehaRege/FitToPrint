@@ -19,7 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CheckBox;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DetailFragment detailFragment;
     RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
-    private boolean isHeartCheckedAndTopicFollowed = false;
+    private boolean isChecked = false;
 
 
     private RecyclerView recyclerView;
@@ -69,10 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
 
-
         initializeFacebookSDK();
         Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
-
 
 
 //        setUpBreakingNewsCheckJob();
@@ -376,14 +373,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.button_heart_follow_topic:
+                Log.i(TAG, "onOptionsItemSelected: heart clicked on");
+
+
+                isChecked = !item.isChecked();
+                item.setChecked(isChecked);
+
+                return true;
+
+            case R.id.action_settings:
+                Log.i(TAG, "onOptionsItemSelected: 3-dot menu in right hand corner clicked on");
+
+                return true;
+
+            default:
+                return false;
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -469,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem checkable = menu.findItem(R.id.button_heart_follow_topic);
-        checkable.setChecked();
+        checkable.setChecked(isChecked);
         return true;
     }
 

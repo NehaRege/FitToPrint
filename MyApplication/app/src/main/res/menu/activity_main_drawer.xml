@@ -8,7 +8,7 @@
             android:title="@string/navigation_drawer_trending" />
         <item
             android:id="@+id/nav_followed"
-            android:icon="@drawable/ic_favorite_black_48dp"
+            android:icon="@drawable/ic_favorite_solid_red_heart_48dp"
             android:title="@string/navigation_drawer_followed" />
 
     </group>
