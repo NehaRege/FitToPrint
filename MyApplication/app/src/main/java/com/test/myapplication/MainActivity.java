@@ -10,10 +10,11 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -29,7 +30,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -41,19 +41,14 @@ import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.HEAD;
 
 
 //import com.github.clans.fab.FloatingActionButton;
@@ -95,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setRecycleFragment();
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
-        loadArticles();
-        Log.i(TAG, "onCreate: loadArticles() run");
+        loadTrendingArticles();
+        Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
     }
 
@@ -132,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void loadArticles() {
+    private void loadTrendingArticles() {
 
         String TRENDING_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
 
@@ -141,11 +136,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Log.i(TAG, "loadArticles: Retrofit object made");
+        Log.i(TAG, "loadTrendingArticles: Retrofit object made");
 
         final BingAPIService request = retrofit.create(BingAPIService.class);
 
-        Log.i(TAG, "loadArticles: BingAPIService request created");
+        Log.i(TAG, "loadTrendingArticles: BingAPIService request created");
 
         Call<TrendingTopicsObject> call = request.getTrendingTopics(API_KEY);
 
@@ -400,6 +395,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle(R.string.toolbar_name_trending_news);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -506,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_trending);
 
-            loadArticles();
+            loadTrendingArticles();
 
         } else if (id == R.id.nav_followed) {
 
