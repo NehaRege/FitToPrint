@@ -24,7 +24,6 @@
         app:menu_colorNormal="#da3c2f"
         app:menu_colorPressed="#dc4b3f"
         app:menu_colorRipple="#99d4d4d4"
-        app:menu_fab_label="Floating Action Menu"
         app:menu_fab_size="normal"
         app:menu_icon="@drawable/ic_menu_share"
         app:menu_labels_colorNormal="#333"
@@ -53,8 +52,7 @@
             android:id="@+id/floating_action_menu_item1_fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fb"
-            app:fab_label="Facebook"
+            android:src="@drawable/com_facebook_button_icon"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -62,15 +60,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/imgres"
-            app:fab_label="Menu Item 2"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/floating_action_menu_item3_messenger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fb_messenger_icon"
-            app:fab_label="Facebook Messenger"
+            android:src="@drawable/com_facebook_send_button_icon"
             app:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
