@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.internal.LoginAuthorizationType;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
@@ -597,7 +596,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         editor.putBoolean(keyName, categoryFollowed);
 
-        editor.apply();
+        editor.commit();
 
     }
 
@@ -639,23 +638,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_business) {
 
-            String toolbarName = toolbar.getTitle().toString();
 
             categoryName = "Business";
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
-            followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES,Context.MODE_PRIVATE);
 
-//            TODO: Check shared preferences
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
 
-            /*if (categoryName.equals(toolbarName)) {
-
-                followHeart.setVisible(true);
+            if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
-            }*/
+            } else {
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+            }
+
 
             followHeart.setVisible(true);
 
@@ -669,6 +670,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             categoryName = "Entertainment";
 
             toolbar.setTitle(R.string.toolbar_name_entertainment);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES,Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+            }
 
             followHeart.setVisible(true);
 
@@ -723,13 +738,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_US_and_UK)
+        } else if (id == R.id.nav_US)
 
         {
 
             categoryName = "US";
 
-            toolbar.setTitle(R.string.toolbar_name_usanduk);
+            toolbar.setTitle(R.string.toolbar_name_us);
 
             followHeart.setVisible(true);
 
