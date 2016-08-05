@@ -948,9 +948,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         {
 
-            categoryName = "World";
+            categoryName = "Business";
 
-            toolbar.setTitle(R.string.toolbar_name_world);
+            toolbar.setTitle(R.string.toolbar_name_business);
 
             SharedPreferences sharedPreferences = getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
@@ -978,9 +978,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         {
 
-            categoryName = "World";
+            categoryName = "Entertainment";
 
-            toolbar.setTitle(R.string.toolbar_name_world);
+            toolbar.setTitle(R.string.toolbar_name_entertainment);
 
             SharedPreferences sharedPreferences = getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
@@ -1008,9 +1008,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         {
 
-            categoryName = "World";
+            categoryName = "Health";
 
-            toolbar.setTitle(R.string.toolbar_name_world);
+            toolbar.setTitle(R.string.toolbar_name_health);
 
             SharedPreferences sharedPreferences = getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
@@ -1038,9 +1038,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         {
 
-            categoryName = "World";
+            categoryName = "Politics";
 
-            toolbar.setTitle(R.string.toolbar_name_world);
+            toolbar.setTitle(R.string.toolbar_name_politics);
 
             SharedPreferences sharedPreferences = getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
@@ -1068,9 +1068,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         {
 
-            categoryName = "World";
+            categoryName = "ScienceAndTechnology";
 
-            toolbar.setTitle(R.string.toolbar_name_world);
+            toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
             SharedPreferences sharedPreferences = getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
@@ -1098,9 +1098,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         {
 
-            categoryName = "World";
+            categoryName = "Sports";
 
-            toolbar.setTitle(R.string.toolbar_name_world);
+            toolbar.setTitle(R.string.toolbar_name_sports);
 
             SharedPreferences sharedPreferences = getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
