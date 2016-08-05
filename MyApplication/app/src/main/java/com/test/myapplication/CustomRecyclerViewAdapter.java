@@ -14,7 +14,10 @@ import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptio
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,7 +37,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView rvTitleText;
+        public TextView rvTitleText, rvDateText;
         public ImageView rvImageView;
 
         public ViewHolder(View itemView) {
@@ -42,6 +45,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
             rvImageView = (ImageView) itemView.findViewById(R.id.rv_image);
             rvTitleText = (TextView) itemView.findViewById(R.id.rv_title);
+            rvDateText = (TextView) itemView.findViewById(R.id.rv_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +111,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             if(value.getImage()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
             }
+            holder.rvDateText.setText(value.getDatePublished());
         }else if(mSearchData.size()>0){
             com.test.myapplication.SearchNewsObject.Value value = mSearchData.get(position);
 
@@ -114,6 +119,10 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             if(value.getImage()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
             }
+            holder.rvDateText.setText(value.getDatePublished());
+            String postedTime = value.getDatePublished();
+            Date date = new SimpleDateFormat("yyyy mm dd")
+            long currentTime = Calendar.getInstance().getTimeInMillis();
         }
 
     }
