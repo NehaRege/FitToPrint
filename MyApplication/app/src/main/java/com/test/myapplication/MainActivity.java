@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Log.i(TAG, "handleIntent: just entered");
 
+
             String query = intent.getStringExtra(SearchManager.QUERY);
 
             Log.i(TAG, "handleIntent: got the query: " + query);
@@ -693,6 +694,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_health);
 
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
+
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
@@ -707,6 +724,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             categoryName = "Politics";
 
             toolbar.setTitle(R.string.toolbar_name_politics);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
 
             followHeart.setVisible(true);
 
@@ -723,6 +756,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
+
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
@@ -736,6 +785,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             categoryName = "Sports";
 
             toolbar.setTitle(R.string.toolbar_name_sports);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
 
             followHeart.setVisible(true);
 
@@ -751,6 +816,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             categoryName = "World";
 
             toolbar.setTitle(R.string.toolbar_name_world);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
 
             followHeart.setVisible(true);
 

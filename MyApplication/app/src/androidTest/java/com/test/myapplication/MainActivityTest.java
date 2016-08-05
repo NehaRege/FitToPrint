@@ -87,11 +87,9 @@ public class MainActivityTest {
         return null;
     }
 
-
+    @Test
     public void testThatRecyclerViewIsShown()
     {
-
-
         //get the recyclerview which the fragment shows
         ViewInteraction recyclerView = onView(withId(R.id.recycler_view));
 
