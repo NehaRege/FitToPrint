@@ -571,7 +571,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (categoryName) {
             case "Business":
-//                TODO: Hide regular entertainment, show followed entertainment nav menu item
 
 
                 if (navMenu.findItem(R.id.nav_business).isVisible()) {
@@ -587,7 +586,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Entertainment":
-//                TODO: Hide regular entertainment, show followed entertainment nav menu item
 
 
                 if (navMenu.findItem(R.id.nav_entertainment).isVisible()) {
@@ -601,7 +599,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navMenu.findItem(R.id.nav_entertainment_followed).setVisible(false);
                 }break;
             case "Health":
-//                TODO: Hide regular entertainment, show followed entertainment nav menu item
 
                 if (navMenu.findItem(R.id.nav_health).isVisible()) {
 
@@ -614,7 +611,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navMenu.findItem(R.id.nav_health_followed).setVisible(false);
                 }break;
             case "Politics":
-//                TODO: Hide regular entertainment, show followed entertainment nav menu item
 
 
                 if (navMenu.findItem(R.id.nav_politics).isVisible()) {
@@ -628,7 +624,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navMenu.findItem(R.id.nav_politics_followed).setVisible(false);
                 }break;
             case "Science/Tech":
-//                TODO: Hide regular entertainment, show followed entertainment nav menu item
 
 
                 if (navMenu.findItem(R.id.nav_scienceandtech).isVisible()) {
@@ -643,7 +638,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }break;
 
             case "Sports":
-//                TODO: Hide regular entertainment, show followed entertainment nav menu item
 
 
                 if (navMenu.findItem(R.id.nav_sports).isVisible()) {
@@ -657,7 +651,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navMenu.findItem(R.id.nav_sports_followed).setVisible(false);
                 }break;
             case "World":
-//                TODO: Hide regular entertainment, show followed entertainment nav menu item
 
 
                 if (navMenu.findItem(R.id.nav_world).isVisible()) {
