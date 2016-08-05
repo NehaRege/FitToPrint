@@ -12,41 +12,41 @@
             android:icon="@drawable/ic_favorite_solid_red_heart_48dp"
             android:title="@string/navigation_drawer_followed" />
 
-            <item
-                android:id="@+id/nav_business_followed"
-                android:icon="@drawable/ic_work_black_48dp"
-                android:title="@string/navigation_drawer_business"
-                android:visible="false" />
-            <item
-                android:id="@+id/nav_entertainment_followed"
-                android:icon="@drawable/ic_local_movies_black_48dp"
-                android:title="@string/navigation_drawer_entertainment"
-                android:visible="false" />
-            <item
-                android:id="@+id/nav_health_followed"
-                android:icon="@drawable/ic_local_hospital_black_48dp"
-                android:title="@string/navigation_drawer_health"
-                android:visible="false" />
-            <item
-                android:id="@+id/nav_politics_followed"
-                android:icon="@drawable/ic_account_balance_black_48dp"
-                android:title="@string/navigation_drawer_politics"
-                android:visible="false" />
-            <item
-                android:id="@+id/nav_scienceandtech_followed"
-                android:icon="@drawable/ic_devices_other_black_48dp"
-                android:title="@string/navigation_drawer_scienceandtech"
-                android:visible="false" />
-            <item
-                android:id="@+id/nav_sports_followed"
-                android:icon="@drawable/ic_golf_course_black_48dp"
-                android:title="@string/navigation_drawer_sports"
-                android:visible="false" />
-            <item
-                android:id="@+id/nav_world_followed"
-                android:icon="@drawable/ic_black_globe_48dp"
-                android:title="@string/navigation_drawer_world"
-                android:visible="false" />
+        <item
+            android:id="@+id/nav_business_followed"
+            android:icon="@drawable/ic_work_black_48dp"
+            android:title="@string/navigation_drawer_business"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_entertainment_followed"
+            android:icon="@drawable/ic_local_movies_black_48dp"
+            android:title="@string/navigation_drawer_entertainment"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_health_followed"
+            android:icon="@drawable/ic_local_hospital_black_48dp"
+            android:title="@string/navigation_drawer_health"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_politics_followed"
+            android:icon="@drawable/ic_account_balance_black_48dp"
+            android:title="@string/navigation_drawer_politics"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_scienceandtech_followed"
+            android:icon="@drawable/ic_devices_other_black_48dp"
+            android:title="@string/navigation_drawer_scienceandtech"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_sports_followed"
+            android:icon="@drawable/ic_golf_course_black_48dp"
+            android:title="@string/navigation_drawer_sports"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_world_followed"
+            android:icon="@drawable/ic_black_globe_48dp"
+            android:title="@string/navigation_drawer_world"
+            android:visible="false" />
     </group>
 
     <item
