@@ -90,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadTrendingArticles();
         Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
-//        setUpBreakingNewsCheckJob();
-
 
 //        setUpMorningNotificationJob();
 
@@ -104,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void handleIntent(Intent intent) {
-        Log.i(TAG, "handleIntent: intent action = "+Intent.ACTION_SEARCH);
-        Log.i(TAG, "handleIntent: intent getaction = "+intent.getAction());
-        Log.i(TAG, "handleIntent: intent getaction = "+intent.getDataString());
+        Log.i(TAG, "handleIntent: intent action = " + Intent.ACTION_SEARCH);
+        Log.i(TAG, "handleIntent: intent getaction = " + intent.getAction());
+        Log.i(TAG, "handleIntent: intent getaction = " + intent.getDataString());
 
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -141,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conMgr.getActiveNetworkInfo();
 
-        if(networkInfo != null && networkInfo.isConnected()) {
+        if (networkInfo != null && networkInfo.isConnected()) {
 
             // connection available !
 
@@ -217,18 +215,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
 
-        }  else  {
+        } else {
 
-            Toast.makeText(this,"No network connectivity !",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No network connectivity !", Toast.LENGTH_LONG).show();
 
             // connection not available !
 
 
-
-
         }
-
-
 
 
     }
@@ -336,8 +330,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         CategoryNewsObject categoryNewsObject = response.body();
 
-                        Log.i(TAG, "onResponse: CATEGORYNAME IS? "+categoryName);
-                        Log.i(TAG, "onResponse: cat news object is"+ categoryNewsObject.getValue().get(0).getName());
+                        Log.i(TAG, "onResponse: CATEGORYNAME IS? " + categoryName);
+                        Log.i(TAG, "onResponse: cat news object is" + categoryNewsObject.getValue().get(0).getName());
                         Log.i(TAG, "onResponse:  body gotten");
 
                         ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
@@ -394,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             // the connection is not available
 
-            Toast.makeText(this,"No network connectivity !",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No network connectivity !", Toast.LENGTH_LONG).show();
 
         }
 
@@ -469,24 +463,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @TargetApi(21)
-    private void setUpBreakingNewsCheckJob() {
-
-        String TAG = "MainActivity";
-
-        JobInfo breakingNewsJob = new JobInfo.Builder(1,
-                new ComponentName(getPackageName(),
-                        CheckForBreakingNewsJob.class.getName()))
-                .setPeriodic(3600000) //<– Check for breaking news every hour
-                .build();
-
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int result = jobScheduler.schedule(breakingNewsJob);
-        if (result <= 0) {
-            //stuff went wrong
-            Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
-        }
-    }
 
     @TargetApi(21)
     private void setUpMorningNotificationJob() {
@@ -554,6 +530,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.button_heart_follow_topic:
 
+
+                if (followHeart.isChecked()) {
+                    Log.i(TAG, "onOptionsItemSelected: followHeart IS checked");
+                } else {
+                    Log.i(TAG, "onOptionsItemSelected: followHeart ISN'T checked");
+                }
+
+
                 String toolbarName = toolbar.getTitle().toString();
 
                 addCategoryToSharedPreferences(toolbarName, true);
@@ -612,7 +596,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 ////             Find searchManager and searchableInfo
 
             String s = searchView.getQuery().toString();
-            Log.i(TAG, "onNavigationItemSelected: SEARCH QUERY "+s);
+            Log.i(TAG, "onNavigationItemSelected: SEARCH QUERY " + s);
 
 //            toolbar.setTitle("Search");
 
@@ -624,15 +608,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle(R.string.toolbar_name_business);
 
             SharedPreferences sharedPreferences = getSharedPreferences
-                    (MyPREFERENCES,Context.MODE_PRIVATE);
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
 
-            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
 
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
             } else {
+                
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
             }
@@ -652,9 +637,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle(R.string.toolbar_name_entertainment);
 
             SharedPreferences sharedPreferences = getSharedPreferences
-                    (MyPREFERENCES,Context.MODE_PRIVATE);
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
 
-            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
 
             if (alreadyFollowedOrNot) {
 
