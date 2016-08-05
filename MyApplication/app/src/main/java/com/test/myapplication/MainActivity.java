@@ -537,6 +537,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.i(TAG, "onOptionsItemSelected: followHeart ISN'T checked");
                 }
 
+//                Toast.makeText(MainActivity.this, "You're now following\n"categoryName+" news!", Toast.LENGTH_SHORT).show();
+
 
                 String toolbarName = toolbar.getTitle().toString();
 
@@ -698,18 +700,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             categoryName = "Sports";
 
             toolbar.setTitle(R.string.toolbar_name_sports);
-
-            followHeart.setVisible(true);
-
-            loadCategoryArticles(categoryName);
-
-        } else if (id == R.id.nav_US)
-
-        {
-
-            categoryName = "US";
-
-            toolbar.setTitle(R.string.toolbar_name_us);
 
             followHeart.setVisible(true);
 
