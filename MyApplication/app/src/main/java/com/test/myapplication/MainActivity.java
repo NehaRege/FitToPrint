@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.v4.view.GravityCompat;
@@ -30,7 +29,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.SearchNewsObject.SearchNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
@@ -47,26 +46,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
+    private boolean isFollowed;
+    public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
+    private FirebaseAnalytics mFirebaseAnalytics;
     private String TAG = "MainActivity";
+    private String API_KEY = "0840b3a5e0374dfc9a1dbdcb89b66f40";
+    Bundle bundle;
+    Context context;
+    DetailFragment detailFragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    DetailFragment detailFragment;
-    RecyclerViewFragment recyclerViewFragment;
-    Toolbar toolbar;
-    boolean categoryIsFollowed;
-    String categoryName;
-    SearchView searchView;
-    private RecyclerView recyclerView;
-    private CustomRecyclerViewAdapter adapter;
-    private String API_KEY = "0840b3a5e0374dfc9a1dbdcb89b66f40";
-    Context context;
     MenuInflater inflater;
-    public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
-
-
-    private boolean isFollowedTracker;
-
     MenuItem followHeart;
+    RecyclerViewFragment recyclerViewFragment;
+    String categoryName;
+    String NAV_ITEM = "Navigation drawer menu item";
+    SearchView searchView;
+    Toolbar toolbar;
 
 
     @Override
@@ -79,16 +75,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setRecycleFragment();
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
-        initializeFacebookSDK();
-
-
         loadTrendingArticles();
-
-//        setUpBreakingNewsCheckJob();
 
         handleIntent(getIntent());
 
-//        setUpMorningNotificationJob();
+        initializeFacebookSDK();
+
+        setUpMorningNotificationJob();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
     }
 
@@ -116,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadSearchedItems(query);
 
             Toast.makeText(MainActivity.this, "Searched for " + query, Toast.LENGTH_SHORT).show();
+
+
         }
     }
 
@@ -233,12 +231,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.i(TAG, "loadSearchedItems: base url: " + SEARCH_BASE_URL);
 
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SEARCH_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         BingAPIService request = retrofit.create(BingAPIService.class);
+
 
         Call<SearchNewsObject> callForSearch = request.getArticlesBasedOnSearchQuery(query, API_KEY);
 
@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
                         MorningReadTheNewsNotificationJob.class.getName()))
-                .setPeriodic(3600000) //<– Check for breaking news every hour
+                .setPeriodic(86400000) //<–Send notification every day
                 .setRequiresCharging(false)
                 .build();
 
@@ -478,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int result = jobScheduler.schedule(dailyMorningNotificationJob);
         if (result <= 0) {
             //stuff went wrong
-            Log.i(TAG, "setUpMorningNotificationJob: Error with daily monring news job check");
+            Log.i(TAG, "setUpMorningNotificationJob: Error with daily morning news job check");
         }
 
     }
@@ -526,14 +526,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 String toolbarName = toolbar.getTitle().toString();
 
-                if (isFollowedTracker) {
+                if (isFollowed) {
 
-                    Log.i(TAG, "onOptionsItemSelected: isFollowedTracker is true");
+                    Log.i(TAG, "onOptionsItemSelected: isFollowed is true");
 
                     followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
-
-                    isFollowedTracker = false;
+                    isFollowed = false;
 
                     Toast.makeText(MainActivity.this, "You're now following\n " + categoryName + " news!", Toast.LENGTH_SHORT).show();
 
@@ -542,11 +541,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 } else {
 
-                    Log.i(TAG, "onOptionsItemSelected: isFollowedTracker is false");
+                    Log.i(TAG, "onOptionsItemSelected: isFollowed is false");
 
                     followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
-                    isFollowedTracker = true;
+                    isFollowed = true;
 
                     removeCategoryToSharedPreferences(toolbarName);
 
@@ -601,6 +600,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -619,19 +620,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_followed);
 
-        } else if (id == R.id.search) {
-
-            Log.i(TAG, "onNavigationItemSelected: onclick of search");
-
-////             Find searchManager and searchableInfo
-
-            String s = searchView.getQuery().toString();
-            Log.i(TAG, "onNavigationItemSelected: SEARCH QUERY " + s);
-
-//            toolbar.setTitle("Search");
-
-//            String s = searchView.getQuery().toString();
-
         } else if (id == R.id.nav_business) {
 
 
@@ -648,15 +636,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
-
-                Log.i(TAG, "onNavigationItemSelected: isFollowedTracker set to true");
-
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
-
-                Log.i(TAG, "onNavigationItemSelected: isFollowedTracker set to false");
 
             }
 
@@ -665,6 +648,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
 
         } else if (id == R.id.nav_entertainment)
 
@@ -683,18 +669,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
-                isFollowedTracker = true;
+                isFollowed = true;
 
 
             } else {
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
-                isFollowedTracker = false;
+                isFollowed = false;
 
             }
 
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
 
         } else if (id == R.id.nav_health)
 
@@ -708,6 +697,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             loadCategoryArticles(categoryName);
 
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+
         } else if (id == R.id.nav_politics)
 
         {
@@ -719,6 +711,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
 
         } else if (id == R.id.nav_scienceandtech)
 
@@ -732,6 +727,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             loadCategoryArticles(categoryName);
 
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
 
         } else if (id == R.id.nav_sports)
 
@@ -745,6 +741,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             loadCategoryArticles(categoryName);
 
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+
         } else if (id == R.id.nav_world)
 
         {
@@ -756,6 +755,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -763,5 +765,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void logClickOnNavDrawerItemIntoFirebaseAnalytics(String categoryName) {
 
+
+        bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, categoryName);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, categoryName);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, NAV_ITEM);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+    }
+
+    private void logSearchQueryIntoFirebaseAnalytics(String searchQuery) {
+
+        bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, searchQuery);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+
+    }
 }

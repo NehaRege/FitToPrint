@@ -22,9 +22,11 @@ It allows a user to:
 
 **** BUGS ****
 
-	•Although layout files have been made for screen orientation, they aren't displayed on orientation change.
+	•Although layout files have been made for screen orientation, they aren't displayed on orientation change. If you're viewing a single article and then rotate the screen, you're brought back to the list of trending articles.
 	
-	•
+	•Lifecycle of daily notification job might not be managed properly. Not ending it?
+
+	•Internet connectivity is required to display any articles. We haven't implemented database storage for offline caching. 
 	
 
 
