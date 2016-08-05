@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MenuInflater inflater;
     public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
 
+    private boolean followTracker;
 
     MenuItem followHeart;
 
@@ -81,17 +82,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
 
+
         handleIntent(getIntent());
-
-
-        initializeFacebookSDK();
-        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
 
         loadTrendingArticles();
         Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
 
-//        setUpMorningNotificationJob();
+        initializeFacebookSDK();
+        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
+
+
+        setUpMorningNotificationJob();
 
     }
 
@@ -115,9 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-            Log.i(TAG, "handleIntent: got the query: "+query);
-            
-            
+            Log.i(TAG, "handleIntent: got the query: " + query);
 
 
             loadSearchedItems(query);
@@ -225,20 +225,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else {
 
-            Toast.makeText(this, "No network connectivity !", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_message_no_connectivity, Toast.LENGTH_LONG).show();
 
             // connection not available !
 
 
         }
 
-
     }
 
     private void loadSearchedItems(String query) {
 
         Log.i(TAG, "loadSearchedItems: just entered loadsearcheditems method");
-        
+
 
 //        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
 
@@ -249,8 +248,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
 
-        
-        Log.i(TAG, "loadSearchedItems: base url: "+SEARCH_BASE_URL);
+
+        Log.i(TAG, "loadSearchedItems: base url: " + SEARCH_BASE_URL);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SEARCH_BASE_URL)
@@ -273,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 try {
 
                     Log.i(TAG, "onResponse: inside onresponse");
-                    
+
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
@@ -282,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     data.addAll(articleWithDescriptionObject.getValue());
 
-                    Log.i(TAG, "onResponse: data is: "+data);
+                    Log.i(TAG, "onResponse: data is: " + data);
 
                     Bundle bundle = new Bundle();
 
@@ -409,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             // the connection is not available
 
-            Toast.makeText(this, "No network connectivity !", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_message_no_connectivity, Toast.LENGTH_LONG).show();
 
         }
 
@@ -501,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int result = jobScheduler.schedule(dailyMorningNotificationJob);
         if (result <= 0) {
             //stuff went wrong
-            Log.i(TAG, "setUpMorningNotificationJob: Error with breaking news job check");
+            Log.i(TAG, "setUpMorningNotificationJob: Error with daily monring news job check");
         }
 
     }
@@ -552,10 +551,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.button_heart_follow_topic:
 
 
-                if (followHeart.isChecked()) {
-                    Log.i(TAG, "onOptionsItemSelected: followHeart IS checked");
+                if (followTracker) {
+
+                    Log.i(TAG, "onOptionsItemSelected: followTracker is true");
+
+                    followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+
+
                 } else {
-                    Log.i(TAG, "onOptionsItemSelected: followHeart ISN'T checked");
+                    Log.i(TAG, "onOptionsItemSelected: followTracker is false");
+
+                    followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
                 }
 
 //                Toast.makeText(MainActivity.this, "You're now following\n"categoryName+" news!", Toast.LENGTH_SHORT).show();
@@ -587,6 +595,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putBoolean(keyName, categoryFollowed);
+
+        editor.commit();
+
+    }
+
+    private void removeCategoryToSharedPreferences(String keyName) {
+
+        context = getApplicationContext();
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.remove(keyName);
 
         editor.commit();
 
@@ -641,9 +663,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
+
+                followTracker = true;
+                Log.i(TAG, "onNavigationItemSelected: followTracker set to true");
+
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+                followTracker = false;
+                Log.i(TAG, "onNavigationItemSelected: followTracker set to false");
 
             }
 
@@ -670,8 +699,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
+                followTracker = true;
+
+
             } else {
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                followTracker = false;
 
             }
 

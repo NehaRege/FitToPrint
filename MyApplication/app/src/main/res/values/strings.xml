@@ -46,6 +46,10 @@
 
     <string name="facebook_app_id">1757738834448963</string>
 
+    <!--Toast message strings-->
+
+    <string name="toast_message_no_connectivity">Please connect to the internet via wifi\n
+        or mobile data to view yournews!</string>
 
     <!--Daily Morning Notification Text-->
 
