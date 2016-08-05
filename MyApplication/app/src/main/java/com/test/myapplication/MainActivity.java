@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onNewIntent(Intent intent) {
+
+        Log.i(TAG, "onNewIntent: entered");
         handleIntent(intent);
     }
 
@@ -109,7 +111,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
+            Log.i(TAG, "handleIntent: just entered");
+
             String query = intent.getStringExtra(SearchManager.QUERY);
+
+            Log.i(TAG, "handleIntent: got the query: "+query);
+            
+            
 
 
             loadSearchedItems(query);
@@ -229,6 +237,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadSearchedItems(String query) {
 
+        Log.i(TAG, "loadSearchedItems: just entered loadsearcheditems method");
+        
+
 //        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
 
 //        @GET("/search?q")
@@ -237,6 +248,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                @Path("?q") String searchQuery);
 
         String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
+
+        
+        Log.i(TAG, "loadSearchedItems: base url: "+SEARCH_BASE_URL);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SEARCH_BASE_URL)
@@ -257,6 +271,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<ArticleWithDescriptionObject> call, Response<ArticleWithDescriptionObject> response) {
                 try {
+
+                    Log.i(TAG, "onResponse: inside onresponse");
+                    
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
@@ -264,6 +281,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     ArrayList<com.test.myapplication.ArticleWithDescriptionObject.Value> data = new ArrayList<>();
 
                     data.addAll(articleWithDescriptionObject.getValue());
+
+                    Log.i(TAG, "onResponse: data is: "+data);
 
                     Bundle bundle = new Bundle();
 
@@ -276,6 +295,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragmentTransaction.replace(R.id.fragment_container, recyclerViewFragment);
 
                     fragmentTransaction.commit();
+
+                    Log.i(TAG, "onResponse: end of on response");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -594,6 +615,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle(R.string.toolbar_name_followed);
 
         } else if (id == R.id.search) {
+
+            Log.i(TAG, "onNavigationItemSelected: onclick of search");
 
 ////             Find searchManager and searchableInfo
 

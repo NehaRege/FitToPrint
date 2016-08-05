@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +43,7 @@ public class DetailFragment extends Fragment {
     String TAG = "DetailFragment";
 
     FloatingActionMenu fam;
-    FloatingActionButton fab1Fb, fab2, fab3Messenger;
+    FloatingActionButton fab2FB, fab3Messenger, fab1;
 
     WebView webView;
 
@@ -52,7 +54,8 @@ public class DetailFragment extends Fragment {
 
     private View view;
 
-//    ArticleWithDescriptionObject article;
+    Button button;
+
 
 
     Value article;
@@ -118,9 +121,34 @@ public class DetailFragment extends Fragment {
 
         }
 
-        // fb
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        fab1Fb.setOnClickListener(new View.OnClickListener() {
+                if (catArticalUrl != null) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, catArticalUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    articleUrl = null;
+
+                }  else if (articleUrl != null)  {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, articleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+
+                }
+
+            }
+        });
+
+        fab2FB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -136,11 +164,11 @@ public class DetailFragment extends Fragment {
                     Log.i(TAG, "onClick: cat Url: "+catArticalUrl);
 
                     Log.i(TAG, "onClick: cat Title: "+catArticalName);
-                    
 
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
 
-                    Log.i(TAG, "onClick: inside shareDialog.canShow() method");
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+                        Log.i(TAG, "onClick: inside shareDialog.canShow() method");
 
 
                         ShareLinkContent linkContent = new ShareLinkContent.Builder()
@@ -151,15 +179,15 @@ public class DetailFragment extends Fragment {
 
                         shareDialog.show(linkContent);
 
-                    Log.i(TAG, "onClick: ShareDialog should show");
+                        Log.i(TAG, "onClick: ShareDialog should show");
                     }
                     articleUrl = null;
 
                     Log.i(TAG, "onClick: article url set to null");
 
                     Log.i(TAG, "onClick: END");
-                    
-                    
+
+
                 } else if ( articleUrl != null) {
 
                     if (ShareDialog.canShow(ShareLinkContent.class)) {
@@ -175,13 +203,6 @@ public class DetailFragment extends Fragment {
                     }
                     catArticalUrl = null;
                 }
-            }
-        });
-
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
 
@@ -224,10 +245,6 @@ public class DetailFragment extends Fragment {
             }
         });
 
-
-
-
-
         return view;
     }
 
@@ -260,8 +277,9 @@ public class DetailFragment extends Fragment {
         webView = (WebView) view.findViewById(R.id.web_view);
 
         fam = (FloatingActionMenu) view.findViewById(R.id.floating_action_menu);
-        fab1Fb = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item1_fb);
-        fab2 = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2);
+
+        fab1 = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item1);
+        fab2FB = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2_fb);
         fab3Messenger = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item3_messenger);
 
     }

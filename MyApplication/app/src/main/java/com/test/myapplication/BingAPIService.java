@@ -44,7 +44,10 @@ public interface BingAPIService {
 //            @Path("mkt") String safeSearchLevel);
 
 
-    @GET("/search?")
+//    https://bingapis.azure-api.net/api/v5/news/search[?q][&count][&offset][&mkt][&safeSearch]
+
+
+    @GET("/search")
     Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
             @Header("Ocp-Apim-Subscription-Key") String apiKey,
             @Query("q") String searchQuery);
