@@ -87,6 +87,7 @@ public class DetailFragment extends Fragment {
         messageDialog = new MessageDialog(this);
 
         //if statements checking for which data type that's coming in. same thing happens for fab buttons.
+
         if (articleUrl != null) {
 
             webView.loadUrl(articleUrl);
@@ -136,6 +137,7 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     articleUrl = null;
+                    searchArticleUrl = null;
 
                 }  else if (articleUrl != null)  {
 
@@ -145,6 +147,17 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     catArticalUrl = null;
+                    searchArticleUrl = null;
+
+                }   else if (searchArticleUrl != null)  {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, articleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+                    articleUrl = null;
 
                 }
 
@@ -164,6 +177,7 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     articleUrl = null;
+                    searchArticleUrl = null;
 
                 }  else if (articleUrl != null)  {
 
@@ -173,7 +187,17 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     catArticalUrl = null;
+                    searchArticleUrl = null;
 
+                }  else if (searchArticleUrl != null) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, searchArticleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+                    articleUrl = null;
                 }
 
             }
@@ -189,13 +213,13 @@ public class DetailFragment extends Fragment {
 
                         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                                 .setContentTitle(catArticalName)
-//                                .setContentDescription()
                                 .setContentUrl(Uri.parse(catArticalUrl))
                                 .build();
 
                         shareDialog.show(linkContent);
 
                     }
+
                     articleUrl = null;
                     searchArticleUrl = null;
 
@@ -211,6 +235,7 @@ public class DetailFragment extends Fragment {
 
                         shareDialog.show(linkContent);
                     }
+
                     catArticalUrl = null;
                     searchArticleUrl = null;
 
@@ -226,8 +251,10 @@ public class DetailFragment extends Fragment {
 
                         shareDialog.show(linkContent);
                     }
+
                     catArticalUrl = null;
                     articleUrl = null;
+
                 }
             }
         });
@@ -249,6 +276,7 @@ public class DetailFragment extends Fragment {
                         messageDialog.show(linkContent);
 
                     }
+
                     searchArticleUrl = null;
                     articleUrl = null;
 
@@ -264,10 +292,16 @@ public class DetailFragment extends Fragment {
                         messageDialog.show(linkContent);
 
                     }
+
                     searchArticleUrl = null;
                     catArticalUrl = null;
 
-                }else if (searchArticleUrl != null) {
+                }  else if (searchArticleUrl != null) {
+
+
+                    Log.i(TAG, "onClick: inside search");
+
+                    Log.i(TAG, "onClick: search URL: "+searchArticleUrl);
 
                     if (ShareDialog.canShow(ShareLinkContent.class)) {
 
@@ -279,6 +313,7 @@ public class DetailFragment extends Fragment {
 
                         shareDialog.show(linkContent);
                     }
+
                     catArticalUrl = null;
                     articleUrl = null;
 
