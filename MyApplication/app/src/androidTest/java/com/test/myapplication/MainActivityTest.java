@@ -5,7 +5,6 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.Gravity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class MainActivityTest {
     public ActivityTestRule<MainActivity>mActivityActivityTestRules = new ActivityTestRule<MainActivity>(MainActivity.class);
  //onNavigationItemSelected
     @Test
-<<<<<<< HEAD
+
     public void testUIElementsVisible() throws Exception{
 
         /*
@@ -58,17 +57,15 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
         * */
 
 
-    public void testThatNavDrawerItemsAreVisible() throws Exception{
+   // public void testThatNavDrawerItemsAreVisible() throws Exception{
 
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isclosed(Gravity.LEFT))) // Left Drawer should be closed.
-                .perform(actionOpenDrawer()); // Open Drawer
+        //onView(withId(R.id.drawer_layout))
+         //       .check(matches(isclosed(Gravity.LEFT))) // Left Drawer should be closed.
+          //      .perform(actionOpenDrawer()); // Open Drawer
 
+        actionOpenDrawer().perform(click());
 
-        onView(withId(R.id.drawer_layout))
-                .perform(actionOpenDrawer());
         onView(withId(R.id.nav_trending)).perform(click());
-
 
         onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
 
@@ -121,6 +118,8 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
 
         onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
     }
+
+
 
     private static DataInteraction  actionOpenDrawer() {
         return null;
