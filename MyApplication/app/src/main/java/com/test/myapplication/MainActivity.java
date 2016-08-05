@@ -617,7 +617,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
             } else {
-                
+
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
             }

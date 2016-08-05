@@ -28,6 +28,27 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     private static OnRecyclerViewItemClickListener onItemClickListener;
 
+    public CustomRecyclerViewAdapter(ArrayList<Value> mData,
+                                     OnRecyclerViewItemClickListener listener, Context context, ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData) {
+        this.mContext = context;
+        if(listener!=null){
+            this.onItemClickListener = listener;
+        }
+
+        if(mData!=null){
+            this.mData = mData;
+        }else{
+            this.mData = new ArrayList<>();
+        }
+
+        if(catData!=null){
+            this.mCatData = catData;
+        }else{
+            this.mCatData = new ArrayList<>();
+        }
+    }
+
+
     public interface OnRecyclerViewItemClickListener{
         void onItemClick(int position);
 
@@ -61,25 +82,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             });
         }
     }
-    public CustomRecyclerViewAdapter(ArrayList<Value> mData,
-                                     OnRecyclerViewItemClickListener listener, Context context, ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData) {
-        this.mContext = context;
-        if(listener!=null){
-            this.onItemClickListener = listener;
-        }
 
-        if(mData!=null){
-            this.mData = mData;
-        }else{
-            this.mData = new ArrayList<>();
-        }
-
-        if(catData!=null){
-            this.mCatData = catData;
-        }else{
-            this.mCatData = new ArrayList<>();
-        }
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
