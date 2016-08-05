@@ -42,7 +42,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.HEAD;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
@@ -61,12 +60,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SearchView searchView;
     private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
-    private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
+    private String API_KEY = "0840b3a5e0374dfc9a1dbdcb89b66f40";
     Context context;
     MenuInflater inflater;
     public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
 
-    private boolean followTracker;
+
+    private boolean isFollowedTracker;
 
     MenuItem followHeart;
 
@@ -533,7 +533,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         followHeart.setVisible(false);
 
-
         return true;
 
 
@@ -550,32 +549,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.button_heart_follow_topic:
 
+                String toolbarName = toolbar.getTitle().toString();
 
-                if (followTracker) {
+                if (isFollowedTracker) {
 
-                    Log.i(TAG, "onOptionsItemSelected: followTracker is true");
+                    Log.i(TAG, "onOptionsItemSelected: isFollowedTracker is true");
 
                     followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
-                    followTracker = false;
+
+                    isFollowedTracker = false;
+
+                    Toast.makeText(MainActivity.this, "You're now following\n " + categoryName + " news!", Toast.LENGTH_SHORT).show();
+
+                    addCategoryToSharedPreferences(toolbarName, true);
 
 
                 } else {
-                    Log.i(TAG, "onOptionsItemSelected: followTracker is false");
+
+                    Log.i(TAG, "onOptionsItemSelected: isFollowedTracker is false");
 
                     followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
-                    followTracker = true;
+                    isFollowedTracker = true;
+
+                    removeCategoryToSharedPreferences(toolbarName);
+
+                    Toast.makeText(MainActivity.this, "You've unfollowed\n" + categoryName + " news.", Toast.LENGTH_SHORT).show();
 
 
                 }
 
-//                Toast.makeText(MainActivity.this, "You're now following\n"categoryName+" news!", Toast.LENGTH_SHORT).show();
 
 
-                String toolbarName = toolbar.getTitle().toString();
 
-                addCategoryToSharedPreferences(toolbarName, true);
 
                 return true;
 
@@ -668,15 +675,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
 
-                followTracker = true;
-                Log.i(TAG, "onNavigationItemSelected: followTracker set to true");
+                Log.i(TAG, "onNavigationItemSelected: isFollowedTracker set to true");
 
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
-                followTracker = false;
-                Log.i(TAG, "onNavigationItemSelected: followTracker set to false");
+
+                Log.i(TAG, "onNavigationItemSelected: isFollowedTracker set to false");
 
             }
 
@@ -703,12 +709,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
-                followTracker = true;
+                isFollowedTracker = true;
 
 
             } else {
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
-                followTracker = false;
+                isFollowedTracker = false;
 
             }
 
@@ -782,5 +788,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }
