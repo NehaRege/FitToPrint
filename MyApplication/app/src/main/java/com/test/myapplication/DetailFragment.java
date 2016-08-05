@@ -136,6 +136,7 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     articleUrl = null;
+                    searchArticle = null;
 
                 }  else if (articleUrl != null)  {
 
@@ -145,7 +146,17 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     catArticalUrl = null;
+                    searchArticle = null;
 
+                }   else if (searchArticle != null) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, searchArticleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+                    articleUrl = null;
                 }
 
             }
@@ -164,6 +175,7 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     articleUrl = null;
+                    searchArticle = null;
 
                 }  else if (articleUrl != null)  {
 
@@ -173,7 +185,17 @@ public class DetailFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, "Share"));
 
                     catArticalUrl = null;
+                    searchArticle = null;
 
+                }   else if (searchArticle != null) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, searchArticleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+                    articleUrl = null;
                 }
 
             }
