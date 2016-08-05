@@ -48,7 +48,6 @@ import retrofit2.http.HEAD;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
-
     private String TAG = "MainActivity";
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -57,17 +56,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     boolean categoryIsFollowed;
     String categoryName;
-    SearchManager searchManager;
-    SearchableInfo searchableInfo;
     SearchView searchView;
-    private RecyclerView recyclerView;
-    private CustomRecyclerViewAdapter adapter;
     private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
     Context context;
     MenuInflater inflater;
     public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
-
-
     MenuItem followHeart;
 
 
@@ -76,19 +69,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         setUpDrawersandView();
-        Log.i(TAG, "onCreate: Drawers and views set up");
 
         setRecycleFragment();
-        Log.i(TAG, "onCreate: RecycleFragment set up");
-
-
-
 
         initializeFacebookSDK();
-        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
 
         loadTrendingArticles();
-        Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
 //        setUpBreakingNewsCheckJob();
 
@@ -103,31 +89,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         handleIntent(intent);
     }
 
-
     private void handleIntent(Intent intent) {
         Log.i(TAG, "handleIntent: intent action = "+Intent.ACTION_SEARCH);
         Log.i(TAG, "handleIntent: intent getaction = "+intent.getAction());
         Log.i(TAG, "handleIntent: intent getaction = "+intent.getDataString());
 
-
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-
             loadSearchedItems(query);
 
             Log.i(TAG, "handleIntent: "+query);
-            Toast.makeText(MainActivity.this, "searched " + query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Searched for " + query, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public void onItemClick(int position) {
 
     }
-
 
     private void loadTrendingArticles() {
 
@@ -286,22 +267,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-
+//loads categories that are clicked from the navigation drawer. receives string from navigation drawer.
     private void loadCategoryArticles(final String categoryName) {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()) {
-            // the connection is available
 
             String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
-
-//        https://api.cognitive.microsoft.com/bing/v5.0/news/[?Category]
-
-//        @GET("news?category")
-//        Call<CategoryNewsObject> getSpecificTopicArticles(
-//                @Query("categoryName") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(CATEGORY_BASE_URL)
@@ -390,7 +364,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     private void initializeFacebookSDK() {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -408,24 +381,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
 
     }
+    //interface methods below are getting each return type of the json object
 
+    @Override
+    public void onSearchArticleSelected(com.test.myapplication.SearchNewsObject.Value searchArticle) {
+        detailFragment = new DetailFragment();
+        detailFragment.setSearchArticle(searchArticle);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public void onArticleSelected(Value selectedArticle) {
         detailFragment = new DetailFragment();
-
         detailFragment.setDetailArticle(selectedArticle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
         fragmentTransaction.commit();
-
     }
 
     @Override
     public void onCatArticleSelected(com.test.myapplication.CategoryNewsObject.Value catArticle) {
         detailFragment = new DetailFragment();
-
         detailFragment.setCatArticle(catArticle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -527,12 +507,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         followHeart.setVisible(false);
 
-
         return true;
-
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -574,8 +550,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.commit();
 
     }
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -599,12 +573,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.search) {
 
-////             Find searchManager and searchableInfo
-
             String s = searchView.getQuery().toString();
-            Log.i(TAG, "onNavigationItemSelected: SEARCH QUERY "+s);
-
-//            toolbar.setTitle("Search");
 
         } else if (id == R.id.nav_business) {
 
