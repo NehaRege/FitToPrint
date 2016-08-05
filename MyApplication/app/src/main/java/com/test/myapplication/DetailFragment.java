@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class DetailFragment extends Fragment {
     String TAG = "DetailFragment";
 
     FloatingActionMenu fam;
-    FloatingActionButton fab1Fb, fab2Twt, fab3Messenger, fab4;
+    FloatingActionButton fab1Fb, fab2Twt, fab3Messenger, fab4,fab5;
 
     WebView webView;
 
@@ -238,6 +239,29 @@ public class DetailFragment extends Fragment {
 
                     messageDialog.show(linkContent);
                 }
+            }
+        });
+
+        fab5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (MessageDialog.canShow(ShareLinkContent.class)) {
+
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setContentTitle(articleName)
+                            .setContentDescription(articleDescription)
+                            .setContentUrl(Uri.parse(articleUrl))
+                            .build();
+                    messageDialog.show(linkContent);
+
+                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                    sharingIntent.setType("html");
+                    sharingIntent.putExtra(Intent.EXTRA_HTML_TEXT, Html.fromHtml("<p>This is the text that will be shared.</p>"));
+                    startActivity(Intent.createChooser(sharingIntent,"Share using"));
+
+
+                }
+
             }
         });
 
