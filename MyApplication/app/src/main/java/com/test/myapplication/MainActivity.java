@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
 
-
         handleIntent(getIntent());
+
 
         initializeFacebookSDK();
         Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                @Header("Ocp-Apim-Subscription-Key") String apiKey,
 //                @Path("?q") String searchQuery);
 
-        String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news";
+        String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SEARCH_BASE_URL)
@@ -336,9 +336,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         CategoryNewsObject categoryNewsObject = response.body();
 
-                    Log.i(TAG, "onResponse: CATEGORYNAME IS? " + categoryName);
-                    Log.i(TAG, "onResponse: cat news object is" + categoryNewsObject.getValue().get(0).getName());
-                    Log.i(TAG, "onResponse:  body gotten");
                         Log.i(TAG, "onResponse: CATEGORYNAME IS? "+categoryName);
                         Log.i(TAG, "onResponse: cat news object is"+ categoryNewsObject.getValue().get(0).getName());
                         Log.i(TAG, "onResponse:  body gotten");
@@ -529,6 +526,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
+        // Associate searchable info with the SearchView
+        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setSearchableInfo(searchableInfo);
+
         followHeart = (MenuItem) menu.findItem(R.id.button_heart_follow_topic);
 
         followHeart.setVisible(false);
@@ -606,12 +610,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.search) {
 
 ////             Find searchManager and searchableInfo
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
 
-            // Associate searchable info with the SearchView
-            searchView = (SearchView) item.getActionView();
-            searchView.setSearchableInfo(searchableInfo);
+            String s = searchView.getQuery().toString();
+            Log.i(TAG, "onNavigationItemSelected: SEARCH QUERY "+s);
 
 //            toolbar.setTitle("Search");
 
@@ -707,7 +708,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             categoryName = "US";
 
-            toolbar.setTitle(R.string.toolbar_name_usanduk);
+            toolbar.setTitle(R.string.navigation_drawer_US);
 
             followHeart.setVisible(true);
 

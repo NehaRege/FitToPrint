@@ -44,10 +44,10 @@ public interface BingAPIService {
 //            @Path("mkt") String safeSearchLevel);
 
 
-    @GET("/search?q")
+    @GET("/search?")
     Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
             @Header("Ocp-Apim-Subscription-Key") String apiKey,
-            @Path("?q") String searchQuery);
+            @Query("q") String searchQuery);
 
 
 //    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
