@@ -4,7 +4,9 @@ package com.test.myapplication.CategoryNewsObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class About {
+import java.io.Serializable;
+
+public class About implements Serializable{
 
     @SerializedName("readLink")
     @Expose
