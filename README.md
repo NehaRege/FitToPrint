@@ -1,3 +1,12 @@
+**** OTHER COLLABORATORS ****
+
+1.  <a href="https://github.com/krock5746">Kevin Scruggs</a>
+
+2.  <a href="https://github.com/NehaRege">Neha Rege</a>
+
+3.  <a href="https://github.com/jonkaman">Jon Kim</a>
+
+
 **** APP INFO ****
 
 "FitToPrint" is a newsfeed app which calls Bing's API for trending and categorical news articles.

@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String NAV_ITEM = "Navigation drawer menu item";
     SearchView searchView;
     Toolbar toolbar;
+    Menu navMenu;
 
 
     @Override
@@ -219,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.i(TAG, "loadSearchedItems: just entered loadsearcheditems method");
 
-
+        toolbar.setTitle("Search Results");
 //        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
 
 //        @GET("/search?q")
@@ -404,6 +405,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
 
     }
+
     //interface methods below are getting each return type of the json object
 
     @Override
@@ -452,13 +454,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navMenu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        // Find searchManager and searchableInfo
-//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
-
 
     }
 
@@ -471,7 +468,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
                         DailyReadTheNewsNotificationJob.class.getName()))
-                .setPeriodic(86400000) //<–Send notification every day
+                .setPeriodic(86400000)                  //<–Send notification every day
                 .setRequiresCharging(false)
                 .build();
 
@@ -531,28 +528,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Log.i(TAG, "onOptionsItemSelected: isFollowed is true");
 
-                    followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                    followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
                     isFollowed = false;
 
-                    Toast.makeText(MainActivity.this, "You're now following\n " + categoryName + " news!", Toast.LENGTH_SHORT).show();
-
-                    addCategoryToSharedPreferences(toolbarName, true);
-
-
-                } else {
-
-                    Log.i(TAG, "onOptionsItemSelected: isFollowed is false");
-
-                    followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
-
-                    isFollowed = true;
 
                     removeCategoryToSharedPreferences(toolbarName);
 
                     Toast.makeText(MainActivity.this, "You've unfollowed\n" + categoryName + " news.", Toast.LENGTH_SHORT).show();
 
+                    switchNavViewArea(categoryName);
+                } else {
 
+                    Log.i(TAG, "onOptionsItemSelected: isFollowed is false");
+
+                    followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+                    isFollowed = true;
+
+                    addCategoryToSharedPreferences(toolbarName, true);
+
+                    Toast.makeText(MainActivity.this, "You're now following\n " + categoryName + " news!", Toast.LENGTH_SHORT).show();
+
+                    switchNavViewArea(categoryName);
                 }
 
 
@@ -567,6 +565,105 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
         }
 
+    }
+
+    private void switchNavViewArea(String categoryName) {
+
+        switch (categoryName) {
+            case "Business":
+
+
+                if (navMenu.findItem(R.id.nav_business).isVisible()) {
+
+                    navMenu.findItem(R.id.nav_business).setVisible(false);
+                    navMenu.findItem(R.id.nav_business_followed).setVisible(true);
+
+                } else {
+
+                    navMenu.findItem(R.id.nav_business).setVisible(true);
+                    navMenu.findItem(R.id.nav_business_followed).setVisible(false);
+                }
+                break;
+
+            case "Entertainment":
+
+
+                if (navMenu.findItem(R.id.nav_entertainment).isVisible()) {
+
+                    navMenu.findItem(R.id.nav_entertainment).setVisible(false);
+                    navMenu.findItem(R.id.nav_entertainment_followed).setVisible(true);
+
+                } else {
+
+                    navMenu.findItem(R.id.nav_entertainment).setVisible(true);
+                    navMenu.findItem(R.id.nav_entertainment_followed).setVisible(false);
+                }break;
+            case "Health":
+
+                if (navMenu.findItem(R.id.nav_health).isVisible()) {
+
+                    navMenu.findItem(R.id.nav_health).setVisible(false);
+                    navMenu.findItem(R.id.nav_health_followed).setVisible(true);
+
+                } else {
+
+                    navMenu.findItem(R.id.nav_health).setVisible(true);
+                    navMenu.findItem(R.id.nav_health_followed).setVisible(false);
+                }break;
+            case "Politics":
+
+
+                if (navMenu.findItem(R.id.nav_politics).isVisible()) {
+
+                    navMenu.findItem(R.id.nav_politics).setVisible(false);
+                    navMenu.findItem(R.id.nav_politics_followed).setVisible(true);
+
+                } else {
+
+                    navMenu.findItem(R.id.nav_politics).setVisible(true);
+                    navMenu.findItem(R.id.nav_politics_followed).setVisible(false);
+                }break;
+            case "Science/Tech":
+
+
+                if (navMenu.findItem(R.id.nav_scienceandtech).isVisible()) {
+
+                    navMenu.findItem(R.id.nav_scienceandtech).setVisible(false);
+                    navMenu.findItem(R.id.nav_scienceandtech_followed).setVisible(true);
+
+                } else {
+
+                    navMenu.findItem(R.id.nav_scienceandtech).setVisible(true);
+                    navMenu.findItem(R.id.nav_scienceandtech_followed).setVisible(false);
+                }break;
+
+            case "Sports":
+
+
+                if (navMenu.findItem(R.id.nav_sports).isVisible()) {
+
+                    navMenu.findItem(R.id.nav_sports).setVisible(false);
+                    navMenu.findItem(R.id.nav_sports_followed).setVisible(true);
+
+                } else {
+
+                    navMenu.findItem(R.id.nav_sports).setVisible(true);
+                    navMenu.findItem(R.id.nav_sports_followed).setVisible(false);
+                }break;
+            case "World":
+
+
+                if (navMenu.findItem(R.id.nav_world).isVisible()) {
+
+                    navMenu.findItem(R.id.nav_world).setVisible(false);
+                    navMenu.findItem(R.id.nav_world_followed).setVisible(true);
+
+                } else {
+
+                    navMenu.findItem(R.id.nav_world).setVisible(true);
+                    navMenu.findItem(R.id.nav_world_followed).setVisible(false);
+                }
+        }
     }
 
     private void addCategoryToSharedPreferences(String keyName, boolean categoryFollowed) {
@@ -602,8 +699,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         inflater = getMenuInflater();
@@ -636,12 +733,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
-
+                isFollowed = true;
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
-
+                isFollowed = false;
             }
 
 
@@ -702,12 +799,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
-
+                isFollowed = true;
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
-
+                isFollowed = false;
             }
 
             followHeart.setVisible(true);
@@ -733,11 +830,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
-
+                isFollowed = true;
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
-
+                isFollowed = false;
 
             }
 
@@ -764,11 +861,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
 
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
-
+                isFollowed = false;
 
             }
 
@@ -794,11 +892,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
-
+                isFollowed = true;
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
-
+                isFollowed = false;
 
             }
 
@@ -825,11 +923,221 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
-
+                isFollowed = true;
             } else {
 
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
 
+            }
+
+            followHeart.setVisible(true);
+
+            loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+        } else if (id == R.id.nav_business_followed)
+
+        {
+
+            categoryName = "Business";
+
+            toolbar.setTitle(R.string.toolbar_name_business);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
+
+            }
+
+            followHeart.setVisible(true);
+
+            loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+        } else if (id == R.id.nav_entertainment_followed)
+
+        {
+
+            categoryName = "Entertainment";
+
+            toolbar.setTitle(R.string.toolbar_name_entertainment);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
+
+            }
+
+            followHeart.setVisible(true);
+
+            loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+        } else if (id == R.id.nav_health_followed)
+
+        {
+
+            categoryName = "Health";
+
+            toolbar.setTitle(R.string.toolbar_name_health);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
+
+            }
+
+            followHeart.setVisible(true);
+
+            loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+        } else if (id == R.id.nav_politics_followed)
+
+        {
+
+            categoryName = "Politics";
+
+            toolbar.setTitle(R.string.toolbar_name_politics);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
+
+            }
+
+            followHeart.setVisible(true);
+
+            loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+        } else if (id == R.id.nav_scienceandtech_followed)
+
+        {
+
+            categoryName = "ScienceAndTechnology";
+
+            toolbar.setTitle(R.string.toolbar_name_scienceandtech);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
+
+            }
+
+            followHeart.setVisible(true);
+
+            loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+        } else if (id == R.id.nav_sports_followed)
+
+        {
+
+            categoryName = "Sports";
+
+            toolbar.setTitle(R.string.toolbar_name_sports);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
+
+            }
+
+            followHeart.setVisible(true);
+
+            loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
+        } else if (id == R.id.nav_world_followed)
+
+        {
+
+            categoryName = "World";
+
+            toolbar.setTitle(R.string.toolbar_name_world);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                isFollowed = true;
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
 
             }
 

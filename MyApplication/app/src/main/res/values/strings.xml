@@ -38,6 +38,10 @@
     <string name="toolbar_name_us">US</string>
     <string name="toolbar_name_world">World</string>
 
+    <!--BING API Key-->
+
+    <string name="API_KEY">0840b3a5e0374dfc9a1dbdcb89b66f40</string>
+
     <!--Toolbar Name onCreate()-->
 
     <string name="toolbar_name_trending_news">Trending News</string>
