@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.v4.view.GravityCompat;
@@ -30,7 +29,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
 import com.test.myapplication.SearchNewsObject.SearchNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
@@ -43,44 +42,49 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.HEAD;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
+    private boolean isFollowed;
+    public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
+    private FirebaseAnalytics mFirebaseAnalytics;
     private String TAG = "MainActivity";
+    private String API_KEY = "0840b3a5e0374dfc9a1dbdcb89b66f40";
+    Bundle bundle;
+    Context context;
+    DetailFragment detailFragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    DetailFragment detailFragment;
-    RecyclerViewFragment recyclerViewFragment;
-    Toolbar toolbar;
-    boolean categoryIsFollowed;
-    String categoryName;
-    SearchView searchView;
-    private String API_KEY = "0840b3a5e0374dfc9a1dbdcb89b66f40";
-    Context context;
     MenuInflater inflater;
-    public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
     MenuItem followHeart;
+    RecyclerViewFragment recyclerViewFragment;
+    String categoryName;
+    String NAV_ITEM = "Navigation drawer menu item";
+    SearchView searchView;
+    Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setUpDrawersandView();
 
         setRecycleFragment();
-
-        initializeFacebookSDK();
+        Log.i(TAG, "onCreate: RecycleFragment set up");
 
         loadTrendingArticles();
 
-//        setUpBreakingNewsCheckJob();
-
         handleIntent(getIntent());
 
-//        setUpMorningNotificationJob();
+        initializeFacebookSDK();
+
+        setUpMorningNotificationJob();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
     }
 
@@ -92,15 +96,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void handleIntent(Intent intent) {
 
+        Log.i(TAG, "handleIntent: intent action = " + Intent.ACTION_SEARCH);
+        Log.i(TAG, "handleIntent: intent getaction = " + intent.getAction());
+        Log.i(TAG, "handleIntent: intent getaction = " + intent.getDataString());
+
+
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
             Log.i(TAG, "handleIntent: just entered");
 
+
             String query = intent.getStringExtra(SearchManager.QUERY);
+
+            Log.i(TAG, "handleIntent: got the query: " + query);
 
             loadSearchedItems(query);
 
             Toast.makeText(MainActivity.this, "Searched for " + query, Toast.LENGTH_SHORT).show();
+
+
         }
     }
 
@@ -114,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conMgr.getActiveNetworkInfo();
 
-        if(networkInfo != null && networkInfo.isConnected()) {
+        if (networkInfo != null && networkInfo.isConnected()) {
 
             // connection available !
 
@@ -190,20 +204,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
 
-        }  else  {
+        } else {
 
-            Toast.makeText(this,"No network connectivity !",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_message_no_connectivity, Toast.LENGTH_LONG).show();
 
             // connection not available !
+
+
         }
+
     }
 
     private void loadSearchedItems(String query) {
 
+        Log.i(TAG, "loadSearchedItems: just entered loadsearcheditems method");
+
+
+//        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
+
+//        @GET("/search?q")
+//        Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
+//                @Header("Ocp-Apim-Subscription-Key") String apiKey,
+//                @Path("?q") String searchQuery);
+
         String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
 
-        
-        Log.i(TAG, "loadSearchedItems: base url: "+SEARCH_BASE_URL);
+
+        Log.i(TAG, "loadSearchedItems: base url: " + SEARCH_BASE_URL);
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SEARCH_BASE_URL)
@@ -211,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         BingAPIService request = retrofit.create(BingAPIService.class);
+
 
         Call<SearchNewsObject> callForSearch = request.getArticlesBasedOnSearchQuery(query, API_KEY);
 
@@ -220,18 +249,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 try {
 
                     Log.i(TAG, "onResponse: inside onresponse");
-                    
+
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     SearchNewsObject searchNewsObject = response.body();
 
                     ArrayList<com.test.myapplication.SearchNewsObject.Value> data = new ArrayList<>();
-                    Log.i(TAG, "onResponse: asdlfkjaslkdf "+ searchNewsObject.getValue().size());
+                    Log.i(TAG, "onResponse: asdlfkjaslkdf " + searchNewsObject.getValue().size());
                     data.addAll(searchNewsObject.getValue());
 
-                    Log.i(TAG, "onResponse: data is: "+data);
+                    Log.i(TAG, "onResponse: data is: " + data);
 
-                    Log.i(TAG, "onResponse: data is: "+data);
+                    Log.i(TAG, "onResponse: data is: " + data);
 
                     Bundle bundle = new Bundle();
 
@@ -260,7 +289,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-//loads categories that are clicked from the navigation drawer. receives string from navigation drawer.
+
+    //loads categories that are clicked from the navigation drawer. receives string from navigation drawer.
     private void loadCategoryArticles(final String categoryName) {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -293,8 +323,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         CategoryNewsObject categoryNewsObject = response.body();
 
-                        Log.i(TAG, "onResponse: CATEGORYNAME IS? "+categoryName);
-                        Log.i(TAG, "onResponse: cat news object is"+ categoryNewsObject.getValue().get(0).getName());
+                        Log.i(TAG, "onResponse: CATEGORYNAME IS? " + categoryName);
+                        Log.i(TAG, "onResponse: cat news object is" + categoryNewsObject.getValue().get(0).getName());
                         Log.i(TAG, "onResponse:  body gotten");
 
                         ArrayList<com.test.myapplication.CategoryNewsObject.Value> data =
@@ -351,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             // the connection is not available
 
-            Toast.makeText(this,"No network connectivity !",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_message_no_connectivity, Toast.LENGTH_LONG).show();
 
         }
 
@@ -432,24 +462,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @TargetApi(21)
-    private void setUpBreakingNewsCheckJob() {
-
-        String TAG = "MainActivity";
-
-        JobInfo breakingNewsJob = new JobInfo.Builder(1,
-                new ComponentName(getPackageName(),
-                        CheckForBreakingNewsJob.class.getName()))
-                .setPeriodic(3600000) //<– Check for breaking news every hour
-                .build();
-
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int result = jobScheduler.schedule(breakingNewsJob);
-        if (result <= 0) {
-            //stuff went wrong
-            Log.i(TAG, "setUpBreakNewsCheckJob: Error with breaking news job check");
-        }
-    }
 
     @TargetApi(21)
     private void setUpMorningNotificationJob() {
@@ -459,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
                         MorningReadTheNewsNotificationJob.class.getName()))
-                .setPeriodic(3600000) //<– Check for breaking news every hour
+                .setPeriodic(86400000) //<–Send notification every day
                 .setRequiresCharging(false)
                 .build();
 
@@ -467,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int result = jobScheduler.schedule(dailyMorningNotificationJob);
         if (result <= 0) {
             //stuff went wrong
-            Log.i(TAG, "setUpMorningNotificationJob: Error with breaking news job check");
+            Log.i(TAG, "setUpMorningNotificationJob: Error with daily morning news job check");
         }
 
     }
@@ -515,7 +527,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 String toolbarName = toolbar.getTitle().toString();
 
-                addCategoryToSharedPreferences(toolbarName, true);
+                if (isFollowed) {
+
+                    Log.i(TAG, "onOptionsItemSelected: isFollowed is true");
+
+                    followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+                    isFollowed = false;
+
+                    Toast.makeText(MainActivity.this, "You're now following\n " + categoryName + " news!", Toast.LENGTH_SHORT).show();
+
+                    addCategoryToSharedPreferences(toolbarName, true);
+
+
+                } else {
+
+                    Log.i(TAG, "onOptionsItemSelected: isFollowed is false");
+
+                    followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+                    isFollowed = true;
+
+                    removeCategoryToSharedPreferences(toolbarName);
+
+                    Toast.makeText(MainActivity.this, "You've unfollowed\n" + categoryName + " news.", Toast.LENGTH_SHORT).show();
+
+
+                }
+
 
                 return true;
 
@@ -543,9 +582,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.commit();
 
     }
+
+    private void removeCategoryToSharedPreferences(String keyName) {
+
+        context = getApplicationContext();
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.remove(keyName);
+
+        editor.commit();
+
+    }
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -564,10 +621,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_followed);
 
-        } else if (id == R.id.search) {
-
-//            String s = searchView.getQuery().toString();
-
         } else if (id == R.id.nav_business) {
 
 
@@ -576,16 +629,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle(R.string.toolbar_name_business);
 
             SharedPreferences sharedPreferences = getSharedPreferences
-                    (MyPREFERENCES,Context.MODE_PRIVATE);
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
 
-            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
 
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
             } else {
+
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
 
             }
 
@@ -594,6 +649,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
 
         } else if (id == R.id.nav_entertainment)
 
@@ -604,22 +662,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle(R.string.toolbar_name_entertainment);
 
             SharedPreferences sharedPreferences = getSharedPreferences
-                    (MyPREFERENCES,Context.MODE_PRIVATE);
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
 
-            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
 
             if (alreadyFollowedOrNot) {
 
                 followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
+                isFollowed = true;
+
+
             } else {
                 followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                isFollowed = false;
 
             }
 
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
 
         } else if (id == R.id.nav_health)
 
@@ -629,9 +694,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_health);
 
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
+
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
 
         } else if (id == R.id.nav_politics)
 
@@ -641,9 +725,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_politics);
 
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
+
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
 
         } else if (id == R.id.nav_scienceandtech)
 
@@ -653,10 +756,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
+
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
 
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
 
         } else if (id == R.id.nav_sports)
 
@@ -666,21 +786,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_sports);
 
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
+
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_US)
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
 
-        {
-
-            categoryName = "US";
-
-            toolbar.setTitle(R.string.toolbar_name_us);
-
-            followHeart.setVisible(true);
-
-            loadCategoryArticles(categoryName);
 
         } else if (id == R.id.nav_world)
 
@@ -690,9 +817,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_world);
 
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName, false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+
+            }
+
             followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
+
+            logClickOnNavDrawerItemIntoFirebaseAnalytics(categoryName);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -700,4 +846,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void logClickOnNavDrawerItemIntoFirebaseAnalytics(String categoryName) {
+
+
+        bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, categoryName);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, categoryName);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, NAV_ITEM);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+    }
+
+    private void logSearchQueryIntoFirebaseAnalytics(String searchQuery) {
+
+        bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, searchQuery);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+
+    }
 }
