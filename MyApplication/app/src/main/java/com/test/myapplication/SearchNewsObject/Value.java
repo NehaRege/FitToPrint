@@ -1,12 +1,13 @@
 
 package com.test.myapplication.SearchNewsObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Value {
+public class Value implements Serializable{
 
     @SerializedName("name")
     @Expose

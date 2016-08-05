@@ -32,6 +32,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
+import com.test.myapplication.SearchNewsObject.SearchNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
 
-        handleIntent(getIntent());
 
 
         initializeFacebookSDK();
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        setUpBreakingNewsCheckJob();
 
+        handleIntent(getIntent());
 
 //        setUpMorningNotificationJob();
 
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             loadSearchedItems(query);
 
-
+            Log.i(TAG, "handleIntent: "+query);
             Toast.makeText(MainActivity.this, "searched " + query, Toast.LENGTH_SHORT).show();
         }
     }
@@ -235,15 +236,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadSearchedItems(String query) {
 
-//        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
-
-//        @GET("/search?q")
-//        Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
-//                @Header("Ocp-Apim-Subscription-Key") String apiKey,
-//                @Path("?q") String searchQuery);
-
         String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
-
+        Log.i(TAG, "loadSearchedItems: asdfasdfasdfasdf");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SEARCH_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -251,29 +245,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         BingAPIService request = retrofit.create(BingAPIService.class);
 
-        String count = "";
-        String offset = "";
-        String mkt = "";
-
-        Call<ArticleWithDescriptionObject> callForSearch = request.getArticlesBasedOnSearchQuery(
-                API_KEY, query
+        Call<SearchNewsObject> callForSearch = request.getArticlesBasedOnSearchQuery(
+                query, API_KEY
         );
 
-        callForSearch.enqueue(new Callback<ArticleWithDescriptionObject>() {
+        callForSearch.enqueue(new Callback<SearchNewsObject>() {
             @Override
-            public void onResponse(Call<ArticleWithDescriptionObject> call, Response<ArticleWithDescriptionObject> response) {
+            public void onResponse(Call<SearchNewsObject> call, Response<SearchNewsObject> response) {
                 try {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
+                    SearchNewsObject searchNewsObject = response.body();
 
-                    ArrayList<com.test.myapplication.ArticleWithDescriptionObject.Value> data = new ArrayList<>();
-
-                    data.addAll(articleWithDescriptionObject.getValue());
+                    ArrayList<com.test.myapplication.SearchNewsObject.Value> data = new ArrayList<>();
+                    Log.i(TAG, "onResponse: asdlfkjaslkdf "+ searchNewsObject.getValue().size());
+                    data.addAll(searchNewsObject.getValue());
 
                     Bundle bundle = new Bundle();
 
-                    bundle.putSerializable("ArrayList of searched items", data);
+                    bundle.putSerializable("Search", data);
 
                     RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
 
@@ -290,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onFailure(Call<ArticleWithDescriptionObject> call, Throwable t) {
+            public void onFailure(Call<SearchNewsObject> call, Throwable t) {
                 Log.d("Error", t.getMessage());
             }
         });

@@ -6,6 +6,7 @@ package com.test.myapplication;
 
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
+import com.test.myapplication.SearchNewsObject.SearchNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 
 import retrofit2.Call;
@@ -44,10 +45,9 @@ public interface BingAPIService {
 //            @Path("mkt") String safeSearchLevel);
 
 
-    @GET("/search?")
-    Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
-            @Header("Ocp-Apim-Subscription-Key") String apiKey,
-            @Query("q") String searchQuery);
+    @GET("search?")
+    Call<SearchNewsObject> getArticlesBasedOnSearchQuery(
+            @Query("q") String searchQuery, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
 
 //    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"

@@ -24,6 +24,7 @@ import java.util.List;
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
     private ArrayList<com.test.myapplication.CategoryNewsObject.Value> mCatData;
     private ArrayList<Value> mData;
+    private ArrayList<com.test.myapplication.SearchNewsObject.Value> mSearchData;
     private Context mContext;
 
     private static OnRecyclerViewItemClickListener onItemClickListener;
@@ -44,25 +45,20 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             rvImageView = (ImageView) itemView.findViewById(R.id.rv_image);
             rvTitleText = (TextView) itemView.findViewById(R.id.rv_title);
 
-//            rvDesText = (TextView) itemView.findViewById(R.id.rv_description);
-//            rvTopicText = (TextView) itemView.findViewById(R.id.rv_topic);
-//            rvDateText = (TextView) itemView.findViewById(R.id.rv_date);
-
-//            rvFollowButton = (Button) itemView.findViewById(R.id.rv_follow_button);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     onItemClickListener.onItemClick(getLayoutPosition());
 
-
                 }
             });
         }
     }
     public CustomRecyclerViewAdapter(ArrayList<Value> mData,
-                                     OnRecyclerViewItemClickListener listener, Context context, ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData) {
+                                     OnRecyclerViewItemClickListener listener, Context context,
+                                     ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData,
+                                     ArrayList<com.test.myapplication.SearchNewsObject.Value> searchData) {
         this.mContext = context;
         if(listener!=null){
             this.onItemClickListener = listener;
@@ -79,15 +75,19 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         }else{
             this.mCatData = new ArrayList<>();
         }
+
+        if(searchData!=null){
+            this.mSearchData = searchData;
+        }else{
+            this.mSearchData = new ArrayList<>();
+        }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-//        if(mData.size()>0){
-//
-//        }
+
         View cardLayout = inflater.inflate(R.layout.rv_card_layout,parent,false);
 
         return new ViewHolder(cardLayout);
@@ -109,23 +109,24 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             if(value.getImage().getThumbnail().getContentUrl()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
             }
-//            holder.rvTopicText.setText(value.getCategory());
-//            holder.rvDesText.setText(value.getDescription());
-//            holder.rvDateText.setText(value.getDatePublished());
+        }else if(mSearchData.size()>0){
+            com.test.myapplication.SearchNewsObject.Value value = mSearchData.get(position);
+
+            holder.rvTitleText.setText(value.getName());
+            if(value.getImage().getThumbnail().getContentUrl()!=null){
+                Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
+            }
         }
-//        holder.rvFollowButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //follow button
-//            }
-//        });
+
     }
 
     @Override
     public int getItemCount() {
         if(mData.size()>0){
             return mData.size();
-        }else return mCatData.size();
+        }else if(mCatData.size()>0){
+            return mCatData.size();
+        }else return mSearchData.size();
 
     }
 }
