@@ -75,25 +75,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setUpDrawersandView();
         Log.i(TAG, "onCreate: Drawers and views set up");
 
         setRecycleFragment();
         Log.i(TAG, "onCreate: RecycleFragment set up");
 
-
-
-        handleIntent(getIntent());
-
-        loadTrendingArticles();
-        Log.i(TAG, "onCreate: loadTrendingArticles() run");
-
-
         initializeFacebookSDK();
         Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
 
 
-        setUpMorningNotificationJob();
+        loadTrendingArticles();
+        Log.i(TAG, "onCreate: loadTrendingArticles() run");
+
+//        setUpBreakingNewsCheckJob();
+
+        handleIntent(getIntent());
+
+//        setUpMorningNotificationJob();
 
     }
 
@@ -557,12 +557,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
+                    followTracker = false;
 
 
                 } else {
                     Log.i(TAG, "onOptionsItemSelected: followTracker is false");
 
                     followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+                    followTracker = true;
+
 
                 }
 
