@@ -1,5 +1,5 @@
 
-package com.test.myapplication.CategoryNewsObject;
+package com.test.myapplication.SearchNewsObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ClusteredArticle implements Serializable {
+public class Value implements Serializable{
 
     @SerializedName("name")
     @Expose
@@ -15,18 +15,21 @@ public class ClusteredArticle implements Serializable {
     @SerializedName("url")
     @Expose
     private String url;
+    @SerializedName("image")
+    @Expose
+    private Image image;
     @SerializedName("description")
     @Expose
     private String description;
     @SerializedName("about")
     @Expose
-    private List<About_> about = new ArrayList<About_>();
+    private List<About> about = new ArrayList<About>();
     @SerializedName("mentions")
     @Expose
-    private List<Mention_> mentions = new ArrayList<Mention_>();
+    private List<Mention> mentions = new ArrayList<Mention>();
     @SerializedName("provider")
     @Expose
-    private List<Provider_> provider = new ArrayList<Provider_>();
+    private List<Provider> provider = new ArrayList<Provider>();
     @SerializedName("datePublished")
     @Expose
     private String datePublished;
@@ -73,6 +76,24 @@ public class ClusteredArticle implements Serializable {
     /**
      * 
      * @return
+     *     The image
+     */
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * 
+     * @param image
+     *     The image
+     */
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    /**
+     * 
+     * @return
      *     The description
      */
     public String getDescription() {
@@ -93,7 +114,7 @@ public class ClusteredArticle implements Serializable {
      * @return
      *     The about
      */
-    public List<About_> getAbout() {
+    public List<About> getAbout() {
         return about;
     }
 
@@ -102,7 +123,7 @@ public class ClusteredArticle implements Serializable {
      * @param about
      *     The about
      */
-    public void setAbout(List<About_> about) {
+    public void setAbout(List<About> about) {
         this.about = about;
     }
 
@@ -111,7 +132,7 @@ public class ClusteredArticle implements Serializable {
      * @return
      *     The mentions
      */
-    public List<Mention_> getMentions() {
+    public List<Mention> getMentions() {
         return mentions;
     }
 
@@ -120,7 +141,7 @@ public class ClusteredArticle implements Serializable {
      * @param mentions
      *     The mentions
      */
-    public void setMentions(List<Mention_> mentions) {
+    public void setMentions(List<Mention> mentions) {
         this.mentions = mentions;
     }
 
@@ -129,7 +150,7 @@ public class ClusteredArticle implements Serializable {
      * @return
      *     The provider
      */
-    public List<Provider_> getProvider() {
+    public List<Provider> getProvider() {
         return provider;
     }
 
@@ -138,7 +159,7 @@ public class ClusteredArticle implements Serializable {
      * @param provider
      *     The provider
      */
-    public void setProvider(List<Provider_> provider) {
+    public void setProvider(List<Provider> provider) {
         this.provider = provider;
     }
 

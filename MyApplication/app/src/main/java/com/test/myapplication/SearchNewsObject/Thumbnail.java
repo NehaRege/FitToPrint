@@ -1,12 +1,12 @@
 
-package com.test.myapplication.CategoryNewsObject;
+package com.test.myapplication.SearchNewsObject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Thumbnail implements Serializable {
+public class Thumbnail implements Serializable{
 
     @SerializedName("contentUrl")
     @Expose

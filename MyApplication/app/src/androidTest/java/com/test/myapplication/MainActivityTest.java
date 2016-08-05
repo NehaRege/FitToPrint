@@ -3,6 +3,7 @@ package com.test.myapplication;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.Gravity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -54,8 +55,15 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
         * */
 
 
-        onView(withId(R.id.drawer_layout)).perform(actionOpenDrawer());
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isclosed(Gravity.LEFT))) // Left Drawer should be closed.
+                .perform(actionOpenDrawer()); // Open Drawer
+
+
+        onView(withId(R.id.drawer_layout))
+                .perform(actionOpenDrawer());
         onView(withId(R.id.nav_trending)).perform(click());
+
 
         onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
 
@@ -118,4 +126,7 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
     private static DataInteraction  actionOpenDrawer() {
         return null;
     }
+
+
+
 }

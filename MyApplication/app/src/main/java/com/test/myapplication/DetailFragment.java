@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ public class DetailFragment extends Fragment {
     String TAG = "DetailFragment";
 
     FloatingActionMenu fam;
-    FloatingActionButton fab1Fb, fab2Twt, fab3Messenger, fab4,fab5;
+    FloatingActionButton fab2FB, fab3Messenger, fab1;
 
     WebView webView;
 
@@ -40,9 +39,6 @@ public class DetailFragment extends Fragment {
     MessageDialog messageDialog;
 
     private View view;
-
-//    ArticleWithDescriptionObject article;
-
 
     Value article;
     String articleName;
@@ -54,11 +50,15 @@ public class DetailFragment extends Fragment {
     String catArticalUrl;
     String catArticleDescription;
 
+    com.test.myapplication.SearchNewsObject.Value searchArticle;
+    String searchArticleName;
+    String searchArticleUrl;
+    String searchArticleDescription;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_detail,container,false);
+        view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         initializeViews();
 
@@ -70,8 +70,8 @@ public class DetailFragment extends Fragment {
 
         messageDialog = new MessageDialog(this);
 
-
-        if(articleUrl!=null){
+        //if statements checking for which data type that's coming in. same thing happens for fab buttons.
+        if (articleUrl != null) {
 
             webView.loadUrl(articleUrl);
 
@@ -80,17 +80,10 @@ public class DetailFragment extends Fragment {
                 public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                     view.loadUrl(articleUrl);
                     return true;
-
                 }
             });
 
-//            articleUrl=null;
-
-        } else if(catArticalUrl!=null){
-
-            Log.i(TAG, "onCreateView: Cat Url is NOT null");
-
-            Log.i(TAG, "onCreateView: cat URL is: "+catArticalUrl);
+        } else if (catArticalUrl != null) {
 
             webView.loadUrl(catArticalUrl);
 
@@ -99,60 +92,122 @@ public class DetailFragment extends Fragment {
                 public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                     view.loadUrl(catArticalUrl);
                     return true;
-
                 }
             });
 
-//            catArticalUrl=null;
+        } else if (searchArticleUrl != null) {
+            webView.loadUrl(searchArticleUrl);
 
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    view.loadUrl(searchArticleUrl);
+                    return true;
+                }
+            });
         }
 
-        // fb
+        fab1.setOnClickListener(new View.OnClickListener() {
 
-        fab1Fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Log.i(TAG, "*******onClick:FB ********");
+                if (catArticalUrl != null) {
 
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, catArticalUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
 
-                Log.i(TAG, "onClick: cat url: "+catArticalUrl);
+                    articleUrl = null;
+                    searchArticle = null;
+
+                }  else if (articleUrl != null)  {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, articleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+                    searchArticle = null;
+
+                }   else if (searchArticle != null) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, searchArticleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+                    articleUrl = null;
+                }
+
+            }
+        });
+
+        fab2FB.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
 
                 if (catArticalUrl != null) {
 
-                    Log.i(TAG, "onClick: inside if(catUrl not null) method");
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, catArticalUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
 
-                    Log.i(TAG, "onClick: cat Url: "+catArticalUrl);
+                    articleUrl = null;
+                    searchArticle = null;
 
-                    Log.i(TAG, "onClick: cat Title: "+catArticalName);
-                    
+                }  else if (articleUrl != null)  {
 
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, articleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
 
-                    Log.i(TAG, "onClick: inside shareDialog.canShow() method");
+                    catArticalUrl = null;
+                    searchArticle = null;
 
+                }   else if (searchArticle != null) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, searchArticleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
+                    catArticalUrl = null;
+                    articleUrl = null;
+                }
+
+            }
+        });
+
+        fab2FB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (catArticalUrl != null) {
+
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
 
                         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                                 .setContentTitle(catArticalName)
-//                            .setContentDescription()
+//                                .setContentDescription()
                                 .setContentUrl(Uri.parse(catArticalUrl))
                                 .build();
 
                         shareDialog.show(linkContent);
 
-                    Log.i(TAG, "onClick: ShareDialog should show");
                     }
                     articleUrl = null;
+                    searchArticleUrl = null;
 
-                    Log.i(TAG, "onClick: article url set to null");
-
-                    Log.i(TAG, "onClick: END");
-                    
-                    
-                } else if ( articleUrl != null) {
+                } else if (articleUrl != null) {
 
                     if (ShareDialog.canShow(ShareLinkContent.class)) {
-
 
                         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                                 .setContentTitle(articleName)
@@ -163,29 +218,25 @@ public class DetailFragment extends Fragment {
                         shareDialog.show(linkContent);
                     }
                     catArticalUrl = null;
+                    searchArticleUrl = null;
+
+                } else if (searchArticleUrl != null) {
+
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                .setContentTitle(searchArticleName)
+                                .setContentDescription(searchArticleDescription)
+                                .setContentUrl(Uri.parse(searchArticleUrl))
+                                .build();
+
+                        shareDialog.show(linkContent);
+                    }
+                    catArticalUrl = null;
+                    articleUrl = null;
                 }
             }
         });
-
-        fab2Twt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (MessageDialog.canShow(ShareLinkContent.class)) {
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(articleName)
-                            .setContentDescription(articleDescription)
-                            .setContentUrl(Uri.parse(articleUrl))
-                            .build();
-
-                    messageDialog.show(linkContent);
-
-                }
-
-            }
-        });
-
-        // fb messenger
 
         fab3Messenger.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +255,7 @@ public class DetailFragment extends Fragment {
                         messageDialog.show(linkContent);
 
                     }
-
+                    searchArticleUrl = null;
                     articleUrl = null;
 
                 } else if (articleUrl != null) {
@@ -219,67 +270,45 @@ public class DetailFragment extends Fragment {
                         messageDialog.show(linkContent);
 
                     }
+                    searchArticleUrl = null;
                     catArticalUrl = null;
+
+                }else if (searchArticleUrl != null) {
+
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                .setContentTitle(searchArticleName)
+                                .setContentDescription(searchArticleDescription)
+                                .setContentUrl(Uri.parse(searchArticleUrl))
+                                .build();
+
+                        shareDialog.show(linkContent);
+                    }
+                    catArticalUrl = null;
+                    articleUrl = null;
+
                 }
             }
         });
-
-
-        fab4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (MessageDialog.canShow(ShareLinkContent.class)) {
-
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(articleName)
-                            .setContentDescription(articleDescription)
-                            .setContentUrl(Uri.parse(articleUrl))
-                            .build();
-
-                    messageDialog.show(linkContent);
-                }
-            }
-        });
-
-        fab5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (MessageDialog.canShow(ShareLinkContent.class)) {
-
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(articleName)
-                            .setContentDescription(articleDescription)
-                            .setContentUrl(Uri.parse(articleUrl))
-                            .build();
-                    messageDialog.show(linkContent);
-
-                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                    sharingIntent.setType("html");
-                    sharingIntent.putExtra(Intent.EXTRA_HTML_TEXT, Html.fromHtml("<p>This is the text that will be shared.</p>"));
-                    startActivity(Intent.createChooser(sharingIntent,"Share using"));
-
-
-                }
-
-            }
-        });
-
-
 
         return view;
     }
 
+    public void setSearchArticle(com.test.myapplication.SearchNewsObject.Value searchArticle) {
+        this.searchArticle = searchArticle;
+        this.searchArticleUrl = searchArticle.getUrl();
+        this.searchArticleDescription = searchArticle.getDescription();
+        this.searchArticleName = searchArticle.getName();
+    }
 
-    public void setDetailArticle(Value article){
+    public void setDetailArticle(Value article) {
         this.article = article;
         this.articleUrl = article.getWebSearchUrl();
         this.articleName = article.getName();
-
-
     }
 
-    public void setCatArticle(com.test.myapplication.CategoryNewsObject.Value catArticle){
+    public void setCatArticle(com.test.myapplication.CategoryNewsObject.Value catArticle) {
         this.catArticle = catArticle;
         this.catArticalUrl = catArticle.getUrl();
         this.catArticleDescription = catArticle.getDescription();
@@ -290,20 +319,15 @@ public class DetailFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        callbackManager.onActivityResult(requestCode,resultCode,data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initializeViews() {
-
         webView = (WebView) view.findViewById(R.id.web_view);
-
         fam = (FloatingActionMenu) view.findViewById(R.id.floating_action_menu);
-        fab1Fb = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item1_fb);
-        fab2Twt = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2);
+        fab1 = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item1);
+        fab2FB = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item2_fb);
         fab3Messenger = (FloatingActionButton) view.findViewById(R.id.floating_action_menu_item3_messenger);
-        fab4 =(FloatingActionButton) view.findViewById(R.id.floating_action_menu_item4);
-
     }
 
 }

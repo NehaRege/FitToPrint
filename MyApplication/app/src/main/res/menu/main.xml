@@ -25,5 +25,11 @@
         app:showAsAction="ifRoom" />
 >>>>>>> b7fa9ad300d890771233c0c1f2bdd5e0b609f953
 
-
+    <item
+        android:id="@+id/menu_search"
+        android:title="@string/navigation_drawer_search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        />
 </menu>

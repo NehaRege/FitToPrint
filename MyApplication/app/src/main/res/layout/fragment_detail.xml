@@ -49,17 +49,19 @@
         app:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/floating_action_menu_item1_fb"
+            android:id="@+id/floating_action_menu_item1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/com_facebook_button_icon"
+            android:src="@android:drawable/ic_menu_add"
+            android:showAsAction="ifRoom"
+            android:actionProviderClass="android.widget.ShareActionProvider"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/floating_action_menu_item2"
+            android:id="@+id/floating_action_menu_item2_fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/imgres"
+            android:src="@drawable/com_facebook_button_icon"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
