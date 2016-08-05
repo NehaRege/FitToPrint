@@ -17,9 +17,9 @@ import java.util.Calendar;
  * Created by LangstonSmith on 8/2/16.
  */
 @TargetApi(21)
-public class MorningReadTheNewsNotificationJob extends JobService {
+public class DailyReadTheNewsNotificationJob extends JobService {
 
-    private String TAG = "MorningReadTheNewsNotificationJob";
+    private String TAG = "DailyReadTheNewsNotificationJob";
 
     @Override
     public boolean onStartJob(JobParameters params) {

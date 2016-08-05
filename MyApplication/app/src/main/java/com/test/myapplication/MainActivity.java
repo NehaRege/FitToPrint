@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         initializeFacebookSDK();
 
-        setUpMorningNotificationJob();
+        setUpDailyNotificationJob();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -463,14 +463,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @TargetApi(21)
-    private void setUpMorningNotificationJob() {
+    @TargetApi(21)   //Sends a daily notification to remind people to check news
+    private void setUpDailyNotificationJob() {
 
         String TAG = "MainActivity";
 
         JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
-                        MorningReadTheNewsNotificationJob.class.getName()))
+                        DailyReadTheNewsNotificationJob.class.getName()))
                 .setPeriodic(86400000) //<–Send notification every day
                 .setRequiresCharging(false)
                 .build();
@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int result = jobScheduler.schedule(dailyMorningNotificationJob);
         if (result <= 0) {
             //stuff went wrong
-            Log.i(TAG, "setUpMorningNotificationJob: Error with daily morning news job check");
+            Log.i(TAG, "setUpDailyNotificationJob: Error with daily morning news job check");
         }
 
     }
