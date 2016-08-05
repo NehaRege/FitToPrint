@@ -404,6 +404,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
 
     }
+
     //interface methods below are getting each return type of the json object
 
     @Override
@@ -454,12 +455,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        // Find searchManager and searchableInfo
-//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
-
-
     }
 
 
@@ -471,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         JobInfo dailyMorningNotificationJob = new JobInfo.Builder(1,
                 new ComponentName(getPackageName(),
                         DailyReadTheNewsNotificationJob.class.getName()))
-                .setPeriodic(86400000) //<–Send notification every day
+                .setPeriodic(86400000)                  //<–Send notification every day
                 .setRequiresCharging(false)
                 .build();
 
@@ -602,8 +597,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         inflater = getMenuInflater();
