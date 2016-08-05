@@ -14,7 +14,11 @@ import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptio
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,7 +38,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView rvTitleText;
+        public TextView rvTitleText, rvDateText;
         public ImageView rvImageView;
 
         public ViewHolder(View itemView) {
@@ -42,6 +46,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
             rvImageView = (ImageView) itemView.findViewById(R.id.rv_image);
             rvTitleText = (TextView) itemView.findViewById(R.id.rv_title);
+            rvDateText = (TextView) itemView.findViewById(R.id.rv_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,12 +112,44 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             if(value.getImage()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
             }
+            if(value.getDatePublished()!=null) {
+                String postedTime = value.getDatePublished();
+                Date date = null;
+                try {
+                    date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(postedTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                long dateMilliseconds = date.getTime();
+                long currentTime = Calendar.getInstance().getTimeInMillis();
+                long howLongAgoPosted = dateMilliseconds - currentTime;
+                if (howLongAgoPosted < 86400000) {
+                    int hours = (int) ((howLongAgoPosted / (1000 * 60 * 60)) % 24);
+                    holder.rvDateText.setText(String.valueOf(hours) + "hr ago");
+                }
+            }
         }else if(mSearchData.size()>0){
             com.test.myapplication.SearchNewsObject.Value value = mSearchData.get(position);
 
             holder.rvTitleText.setText(value.getName());
             if(value.getImage()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
+            }
+            if(value.getDatePublished()!=null) {
+                String postedTime = value.getDatePublished();
+                Date date = null;
+                try {
+                    date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(postedTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                long dateMilliseconds = date.getTime();
+                long currentTime = Calendar.getInstance().getTimeInMillis();
+                long howLongAgoPosted = dateMilliseconds - currentTime;
+                if (howLongAgoPosted < 86400000) {
+                    int hours = (int) ((howLongAgoPosted / (1000 * 60 * 60)) % 24);
+                    holder.rvDateText.setText(String.valueOf(hours) + "hr ago");
+                }
             }
         }
 
@@ -125,6 +162,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         }else if(mCatData.size()>0){
             return mCatData.size();
         }else return mSearchData.size();
+
+    }
+    public void getTime(String publishedTime){
 
     }
 }
