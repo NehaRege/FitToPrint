@@ -4,7 +4,9 @@ package com.test.myapplication.CategoryNewsObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Provider_ {
+import java.io.Serializable;
+
+public class Provider_ implements Serializable {
 
     @SerializedName("_type")
     @Expose

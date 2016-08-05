@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import retrofit2.Call;
+
 
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
@@ -19,6 +21,8 @@ import com.test.myapplication.TrendingTopicsObject.Value;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import retrofit2.Retrofit;
 
 /**
  * Created by Jon Kim on 8/2/16.
@@ -30,17 +34,13 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     protected RecyclerView.LayoutManager rvLayoutManager;
     private ArrayList<Value> mDataSet;
     private ArrayList<com.test.myapplication.CategoryNewsObject.Value> catData;
+    private ArrayList<com.test.myapplication.SearchNewsObject.Value> searchData;
     private Value mArticle;
     private com.test.myapplication.CategoryNewsObject.Value catArticle;
-    Toolbar toolbar;
+    private com.test.myapplication.SearchNewsObject.Value searchArticle;
     OnArticleSelectedListener mListener;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
+    //this whole class has checks for the different object types that are coming in.
 
     @Nullable
     @Override
@@ -57,10 +57,15 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         if (bundle != null) {
             if(bundle.containsKey("ArrayList of articles")) {
                 mDataSet = getArguments().getParcelableArrayList("ArrayList of articles");
-                rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this,getActivity(), null);
+                rvAdapter = new CustomRecyclerViewAdapter(mDataSet,this,getActivity(), null, null);
                 mRecyclerView.setAdapter(rvAdapter);
                 Log.i(TAG, "onCreate: getParcelableArrayList successfully run");
-            }else if(bundle.containsKey("Business")) {
+            }else if(bundle.containsKey("Search")){
+                searchData = (ArrayList<com.test.myapplication.SearchNewsObject.Value>)getArguments().getSerializable("Search");
+                rvAdapter = new CustomRecyclerViewAdapter(null,this,getActivity(),null,searchData);
+                mRecyclerView.setAdapter(rvAdapter);
+            }
+            else if(bundle.containsKey("Business")) {
                 setAdapter("Business");
 
             }else if(bundle.containsKey("Entertainment")) {
@@ -90,13 +95,6 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
             mDataSet = new ArrayList<Value>();
             Log.i(TAG, "onCreate: bundle's null");
         }
-
-
-
-
-
-
-
         return rootView;
     }
 
@@ -109,7 +107,7 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
             throw new ClassCastException(getActivity().toString() + " must implement OnArticleSelectedListener");
         }
     }
-
+    //if statments for which list is being shown and what is clicked.
     @Override
     public void onItemClick(int position) {
         if(mDataSet!=null){
@@ -118,13 +116,15 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         }else if(catData!=null){
             catArticle = catData.get(position);
             mListener.onCatArticleSelected(catArticle);
+        }else if(searchData!=null){
+            searchArticle = searchData.get(position);
+            mListener.onSearchArticleSelected(searchArticle);
         }
-//        toolbar.setTitle(mArticle.getValue().get(0).getCategory());
     }
-
+    //adapter for the category objects
     private void setAdapter(String key){
         catData = (ArrayList< com.test.myapplication.CategoryNewsObject.Value>)getArguments().getSerializable(key);
-        rvAdapter = new CustomRecyclerViewAdapter(null, this, getActivity(),catData);
+        rvAdapter = new CustomRecyclerViewAdapter(null, this, getActivity(),catData, null);
         mRecyclerView.swapAdapter(rvAdapter,false);
     }
 }

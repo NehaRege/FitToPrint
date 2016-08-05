@@ -32,6 +32,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.test.myapplication.ArticleWithDescriptionObject.ArticleWithDescriptionObject;
 import com.test.myapplication.CategoryNewsObject.CategoryNewsObject;
+import com.test.myapplication.SearchNewsObject.SearchNewsObject;
 import com.test.myapplication.TrendingTopicsObject.TrendingTopicsObject;
 import com.test.myapplication.TrendingTopicsObject.Value;
 
@@ -47,7 +48,6 @@ import retrofit2.http.HEAD;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
-
     private String TAG = "MainActivity";
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -56,17 +56,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     boolean categoryIsFollowed;
     String categoryName;
-    SearchManager searchManager;
-    SearchableInfo searchableInfo;
     SearchView searchView;
-    private RecyclerView recyclerView;
-    private CustomRecyclerViewAdapter adapter;
-    private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
+    private String API_KEY = "0840b3a5e0374dfc9a1dbdcb89b66f40";
     Context context;
     MenuInflater inflater;
     public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
-
-
     MenuItem followHeart;
 
 
@@ -75,23 +69,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         setUpDrawersandView();
-        Log.i(TAG, "onCreate: Drawers and views set up");
 
         setRecycleFragment();
-        Log.i(TAG, "onCreate: RecycleFragment set up");
-
-
-        handleIntent(getIntent());
-
 
         initializeFacebookSDK();
-        Log.i(TAG, "onCreate: Facebook SDK stuff initialized");
 
         loadTrendingArticles();
-        Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
 //        setUpBreakingNewsCheckJob();
 
+        handleIntent(getIntent());
 
 //        setUpMorningNotificationJob();
 
@@ -100,16 +87,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onNewIntent(Intent intent) {
 
-        Log.i(TAG, "onNewIntent: entered");
         handleIntent(intent);
     }
 
-
     private void handleIntent(Intent intent) {
-        Log.i(TAG, "handleIntent: intent action = "+Intent.ACTION_SEARCH);
-        Log.i(TAG, "handleIntent: intent getaction = "+intent.getAction());
-        Log.i(TAG, "handleIntent: intent getaction = "+intent.getDataString());
-
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
@@ -117,34 +98,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-            Log.i(TAG, "handleIntent: got the query: "+query);
-            
-            
-
-
             loadSearchedItems(query);
 
-
-            Toast.makeText(MainActivity.this, "searched " + query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Searched for " + query, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public void onItemClick(int position) {
 
     }
 
-
     private void loadTrendingArticles() {
-
-//        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-//        if (networkInfo != null && networkInfo.isConnected()) {
-//            // the connection is available
-//        } else {
-//            // the connection is not available
-//        }
 
         ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conMgr.getActiveNetworkInfo();
@@ -230,28 +195,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this,"No network connectivity !",Toast.LENGTH_LONG).show();
 
             // connection not available !
-
-
-
-
         }
-
-
-
-
     }
 
     private void loadSearchedItems(String query) {
-
-        Log.i(TAG, "loadSearchedItems: just entered loadsearcheditems method");
-        
-
-//        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
-
-//        @GET("/search?q")
-//        Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
-//                @Header("Ocp-Apim-Subscription-Key") String apiKey,
-//                @Path("?q") String searchQuery);
 
         String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
 
@@ -265,34 +212,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         BingAPIService request = retrofit.create(BingAPIService.class);
 
-        String count = "";
-        String offset = "";
-        String mkt = "";
+        Call<SearchNewsObject> callForSearch = request.getArticlesBasedOnSearchQuery(query, API_KEY);
 
-        Call<ArticleWithDescriptionObject> callForSearch = request.getArticlesBasedOnSearchQuery(
-                API_KEY, query
-        );
-
-        callForSearch.enqueue(new Callback<ArticleWithDescriptionObject>() {
+        callForSearch.enqueue(new Callback<SearchNewsObject>() {
             @Override
-            public void onResponse(Call<ArticleWithDescriptionObject> call, Response<ArticleWithDescriptionObject> response) {
+            public void onResponse(Call<SearchNewsObject> call, Response<SearchNewsObject> response) {
                 try {
 
                     Log.i(TAG, "onResponse: inside onresponse");
                     
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    ArticleWithDescriptionObject articleWithDescriptionObject = response.body();
+                    SearchNewsObject searchNewsObject = response.body();
 
-                    ArrayList<com.test.myapplication.ArticleWithDescriptionObject.Value> data = new ArrayList<>();
+                    ArrayList<com.test.myapplication.SearchNewsObject.Value> data = new ArrayList<>();
+                    Log.i(TAG, "onResponse: asdlfkjaslkdf "+ searchNewsObject.getValue().size());
+                    data.addAll(searchNewsObject.getValue());
 
-                    data.addAll(articleWithDescriptionObject.getValue());
+                    Log.i(TAG, "onResponse: data is: "+data);
 
                     Log.i(TAG, "onResponse: data is: "+data);
 
                     Bundle bundle = new Bundle();
 
-                    bundle.putSerializable("ArrayList of searched items", data);
+                    bundle.putSerializable("Search", data);
 
                     RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
 
@@ -311,28 +254,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onFailure(Call<ArticleWithDescriptionObject> call, Throwable t) {
+            public void onFailure(Call<SearchNewsObject> call, Throwable t) {
                 Log.d("Error", t.getMessage());
             }
         });
 
     }
-
+//loads categories that are clicked from the navigation drawer. receives string from navigation drawer.
     private void loadCategoryArticles(final String categoryName) {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()) {
-            // the connection is available
 
             String CATEGORY_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/";
-
-//        https://api.cognitive.microsoft.com/bing/v5.0/news/[?Category]
-
-//        @GET("news?category")
-//        Call<CategoryNewsObject> getSpecificTopicArticles(
-//                @Query("categoryName") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(CATEGORY_BASE_URL)
@@ -421,7 +357,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     private void initializeFacebookSDK() {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -439,24 +374,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpDrawersandView();
 
     }
+    //interface methods below are getting each return type of the json object
 
+    @Override
+    public void onSearchArticleSelected(com.test.myapplication.SearchNewsObject.Value searchArticle) {
+        detailFragment = new DetailFragment();
+        detailFragment.setSearchArticle(searchArticle);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public void onArticleSelected(Value selectedArticle) {
         detailFragment = new DetailFragment();
-
         detailFragment.setDetailArticle(selectedArticle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, detailFragment, null);
         fragmentTransaction.commit();
-
     }
 
     @Override
     public void onCatArticleSelected(com.test.myapplication.CategoryNewsObject.Value catArticle) {
         detailFragment = new DetailFragment();
-
         detailFragment.setCatArticle(catArticle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -558,12 +500,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         followHeart.setVisible(false);
 
-
         return true;
-
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -605,8 +543,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.commit();
 
     }
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -630,14 +566,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.search) {
 
-            Log.i(TAG, "onNavigationItemSelected: onclick of search");
-
-////             Find searchManager and searchableInfo
-
-            String s = searchView.getQuery().toString();
-            Log.i(TAG, "onNavigationItemSelected: SEARCH QUERY "+s);
-
-//            toolbar.setTitle("Search");
+//            String s = searchView.getQuery().toString();
 
         } else if (id == R.id.nav_business) {
 
