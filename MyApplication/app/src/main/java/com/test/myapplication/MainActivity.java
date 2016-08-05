@@ -8,22 +8,30 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+
+
+import android.content.SharedPreferences;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+
 import android.text.Html;
 import android.util.Log;
+
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -43,29 +51,30 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-
-
-//import com.github.clans.fab.FloatingActionButton;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnArticleSelectedListener, CustomRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
 
     private String TAG = "MainActivity";
-
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DetailFragment detailFragment;
     RecyclerViewFragment recyclerViewFragment;
     Toolbar toolbar;
-
+    boolean categoryIsFollowed;
+    String categoryName;
     SearchManager searchManager;
     SearchableInfo searchableInfo;
     SearchView searchView;
-
     private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
-
     private String API_KEY = "0c6fd6e160ad457e9b8ae87389b75e44";
+    Context context;
+    MenuInflater inflater;
+    public static final String MyPREFERENCES = "com.example.myapplication.FOLLOWED_CATEGORIES";
+
+
+    MenuItem followHeart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadTrendingArticles();
         Log.i(TAG, "onCreate: loadTrendingArticles() run");
 
+//        setUpBreakingNewsCheckJob();
+
+
+//        setUpMorningNotificationJob();
+
     }
 
     @Override
@@ -94,30 +108,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         handleIntent(intent);
     }
 
-//        setUpBreakingNewsCheckJob();
 
     private void handleIntent(Intent intent) {
         Log.i(TAG, "handleIntent: intent action = "+Intent.ACTION_SEARCH);
         Log.i(TAG, "handleIntent: intent getaction = "+intent.getAction());
         Log.i(TAG, "handleIntent: intent getaction = "+intent.getDataString());
 
+
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
             String query = intent.getStringExtra(SearchManager.QUERY);
 
 
-
             loadSearchedItems(query);
 
 
-            Toast.makeText(MainActivity.this,"searched "+query,Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "searched " + query, Toast.LENGTH_SHORT).show();
         }
     }
 
-//        setUpBreakingNewsCheckJob();
-
-
-//        setUpMorningNotificationJob();
 
     @Override
     public void onItemClick(int position) {
@@ -129,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(Intent.createChooser(sharingIntent,"Share using"));
 
     }
+
 
     private void loadTrendingArticles() {
 
@@ -253,12 +263,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         BingAPIService request = retrofit.create(BingAPIService.class);
 
-        String count= "";
-        String offset="";
-        String mkt="";
+        String count = "";
+        String offset = "";
+        String mkt = "";
 
         Call<ArticleWithDescriptionObject> callForSearch = request.getArticlesBasedOnSearchQuery(
-                API_KEY,query
+                API_KEY, query
         );
 
         callForSearch.enqueue(new Callback<ArticleWithDescriptionObject>() {
@@ -275,13 +285,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Bundle bundle = new Bundle();
 
-                    bundle.putSerializable("ArrayList of searched items",data);
+                    bundle.putSerializable("ArrayList of searched items", data);
 
                     RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
 
                     recyclerViewFragment.setArguments(bundle);
 
-                    fragmentTransaction.replace(R.id.fragment_container,recyclerViewFragment);
+                    fragmentTransaction.replace(R.id.fragment_container, recyclerViewFragment);
 
                     fragmentTransaction.commit();
 
@@ -338,6 +348,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         CategoryNewsObject categoryNewsObject = response.body();
 
+                    Log.i(TAG, "onResponse: CATEGORYNAME IS? " + categoryName);
+                    Log.i(TAG, "onResponse: cat news object is" + categoryNewsObject.getValue().get(0).getName());
+                    Log.i(TAG, "onResponse:  body gotten");
                         Log.i(TAG, "onResponse: CATEGORYNAME IS? "+categoryName);
                         Log.i(TAG, "onResponse: cat news object is"+ categoryNewsObject.getValue().get(0).getName());
                         Log.i(TAG, "onResponse:  body gotten");
@@ -419,10 +432,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
         setUpDrawersandView();
 
-        setUpBreakingNewsCheckJob();
-
-
     }
+
 
     @Override
     public void onArticleSelected(Value selectedArticle) {
@@ -526,29 +537,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
 
-//        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchableInfo = searchManager.getSearchableInfo(getComponentName());
+        inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+
+        followHeart = (MenuItem) menu.findItem(R.id.button_heart_follow_topic);
+
+        followHeart.setVisible(false);
+
 
         return true;
 
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (item.getItemId()) {
+            case R.id.button_heart_follow_topic:
+
+                String toolbarName = toolbar.getTitle().toString();
+
+                addCategoryToSharedPreferences(toolbarName, true);
+
+                return true;
+
+            case R.id.action_settings:
+                Log.i(TAG, "onOptionsItemSelected: 3-dot menu in right hand corner clicked on");
+
+                return true;
+
+            default:
+                return false;
         }
 
-        return super.onOptionsItemSelected(item);
     }
+
+    private void addCategoryToSharedPreferences(String keyName, boolean categoryFollowed) {
+
+        context = getApplicationContext();
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(keyName, categoryFollowed);
+
+        editor.apply();
+
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -556,9 +600,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        inflater = getMenuInflater();
+
         if (id == R.id.nav_trending) {
 
             toolbar.setTitle(R.string.toolbar_name_trending);
+
+            followHeart.setVisible(false);
+
 
             loadTrendingArticles();
 
@@ -579,59 +628,112 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            toolbar.setTitle("Search");
 
         } else if (id == R.id.nav_business) {
-            String categoryName = "Business";
+
+            String toolbarName = toolbar.getTitle().toString();
+
+            categoryName = "Business";
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
+            followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+//            TODO: Check shared preferences
+
+            /*if (categoryName.equals(toolbarName)) {
+
+                followHeart.setVisible(true);
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            }*/
+
+            followHeart.setVisible(true);
+
+
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_entertainment) {
-            String categoryName = "Entertainment";
+        } else if (id == R.id.nav_entertainment)
+
+        {
+
+            categoryName = "Entertainment";
 
             toolbar.setTitle(R.string.toolbar_name_entertainment);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_health) {
-            String categoryName = "Health";
+        } else if (id == R.id.nav_health)
+
+        {
+
+            categoryName = "Health";
 
             toolbar.setTitle(R.string.toolbar_name_health);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_politics) {
-            String categoryName = "Politics";
+        } else if (id == R.id.nav_politics)
+
+        {
+
+            categoryName = "Politics";
 
             toolbar.setTitle(R.string.toolbar_name_politics);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_scienceandtech) {
-            String categoryName = "ScienceAndTechnology";
+        } else if (id == R.id.nav_scienceandtech)
+
+        {
+
+            categoryName = "ScienceAndTechnology";
 
             toolbar.setTitle(R.string.toolbar_name_scienceandtech);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
 
-        } else if (id == R.id.nav_sports) {
-            String categoryName = "Sports";
+        } else if (id == R.id.nav_sports)
+
+        {
+
+            categoryName = "Sports";
 
             toolbar.setTitle(R.string.toolbar_name_sports);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_US_and_UK) {
-            String categoryName = "US/UK";
+        } else if (id == R.id.nav_US_and_UK)
+
+        {
+
+            categoryName = "US";
 
             toolbar.setTitle(R.string.toolbar_name_usanduk);
 
+            followHeart.setVisible(true);
+
             loadCategoryArticles(categoryName);
 
-        } else if (id == R.id.nav_world) {
-            String categoryName = "World";
+        } else if (id == R.id.nav_world)
+
+        {
+
+            categoryName = "World";
 
             toolbar.setTitle(R.string.toolbar_name_world);
+
+            followHeart.setVisible(true);
 
             loadCategoryArticles(categoryName);
         }
@@ -640,4 +742,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
