@@ -621,15 +621,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toolbar.setTitle(R.string.toolbar_name_business);
 
-
-//            TODO: Check shared preferences
-
             SharedPreferences sharedPreferences = getSharedPreferences
                     (MyPREFERENCES,Context.MODE_PRIVATE);
 
             boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
-
-//            TODO: Boolean logic on alreadyfollowedornot
 
             if (alreadyFollowedOrNot) {
 
@@ -653,6 +648,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             categoryName = "Entertainment";
 
             toolbar.setTitle(R.string.toolbar_name_entertainment);
+
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (MyPREFERENCES,Context.MODE_PRIVATE);
+
+            boolean alreadyFollowedOrNot = sharedPreferences.getBoolean(categoryName,false);
+
+            if (alreadyFollowedOrNot) {
+
+                followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+
+            } else {
+                followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+
+            }
 
             followHeart.setVisible(true);
 
