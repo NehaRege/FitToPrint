@@ -531,26 +531,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     Log.i(TAG, "onOptionsItemSelected: isFollowed is true");
 
-                    followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
+                    followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
 
                     isFollowed = false;
 
-                    Toast.makeText(MainActivity.this, "You're now following\n " + categoryName + " news!", Toast.LENGTH_SHORT).show();
 
-                    addCategoryToSharedPreferences(toolbarName, true);
+                    removeCategoryToSharedPreferences(toolbarName);
+
+                    Toast.makeText(MainActivity.this, "You've unfollowed\n" + categoryName + " news.", Toast.LENGTH_SHORT).show();
 
 
                 } else {
 
                     Log.i(TAG, "onOptionsItemSelected: isFollowed is false");
 
-                    followHeart.setIcon(R.drawable.ic_favorite_border_white_48dp);
+                    followHeart.setIcon(R.drawable.ic_favorite_solid_red_heart_48dp);
 
                     isFollowed = true;
 
-                    removeCategoryToSharedPreferences(toolbarName);
+                    addCategoryToSharedPreferences(toolbarName, true);
 
-                    Toast.makeText(MainActivity.this, "You've unfollowed\n" + categoryName + " news.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "You're now following\n " + categoryName + " news!", Toast.LENGTH_SHORT).show();
 
 
                 }
