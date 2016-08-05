@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
+            Log.i(TAG, "handleIntent: just entered");
+
             String query = intent.getStringExtra(SearchManager.QUERY);
 
             loadSearchedItems(query);
@@ -200,6 +202,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String SEARCH_BASE_URL = "https://api.cognitive.microsoft.com/bing/v5.0/news/";
 
+        
+        Log.i(TAG, "loadSearchedItems: base url: "+SEARCH_BASE_URL);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SEARCH_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -223,6 +228,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     ArrayList<com.test.myapplication.SearchNewsObject.Value> data = new ArrayList<>();
                     Log.i(TAG, "onResponse: asdlfkjaslkdf "+ searchNewsObject.getValue().size());
                     data.addAll(searchNewsObject.getValue());
+
+                    Log.i(TAG, "onResponse: data is: "+data);
 
                     Log.i(TAG, "onResponse: data is: "+data);
 
@@ -558,7 +565,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle(R.string.toolbar_name_followed);
 
         } else if (id == R.id.search) {
-
 
 //            String s = searchView.getQuery().toString();
 

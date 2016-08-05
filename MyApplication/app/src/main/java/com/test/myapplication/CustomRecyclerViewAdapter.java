@@ -34,10 +34,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView rvTitleText, rvDesText, rvTopicText, rvDateText;
+        public TextView rvTitleText;
         public ImageView rvImageView;
-        public Button rvFollowButton;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,7 +90,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
         return new ViewHolder(cardLayout);
     }
-
+    //if statements checking for object type an
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if(mData.size()>0) {
