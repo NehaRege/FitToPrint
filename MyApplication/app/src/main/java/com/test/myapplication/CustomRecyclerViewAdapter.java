@@ -19,7 +19,7 @@ import java.util.List;
 
 
 /**
- * Created by Jon Kim on 8/1/16.
+ * Created by Langston Smith on 8/1/16.
  */
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>{
     private ArrayList<com.test.myapplication.CategoryNewsObject.Value> mCatData;

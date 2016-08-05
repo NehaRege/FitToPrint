@@ -26,35 +26,15 @@ public interface BingAPIService {
     Call<TrendingTopicsObject> getTrendingTopics(@Header("Ocp-Apim-Subscription-Key") String apiKey);
 
 
-//    Base URL for category search is: "https://api.cognitive.microsoft.com/bing/v5.0/news/"
-
     @GET("news")
     Call<CategoryNewsObject> getSpecificTopicArticles(
             @Query("category") String categoryName, @Header("Ocp-Apim-Subscription-Key") String apiKey);
-
-
-//    Base URL is:"https://bingapis.azure-api.net/api/v5/news"
-//    More info about the query parameters: http://bit.ly/2aNcWoN  &  http://bit.ly/2at9Rvk
-
-//    @GET("/search[?q][&count][&offset]&mkt=en-us&safeSearch=Moderate")
-//    Call<ArticleWithDescriptionObject> getArticlesBasedOnSearchQuery(
-//            @Header("Ocp-Apim-Subscription-Key") String apiKey,
-//            @Path("?q") String searchQuery,
-//            @Path("count") String numOfArticlesToReturn,
-//            @Path("offset") String numOfArticlesToSkipToBeforeReturningResults,
-//            @Path("mkt") String safeSearchLevel);
-
 
 
     @GET("search?")
     Call<SearchNewsObject> getArticlesBasedOnSearchQuery(
             @Query("q") String searchQuery, @Header("Ocp-Apim-Subscription-Key") String apiKey);
 
-
-
-//    This is the URL for getting trending topics: "https://bingapis.azure-api.net/api/v5/news/trendingtopics"
-//    Just make the whole thing the base URL wherever the call is being made! No need for a
-//    @GET method to be made here in this interface.
 
 
 }

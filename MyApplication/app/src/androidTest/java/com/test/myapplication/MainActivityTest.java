@@ -1,6 +1,8 @@
 package com.test.myapplication;
 
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
@@ -16,7 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
- * Created by generalassembly on 8/3/16.
+ * Created by Kevin Scruggs on 8/3/16.
  */
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -25,6 +27,7 @@ public class MainActivityTest {
     public ActivityTestRule<MainActivity>mActivityActivityTestRules = new ActivityTestRule<MainActivity>(MainActivity.class);
  //onNavigationItemSelected
     @Test
+<<<<<<< HEAD
     public void testUIElementsVisible() throws Exception{
 
         /*
@@ -54,6 +57,8 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
         *
         * */
 
+
+    public void testThatNavDrawerItemsAreVisible() throws Exception{
 
         onView(withId(R.id.drawer_layout))
                 .check(matches(isclosed(Gravity.LEFT))) // Left Drawer should be closed.
@@ -112,12 +117,6 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
 
         actionOpenDrawer().perform(click());
 
-        onView(withId(R.id.nav_US_and_UK)).perform(click());
-
-        onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
-
-        actionOpenDrawer().perform(click());
-
         onView(withId(R.id.nav_world)).perform(click());
 
         onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
@@ -125,6 +124,17 @@ public void clickOnYourNavigationItem_ShowsYourScreen() {
 
     private static DataInteraction  actionOpenDrawer() {
         return null;
+    }
+
+
+    @Test
+    public void testThatRecyclerViewIsShown()
+    {
+        //get the recyclerview which the fragment shows
+        ViewInteraction recyclerView = onView(withId(R.id.recycler_view));
+
+        //check the recyclerview text is now visible in the activity
+        recyclerView.check(ViewAssertions.matches(isDisplayed()));
     }
 
 
