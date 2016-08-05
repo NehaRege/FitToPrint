@@ -171,12 +171,23 @@ public class DetailFragment extends Fragment {
                     catArticalUrl = null;
                     searchArticle = null;
 
+
                 }   else if (searchArticle != null) {
 
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_TEXT, searchArticleUrl);
                     startActivity(Intent.createChooser(shareIntent, "Share"));
+
+
+
+                }   else if (searchArticle != null) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, searchArticleUrl);
+                    startActivity(Intent.createChooser(shareIntent, "Share"));
+
 
                     catArticalUrl = null;
                     articleUrl = null;
