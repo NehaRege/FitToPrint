@@ -99,21 +99,21 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             Value value = mData.get(position);
 
             holder.rvTitleText.setText(value.getName());
-            if(value.getImage().getUrl()!=null){
+            if(value.getImage()!=null){
                 Picasso.with(mContext).load(value.getImage().getUrl()).into(holder.rvImageView);
             }
         }else if(mCatData.size()>0){
             com.test.myapplication.CategoryNewsObject.Value value = mCatData.get(position);
 
             holder.rvTitleText.setText(value.getName());
-            if(value.getImage().getThumbnail().getContentUrl()!=null){
+            if(value.getImage()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
             }
         }else if(mSearchData.size()>0){
             com.test.myapplication.SearchNewsObject.Value value = mSearchData.get(position);
 
             holder.rvTitleText.setText(value.getName());
-            if(value.getImage().getThumbnail().getContentUrl()!=null){
+            if(value.getImage()!=null){
                 Picasso.with(mContext).load(value.getImage().getThumbnail().getContentUrl()).into(holder.rvImageView);
             }
         }

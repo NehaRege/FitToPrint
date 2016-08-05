@@ -38,15 +38,9 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
     private Value mArticle;
     private com.test.myapplication.CategoryNewsObject.Value catArticle;
     private com.test.myapplication.SearchNewsObject.Value searchArticle;
-    Toolbar toolbar;
     OnArticleSelectedListener mListener;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
+    //this whole class has checks for the different object types that are coming in.
 
     @Nullable
     @Override
@@ -101,13 +95,6 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
             mDataSet = new ArrayList<Value>();
             Log.i(TAG, "onCreate: bundle's null");
         }
-
-
-
-
-
-
-
         return rootView;
     }
 
@@ -120,7 +107,7 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
             throw new ClassCastException(getActivity().toString() + " must implement OnArticleSelectedListener");
         }
     }
-
+    //if statments for which list is being shown and what is clicked.
     @Override
     public void onItemClick(int position) {
         if(mDataSet!=null){
@@ -129,10 +116,12 @@ public class RecyclerViewFragment extends Fragment implements CustomRecyclerView
         }else if(catData!=null){
             catArticle = catData.get(position);
             mListener.onCatArticleSelected(catArticle);
+        }else if(searchData!=null){
+            searchArticle = searchData.get(position);
+            mListener.onSearchArticleSelected(searchArticle);
         }
-//        toolbar.setTitle(mArticle.getValue().get(0).getCategory());
     }
-
+    //adapter for the category objects
     private void setAdapter(String key){
         catData = (ArrayList< com.test.myapplication.CategoryNewsObject.Value>)getArguments().getSerializable(key);
         rvAdapter = new CustomRecyclerViewAdapter(null, this, getActivity(),catData, null);

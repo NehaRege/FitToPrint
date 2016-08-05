@@ -4,7 +4,9 @@ package com.test.myapplication.CategoryNewsObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Thumbnail {
+import java.io.Serializable;
+
+public class Thumbnail implements Serializable {
 
     @SerializedName("contentUrl")
     @Expose
