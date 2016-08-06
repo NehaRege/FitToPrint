@@ -42,9 +42,10 @@
 
     <string name="API_KEY">0840b3a5e0374dfc9a1dbdcb89b66f40</string>
 
-    <!--Toolbar Name onCreate()-->
+    <!--Other Toolbar Names-->
 
     <string name="toolbar_name_trending_news">Trending News</string>
+    <string name="toolbar_name_searched_results">Search Results</string>
 
     <!--For Facebook sharing-->
 
@@ -55,12 +56,16 @@
     <string name="toast_message_no_connectivity">Please connect to the internet via wifi\n
         or mobile data to view yournews!</string>
 
+    <string name="toast_searched_for">Searched for</string>
+
     <!--Daily Morning Notification Text-->
 
     <string name="notification_morning_title">Rise and shine!</string>
     <string name="notification_morning_text">Start your day by reading this morning\'s news</string>
 
-    <string name="rv_time_ago">hr ago</string>
+    <!--Daily Morning Notification Text-->
+
+    <string name="rv_time_ago">%1$ hrs ago</string>
 
 
 

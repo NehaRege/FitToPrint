@@ -1,6 +1,7 @@
 package com.test.myapplication;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     private ArrayList<Value> mData;
     private ArrayList<com.test.myapplication.SearchNewsObject.Value> mSearchData;
     private Context mContext;
+    private Resources res = Resources.getSystem();
+
+
 
     private static OnRecyclerViewItemClickListener onItemClickListener;
 
@@ -125,7 +129,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 long howLongAgoPosted = dateMilliseconds - currentTime;
                 if (howLongAgoPosted < 86400000) {
                     int hours = (int) ((howLongAgoPosted / (1000 * 60 * 60)) % 24);
-                    holder.rvDateText.setText(String.valueOf(hours) + "hr ago");
+                    String hrsAgo = res.getString(R.string.rv_time_ago, String.valueOf(hours));
+                    holder.rvDateText.setText(hrsAgo);
                 }
             }
         }else if(mSearchData.size()>0){
@@ -148,7 +153,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 long howLongAgoPosted = dateMilliseconds - currentTime;
                 if (howLongAgoPosted < 86400000) {
                     int hours = (int) ((howLongAgoPosted / (1000 * 60 * 60)) % 24);
-                    holder.rvDateText.setText(String.valueOf(hours) + "hr ago");
+                    String hrsAgo = res.getString(R.string.rv_time_ago, String.valueOf(hours));
+                    holder.rvDateText.setText(hrsAgo);
                 }
             }
         }
