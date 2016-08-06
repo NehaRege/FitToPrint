@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             loadSearchedItems(query);
 
-            Toast.makeText(MainActivity.this, "Searched for " + query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, R.string.toast_searched_for + query, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.i(TAG, "loadSearchedItems: just entered loadsearcheditems method");
 
-        toolbar.setTitle("Search Results");
+        toolbar.setTitle(R.string.toolbar_name_searched_results);
 //        https://api.cognitive.microsoft.com/bing/v5.0/news/search[?q][&count][&offset][&mkt][&safeSearch]
 
 //        @GET("/search?q")
