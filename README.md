@@ -7,6 +7,8 @@
 3.  <a href="https://github.com/jonkaman">Jon Kim</a>
 
 
+![alt tag](https://cloud.githubusercontent.com/assets/4394910/17466782/1762ff62-5ccb-11e6-94d6-18c51d5bb316.gif)
+
 **** APP INFO ****
 
 "FitToPrint" is a newsfeed app which calls Bing's API for trending and categorical news articles.
