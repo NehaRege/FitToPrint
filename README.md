@@ -4,7 +4,7 @@
 
 2.  <a href="https://github.com/NehaRege">Neha Rege</a>
 
-3.  <a href="https://github.com/jonkaman">Jon Kim</a>
+3.  <a href="https://github.com/jkim24">Jon Kim</a>
 
 
 ![alt tag](https://cloud.githubusercontent.com/assets/4394910/17466917/0a6e2352-5ccd-11e6-8f9d-a19af9724396.gif)
