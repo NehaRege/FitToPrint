@@ -129,8 +129,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 long howLongAgoPosted = dateMilliseconds - currentTime;
                 if (howLongAgoPosted < 86400000) {
                     int hours = (int) ((howLongAgoPosted / (1000 * 60 * 60)) % 24);
-                    String hrsAgo = res.getString(R.string.rv_time_ago, String.valueOf(hours));
-                    holder.rvDateText.setText(hrsAgo);
+                    holder.rvDateText.setText(String.valueOf(hours) + "hr ago");
+
                 }
             }
         }else if(mSearchData.size()>0){
@@ -153,8 +153,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 long howLongAgoPosted = dateMilliseconds - currentTime;
                 if (howLongAgoPosted < 86400000) {
                     int hours = (int) ((howLongAgoPosted / (1000 * 60 * 60)) % 24);
-                    String hrsAgo = res.getString(R.string.rv_time_ago, String.valueOf(hours));
-                    holder.rvDateText.setText(hrsAgo);
+                    holder.rvDateText.setText(String.valueOf(hours) + "hr ago");
+
                 }
             }
         }
