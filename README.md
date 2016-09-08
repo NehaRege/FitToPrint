@@ -1,4 +1,4 @@
-**** OTHER COLLABORATORS ****
+**** OTHERS IN THIS GROUP PROJECT ****
 
 1.  <a href="https://github.com/krock5746">Kevin Scruggs</a>
 
