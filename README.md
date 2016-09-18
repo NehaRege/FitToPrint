@@ -1,11 +1,4 @@
-**** OTHERS IN THIS GROUP PROJECT ****
-
-1.  <a href="https://github.com/krock5746">Kevin Scruggs</a>
-
-2.  <a href="https://github.com/NehaRege">Neha Rege</a>
-
-3.  <a href="https://github.com/jkim24">Jon Kim</a>
-
+<h3>Other Developers In This Group Project</h3>
 
 ![alt tag](https://cloud.githubusercontent.com/assets/4394910/17466917/0a6e2352-5ccd-11e6-8f9d-a19af9724396.gif)
 
