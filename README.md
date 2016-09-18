@@ -4,19 +4,13 @@
 ![alt tag](https://cloud.githubusercontent.com/assets/4394910/17466917/0a6e2352-5ccd-11e6-8f9d-a19af9724396.gif)
 
 <h3>Other Developers In This Group Project</h3>
-
-
 <ul>
-  Coffee</li>
-  <li>Tea</li>
-  <li>Milk</li>
-
-<li><a href="https://github.com/krock5746">Kevin Scruggs</a></li>		
- 
- <a href="https://github.com/NehaRege">Neha Rege</a>		
- 
-<a href="https://github.com/jkim24">Jon Kim</a>
+<li><a href="https://github.com/krock5746">Kevin Scruggs</a></li>
+<li><a href="https://github.com/NehaRege">Neha Rege</a></li>		
+<li><a href="https://github.com/jkim24">Jon Kim</a></li>
 </ul>
+
+
 <h3>App Info</h3>
 
 "FitToPrint" is a newsfeed app which calls Bing's API for trending and categorical news articles.
