@@ -11,7 +11,7 @@
 
 
 
-**** APP INFO ****
+<h3>App Info</h3>
 
 "FitToPrint" is a newsfeed app which calls Bing's API for trending and categorical news articles.
 
@@ -32,8 +32,7 @@ It allows a user to:
 	•Use search to query Bing's API for news articles that're relevant to the search term.
 
 
-
-**** BUGS ****
+<h3>Bugs</h3>
 
 	•Although layout files have been made for screen orientation, they aren't displayed on orientation change. If you're viewing a single article and then rotate the screen, you're brought back to the list of trending articles.
 	
